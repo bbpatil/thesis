@@ -24,7 +24,7 @@ void Dispatcher::DispatchData(const Data& data)
     {
         case DataType::ConfigData:
             // process config
-            mProcessConifg(data.data);
+            mProcessConfig(data.data);
             break;
         case DataType::EventData:
             // process event

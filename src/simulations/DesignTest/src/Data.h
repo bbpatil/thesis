@@ -8,6 +8,8 @@
 #ifndef DATA_H_
 #define DATA_H_
 
+#include <array>
+
 enum class DataType
 {
     EventData = 0, HistoricalData = 1, ConfigData = 2
@@ -16,7 +18,7 @@ enum class DataType
 class Data
 {
     public:
-        using Packet = unsigned char[64];
+        using Packet = std::array<unsigned char, 64>;
 
         DataType type;
         Packet data;

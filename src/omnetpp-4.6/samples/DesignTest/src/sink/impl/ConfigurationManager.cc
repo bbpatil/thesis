@@ -13,37 +13,33 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include "Generator.h"
-#include "DataMessage_m.h"
+#include <ConfigurationManager.h>
+#include <algorithm>
+#include <numeric>
+#include <functional>
 
-Define_Module(Generator);
+using namespace std;
 
-void Generator::initialize()
+ConfigurationManager::ConfigurationManager()
 {
-    this->scheduleAt(simTime(), new cMessage);
 }
 
-void Generator::handleMessage(cMessage *msg)
+ConfigurationManager::~ConfigurationManager()
 {
-    static size_t counter = 0;
+}
 
-    if (msg->isSelfMessage())
+void ConfigurationManager::SetNewConfiguration(Data::Packet packet)
+{
+    using intType = long;
+    using floatType = float;
+    intType dummySum = 0;
+    floatType dummyProduct = 1.2345;
+    multiplies<floatType> multiply;
+
+    // process new configuration
+    for (auto i = 1; i < packet[0]; i++)
     {
-        // create new message
-        auto pkt = new DataMessage();
-
-        Data data;
-        data.type = static_cast<DataType>(counter++ % 3);
-        data.data = {123};
-
-        pkt->setData(data);
-
-        // send message
-        send(pkt, "data");
-
-        // schedule next call
-        this->scheduleAt(simTime() + par("generationInterval"), new cMessage);
+        dummySum += accumulate(packet.begin(), packet.end(), 0);
+        for_each(packet.begin(), packet.end(), bind(multiply, placeholders::_1, ref(dummyProduct)));
     }
-
-    delete msg;
 }

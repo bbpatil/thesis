@@ -13,37 +13,21 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include "Generator.h"
-#include "DataMessage_m.h"
+#ifndef CONFIGURATIONMANAGER_H_
+#define CONFIGURATIONMANAGER_H_
 
-Define_Module(Generator);
+#include "Data.h"
 
-void Generator::initialize()
+class ConfigurationManager
 {
-    this->scheduleAt(simTime(), new cMessage);
-}
+        // C-Tor / D-Tor
+    public:
+        ConfigurationManager();
+        virtual ~ConfigurationManager();
 
-void Generator::handleMessage(cMessage *msg)
-{
-    static size_t counter = 0;
+        // Methods
+    public:
+        void SetNewConfiguration(Data::Packet packet);
+};
 
-    if (msg->isSelfMessage())
-    {
-        // create new message
-        auto pkt = new DataMessage();
-
-        Data data;
-        data.type = static_cast<DataType>(counter++ % 3);
-        data.data = {123};
-
-        pkt->setData(data);
-
-        // send message
-        send(pkt, "data");
-
-        // schedule next call
-        this->scheduleAt(simTime() + par("generationInterval"), new cMessage);
-    }
-
-    delete msg;
-}
+#endif /* CONFIGURATIONMANAGER_H_ */
