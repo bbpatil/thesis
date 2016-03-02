@@ -13,34 +13,31 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include <ConfigurationManager.h>
-#include <algorithm>
-#include <numeric>
-#include <functional>
+#include <HistoricalQueue.h>
 
-using namespace std;
-
-ConfigurationManager::ConfigurationManager()
+HistoricalQueue::HistoricalQueue(ProcessDataFunc processData) :
+        mProcessData(processData)
 {
 }
 
-ConfigurationManager::~ConfigurationManager()
+HistoricalQueue::~HistoricalQueue()
 {
+    // TODO Auto-generated destructor stub
 }
 
-void ConfigurationManager::SetNewConfiguration(Data::Packet packet)
+void HistoricalQueue::PushData(Data::Packet packet)
 {
-    // dummy procesing
+    // add packet to internal queue
+    mQueue.push(packet);
 
-    using intType = long;
-    using floatType = float;
-    intType dummySum = 0;
-    floatType dummyProduct = 1.2345;
-    multiplies<floatType> multiply;
-
-    for (auto i = 1; i < packet[0]; i++)
+    // check if more than 4 elements are in the queue
+    if (mQueue.size() > 4)
     {
-        dummySum += accumulate(packet.begin(), packet.end(), 0);
-        for_each(packet.begin(), packet.end(), bind(multiply, placeholders::_1, ref(dummyProduct)));
+        // process all elements
+        while(!mQueue.empty())
+        {
+            mProcessData(mQueue.front());
+            mQueue.pop();
+        }
     }
 }
