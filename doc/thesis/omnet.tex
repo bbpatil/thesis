@@ -65,9 +65,24 @@ Handling these events can be done in various ways and define the type of impleme
 These simulations based on events are event based discrete simulations, the definitions of this type and the explanation of different simulation types are shown in the next section.
 
 \section{Running an OMNeT++ simulation}
+A OMNeT++ simulation is defined by a configuration file (\emph{.ini}-file).
+
+\subsection{Configuration}
+This configuration file can be given by a command line parameter, by default the \emph{omnetpp.ini} file is used.
+The configuration files includes every information and parameter regarding the simulation.
+
+The simulated network must be defined, all other parameters are optional.
+
+
+
 A simulation application developed with OMNeT++ can be run in different ways using different simulation environments.
 
 \subsection{Tkenv}
-OMNeT++ provides the graphical environment \emph{Tkenv} for developing simulations and demographic purposes.
+OMNeT++ provides the graphical environment \emph{Tkenv} for developing simulations.
+Various possibilities for graphical representation are useful for demographic purposes.
+This environment is based on the opensource framework \emph{Eclipse} and provides the integrated development environment (\emph{IDE}) for OMNeT++ simulations.
 
 \subsection{Cmdenv}
+The other environment for running \emph{OMNeT++} simulations is \emph{Cmdenv}, which represents a command line interface.
+Using this environment no graphical user interface is shown, or will be updated.
+This simulation method is recommended for batch simulations or running simulations with an increased runtime.

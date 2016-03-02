@@ -23,6 +23,11 @@ Different modules communicating with each other via messages sent over channels,
 The transmitted messages will be transmitted by a definable method, for example pipes, or a MPI (message passing interface).
 Strongly depending on the simulated system this parallelization can result in an improvement of the execution speed and therefore improve the capabilities of real time simulation.
 
+The implementation of a modular design is only possible if the simulated system, e.g. an existing application, is design modular.
+I.e. different modules/classes communicate with each other via interfaces, function pointer etc..
+If this requirement is met, these communication parts can be used for redirecting calls to the implementation of wrapper modules.
+These modules build OMNeT++ messages from returning calls, decapsulate transmitted parameter from received messages and forward the calls to the enclosing modules.
+
 \section{Monolithic design}
 Decreasing the overhead of communication and simulation can be achieved for example by condensing a compound module to a simple module with more complex functions to execute.
 This leads to a monolithic design containing less modules with more complex functions.
