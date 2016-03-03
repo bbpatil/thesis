@@ -13,6 +13,9 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
+#include <memory>
+#include <string>
+
 #include "MonolithicSink.h"
 
 #include "impl/Dispatcher.h"
@@ -21,26 +24,50 @@
 #include "impl/HistoricalQueue.h"
 #include "impl/HistoryManager.h"
 
-#include <memory>
+#include "DataMessage_m.h"
 
 Define_Module(MonolithicSink);
 
+using namespace std;
 
 MonolithicSink::MonolithicSink()
 {
     // create inner structure
-    mHistoryManager = std::make_unique<HistoryManager>();
-    mHistoricalQueue = std::make_unique<HistoricalQueue>(std::mem_fun(&HistoryManager::ProcessData, *mHistoryManager));
-    mEventManager = std::make_unique<EventManager>();
-    mConfigManager = std::make_unique<ConfigurationManager>();
-    //mDispatcher = std::make_unique<Dispatcher>();
+    mHistoryManager = make_unique<HistoryManager>();
+    mHistoricalQueue = make_unique < HistoricalQueue
+            > (bind(&HistoryManager::ProcessData, *mHistoryManager,
+                    placeholders::_1));
+    mEventManager = make_unique<EventManager>();
+    mConfigManager = make_unique<ConfigurationManager>();
+    mDispatcher = make_unique < Dispatcher
+            > (bind(&ConfigurationManager::SetNewConfiguration, *mConfigManager,
+                    placeholders::_1), bind(&EventManager::ProcessEvent,
+                    *mEventManager, placeholders::_1), bind(
+                    &HistoricalQueue::PushData, *mHistoricalQueue,
+                    placeholders::_1));
 }
 
 void MonolithicSink::initialize()
 {
+    mSignalId = registerSignal("msgType");
 }
 
 void MonolithicSink::handleMessage(cMessage *msg)
 {
-    delete msg;
+    if (msg != nullptr)
+    {
+        auto packet = dynamic_cast<DataMessage*>(msg);
+        if (packet != nullptr)
+        {
+            if (ev.isGUI())
+                bubble(("Received Message of type: " + to_string(static_cast<int>(packet->getData().type))).c_str());
+
+            emit(mSignalId, static_cast<int>(packet->getData().type));
+
+            // forward data packet to dispatcher
+            mDispatcher->DispatchData(packet->getData());
+        }
+
+        delete msg;
+    }
 }

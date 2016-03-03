@@ -10,16 +10,15 @@
 
 #include <array>
 
+using Packet = std::array<unsigned char, 64>;
+
 enum class DataType
 {
     EventData = 0, HistoricalData = 1, ConfigData = 2
 };
 
-class Data
+struct Data
 {
-    public:
-        using Packet = std::array<unsigned char, 64>;
-
         DataType type;
         Packet data;
 };

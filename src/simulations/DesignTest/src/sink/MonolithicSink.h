@@ -51,6 +51,8 @@ class MonolithicSink : public cSimpleModule
         Pointer<EventManager> mEventManager;
         Pointer<HistoricalQueue> mHistoricalQueue;
         Pointer<HistoryManager> mHistoryManager;
+
+        simsignal_t mSignalId;
 };
 
 #endif

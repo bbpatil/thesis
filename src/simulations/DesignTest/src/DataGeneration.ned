@@ -30,8 +30,7 @@ network DataGeneration
         generator: Generator {
             @display("p=50,78");
         }
-        //sink: <sinkType> like ISink {
-        sink: MonolithicSink {
+        sink: <sinkType> like ISink {
             @display("p=136,78");
         }
     connections:

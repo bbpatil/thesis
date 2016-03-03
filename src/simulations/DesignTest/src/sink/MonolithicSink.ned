@@ -17,6 +17,9 @@ package designtest.sink;
 
 simple MonolithicSink like ISink
 {
+    parameters:
+        @signal[msgType](type=int);
+        @statistic[msgTypeRec](title="Message Types"; record=vector?; source=msgType);
     gates:
         input data;
 }
