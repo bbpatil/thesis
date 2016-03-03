@@ -27,7 +27,7 @@ class HistoryManager
 
         // Methods
     public:
-        void ProcessData(Data::Packet packet);
+        void ProcessData(Packet packet);
 };
 
 #endif /* HISTORYMANAGER_H_ */

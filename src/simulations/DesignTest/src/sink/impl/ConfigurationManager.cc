@@ -28,7 +28,7 @@ ConfigurationManager::~ConfigurationManager()
 {
 }
 
-void ConfigurationManager::SetNewConfiguration(Data::Packet packet)
+void ConfigurationManager::SetNewConfiguration(Packet packet)
 {
     // dummy procesing
 

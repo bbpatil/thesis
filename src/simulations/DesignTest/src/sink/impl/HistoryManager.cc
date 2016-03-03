@@ -14,6 +14,11 @@
 // 
 
 #include <HistoryManager.h>
+#include <algorithm>
+#include <numeric>
+#include <functional>
+
+using namespace std;
 
 HistoryManager::HistoryManager()
 {
@@ -26,7 +31,19 @@ HistoryManager::~HistoryManager()
     // TODO Auto-generated destructor stub
 }
 
-void HistoryManager::ProcessData(Data::Packet packet)
+void HistoryManager::ProcessData(Packet packet)
 {
     // dummy processing
+
+    using intType = long;
+    using floatType = float;
+    intType dummySum = 0;
+    floatType dummyProduct = 1.2375;
+    multiplies<floatType> multiply;
+
+    for (auto i = 0; i < packet[0] * 0.5; i++)
+    {
+        dummySum += accumulate(packet.begin(), packet.end(), 0);
+        for_each(packet.begin(), packet.end(), bind(multiply, placeholders::_1, ref(dummyProduct)));
+    }
 }

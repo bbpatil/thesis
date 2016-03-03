@@ -24,8 +24,8 @@ class HistoricalQueue
 {
         // Definitions
     private:
-        using ProcessDataFunc = std::function<void(Data::Packet)>;
-        using PacketQueue = std::queue<Data::Packet>;
+        using ProcessDataFunc = std::function<void(Packet)>;
+        using PacketQueue = std::queue<Packet>;
 
         // C-Tor / D-Tor
     public:
@@ -34,7 +34,7 @@ class HistoricalQueue
 
         // Methods
     public:
-        void PushData(Data::Packet packet);
+        void PushData(Packet packet);
 
         // Member
     private:

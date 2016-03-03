@@ -14,6 +14,11 @@
 // 
 
 #include <EventManager.h>
+#include <algorithm>
+#include <numeric>
+#include <functional>
+
+using namespace std;
 
 EventManager::EventManager()
 {
@@ -26,7 +31,19 @@ EventManager::~EventManager()
     // TODO Auto-generated destructor stub
 }
 
-void EventManager::ProcessEvent(Data::Packet packet)
+void EventManager::ProcessEvent(Packet packet)
 {
     // dummy processing
+
+    using intType = long;
+    using floatType = float;
+    intType dummySum = 0;
+    floatType dummyProduct = 1.2375;
+    multiplies<floatType> multiply;
+
+    for (auto i = 0; i < packet[0] * 1.6; i++)
+    {
+        dummySum += accumulate(packet.begin(), packet.end(), 0);
+        for_each(packet.begin(), packet.end(), bind(multiply, placeholders::_1, ref(dummyProduct)));
+    }
 }

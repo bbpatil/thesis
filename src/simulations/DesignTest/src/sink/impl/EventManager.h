@@ -27,7 +27,7 @@ class EventManager
 
         // Methods
     public:
-        void ProcessEvent(Data::Packet packet);
+        void ProcessEvent(Packet packet);
 };
 
 #endif /* EVENTMANAGER_H_ */

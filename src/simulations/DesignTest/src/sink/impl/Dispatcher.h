@@ -15,11 +15,12 @@ class Dispatcher
 {
         // Definitions
     private:
-        using ProcessDataFunc = std::function<void(Data::Packet)>;
+        using ProcessDataFunc = std::function<void(Packet)>;
 
         // C-Tor / D-Tor
     public:
-        Dispatcher(ProcessDataFunc processConfig, ProcessDataFunc processEvent, ProcessDataFunc processHistorical);
+        Dispatcher(ProcessDataFunc processConfig, ProcessDataFunc processEvent,
+                ProcessDataFunc processHistorical);
         virtual ~Dispatcher();
 
         // Methods

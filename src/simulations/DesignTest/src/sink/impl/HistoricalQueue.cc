@@ -25,7 +25,7 @@ HistoricalQueue::~HistoricalQueue()
     // TODO Auto-generated destructor stub
 }
 
-void HistoricalQueue::PushData(Data::Packet packet)
+void HistoricalQueue::PushData(Packet packet)
 {
     // add packet to internal queue
     mQueue.push(packet);

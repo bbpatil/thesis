@@ -27,7 +27,7 @@ class ConfigurationManager
 
         // Methods
     public:
-        void SetNewConfiguration(Data::Packet packet);
+        void SetNewConfiguration(Packet packet);
 };
 
 #endif /* CONFIGURATIONMANAGER_H_ */
