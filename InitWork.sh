@@ -8,5 +8,8 @@ pushd $OMNETPP_ROOT
  echo "start omnet++ ide"
  omnetpp &
  
+ echo "open omnet++ documentation"
+ google-chrome https://omnetpp.org/documentation &
+ 
  echo "open masterthesis"
  texstudio doc/thesis/masterthesis.tex &
