@@ -8,12 +8,11 @@ This includes an architecture for simulating different modules.
 The architecture and topology of simulations is built with the different OMNeT++ components.
 
 \section{Components}
-Within an OMNeT++ simulation different components are used.
-Each component is described with a \emph{network description} (NED) file.
+Within an OMNeT++ simulation different components are used to represent the simulated system.
+Each component is described with a \emph{network description} (NED) file and can be enhanced with C++ code.
 
-The outermost component is a network.
-A Network consists of other components like modules and channels.
-The simulated topology and the connections (channels) between modules are defined within the network.
+The outermost component is a network, which consists of other components like modules and channels.
+The simulated topology and the connections between modules are defined within the network.
 
 A simple module is the smallest part within a simulated OMNeT++ hierarchy and represent a functional unit.
 For this functional unit the behavior for handling messages, the possible connections and additional parameters can be defined.
@@ -36,7 +35,7 @@ Each module shown in figure \ref{fig:OMNeTComponents} defines two gates which ca
 Each custom module and channel is defined in the \emph{NED} language.
 Specific functionality for custom components is implemented in the according C++ code.
 This assignment is usually done with identical names of the \emph{NED} file and the C++ code.
-Examples and the combination of \emph{NED} files and C++ code is shown in \cite[chapter 3, chapter 4]{OMNETMANUAL}.
+Examples and the combination of \emph{NED} files and C++ code is shown in \cite[chapter 3, chapter 4]{omnet_manual}.
 The components can embed any functionality implemented in C/C++.
 The usage of external libraries or language features is not limited, but must be used with care due to the effect on simulation performance.
 
@@ -57,12 +56,21 @@ This time describes the moment when the message should be sent to the channel.
 The mechanism of messages is also used for implementing timeouts, timers, etc. by sending a specific message to the current module, this is a so called \emph{self-message}.
 These \emph{self-message} is handled by the same function as any other message coming from other modules.
 For the identification of \emph{self-messages} there is a built in function available.
-More information about messages and the possibilities of customized messages are given in \cite[chapter 5]{OMNETMANUAL}.
+More information about messages and the possibilities of customized messages are given in \cite[chapter 5]{omnet_manual}.
 
 Each message sent ether by another module or by the current module itself represents an event for the simulation with an according time, at which this event should happen, or the message should be delivered/received.
 The execution and the handling of such created events is done by the simulation core and defines the execution order and the performance of the simulation.
 Handling these events can be done in various ways and define the type of implemented simulation.
 These simulations based on events are event based discrete simulations, the definitions of this type and the explanation of different simulation types are shown in the next section.
+
+\section{Results}
+\emph{OMNeT++} provides multiple functionalities for recording and saving different results of a simulation.
+
+\subsection{Signals}
+Signals provide a functionality for a communication between modules which are not directly connected via their gates.
+The usage of signals follows the \emph{publisher/subscriber} principle, i.e. modules can register callback objects to a specific signal.
+If a new value for the signal is emitted all registered callback objects are notified.
+
 
 \section{Running an OMNeT++ simulation}
 A OMNeT++ simulation is defined by a configuration file (\emph{.ini}-file).

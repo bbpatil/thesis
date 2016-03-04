@@ -12,7 +12,7 @@ For discrete simulations the system state is constant between two consecutive ev
 The calculated moments within the simulation time are defined by the schedules events and their execution time.
 
 Simulations written with OMNeT++ are by default discrete event based simulations.
-More information about the simulation types available in OMNeT++ are given in \cite[section 4.1]{OMNETMANUAL}.
+More information about the simulation types available in OMNeT++ are given in \cite[section 4.1]{omnet_manual}.
 
 \section{Event simulation}
 \label{sec:EventSimulation}
@@ -34,7 +34,7 @@ The class \emph{cScheduler} represents the interface which is required for a eve
 By default the derived class \emph{cSequentialScheduler} is used.
 This scheduler implements the default discrete event based simulation and handles the events according to their execution time, scheduling priority and scheduled time.
 The scheduling priority provides a mechanism for controlling the execution order of multiple events at the same time.
-The functionality and the ordering of executed event by the \emph{cSequentialScheduler} are explained in \cite[section 4.1]{OMNETMANUAL}.
+The functionality and the ordering of executed event by the \emph{cSequentialScheduler} are explained in \cite[section 4.1]{omnet_manual}.
 
 Approaching the field of emulation and \emph{HiL} the discrete event based simulation is unusable.
 For such applications the type of real time simulation is required.
@@ -61,7 +61,7 @@ This allows the receiving of packets from real clients and the connection of the
 The implementation of \emph{SocketRTScheduler} is not fully optimized and is intended to show the possibility of emulation and \emph{HiL} using OMNeT++.
 
 Handling the difference for a simulation which is faster than the real world system can be done in various ways as demonstrated by \emph{cRealTimeScheduler} and \emph{SocketRTScheduler}.
-The implementation of the scheduler and a description of their functionality can be found in the OMNeT++ sources and samples or in the API reference \cite{OMNETAPIREF}.
+The implementation of the scheduler and a description of their functionality can be found in the OMNeT++ sources and samples or in the API reference \cite{omnet_api}.
 
 Is the simulation lagging behind the real time, the scheduler must try to speed up the simulation and catch up to the real time.
 The \emph{cRealTimeScheduler} executes the next events immediately and therefore skipping sleep times.
