@@ -66,10 +66,22 @@ These simulations based on events are event based discrete simulations, the defi
 \section{Results}
 \emph{OMNeT++} provides multiple functionalities for recording and saving different results of a simulation.
 
+
+\subsection{Simulation library}
+The traditional way to record simulation results is using the simulation library functions to record vectors or scalars of different objects.
+
+Since OMNeT++ 4.1 the newer strategies using \emph{signals} and \emph{statistics} are available and provide alternative methods for results recording.
+
 \subsection{Signals}
 Signals provide a functionality for a communication between modules which are not directly connected via their gates.
 The usage of signals follows the \emph{publisher/subscriber} principle, i.e. modules can register callback objects to a specific signal.
 If a new value for the signal is emitted all registered callback objects are notified.
+
+Signals are defined in the \emph{NED} file of the according module or channel and can be accessed via the library call \emph{signal} and the defined name of the signal. %TODO check
+
+
+\subsection{Statistics}
+
 
 
 \section{Running an OMNeT++ simulation}
