@@ -4,7 +4,8 @@
 OMNeT++ represents a simulation framework written in C++ and is a open source project.
 The commercial supported version is OMNEST and provides licensing models, whereas OMNeT++ is only available for academic or non-profit use.
 The intention of OMNeT++ is providing infrastructure for writing simulations for various fields.
-This includes an architecture for simulating different modules.
+Especially in the field of network simulations OMNeT++ is widely used due the big number of available libraries.
+
 The architecture and topology of simulations is built with the different OMNeT++ components.
 
 \section{Components}
@@ -17,11 +18,16 @@ The simulated topology and the connections between modules are defined within th
 A simple module is the smallest part within a simulated OMNeT++ hierarchy and represent a functional unit.
 For this functional unit the behavior for handling messages, the possible connections and additional parameters can be defined.
 
-The possible connections of modules are represented by gates, which can be connected to a channel.
+The possible connections of modules are represented by gates, which can be connected to a channel or directly to other gates.
 Multiple simple modules can be connected via channels and condensed to a compound module.
 Such compound modules can be used in the same way as simple modules, but represent bigger functional groups.
 
-The connections in between modules are represented by channels, which also allow custom behavior and additional parameters (e.g. delay, latency, jitter).
+The connections in between modules can be realized in different ways.
+An direct connection of two gates transports the transmitted messages immediately.
+For applying transportation parameters (e.g. delay, latency, jitter) the connection can be established with a channel.
+Such a channel can implement a simple delayed transportation or complex customized functionality.
+
+
 An example network including simple modules connected to a compound module is shown in figure \ref{fig:OMNeTComponents}.
 Each module shown in figure \ref{fig:OMNeTComponents} defines two gates which can ether be an input, output or bidirectional gate.
 
