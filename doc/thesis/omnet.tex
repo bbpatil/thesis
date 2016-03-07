@@ -15,19 +15,19 @@ Each component is described with a \emph{network description} (NED) file and can
 \subsection{Network}
 The outermost component is a network, which consists of other components like modules and channels.
 The simulated topology and the connections between modules are defined within the network.
-All instantiated modules, optional parameters and the connections in between the modules are defined in the networks \emph{NED} file.
+All instantiated modules, optional parameters and the connections in between the modules are defined in the networks \emph{NED} file. \cite[section 3.2.1]{omnet_manual}
 
 \subsection{Modules}
 Modules represent functional groups of different complexities.
 There are two types of modules available in OMNeT++.
 
 A simple module is the smallest part within a simulated OMNeT++ hierarchy and represent a functional unit.
-For this functional unit the behavior for handling messages, the possible connections and additional parameters can be defined.
+For this functional unit the behavior for handling messages, the possible connections and additional parameters can be defined. \cite[section 3.3]{omnet_manual}
 
 The possible connections of modules are represented by gates, which can be connected to a channel or directly to other gates.
 Multiple simple modules can be connected via channels and condensed to a compound module.
 Such compound modules can be used in the same way as simple modules, but represent bigger functional groups.
-Compound modules define, in the same way as networks, the instantiated submodules and the connections in between them.
+Compound modules define, in the same way as networks, the instantiated submodules and the connections in between them. \cite[section 3.4]{omnet_manual}
 \\
 
 The functionality of a simple module can be implemented with the two following strategies:
