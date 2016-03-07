@@ -12,8 +12,14 @@ The architecture and topology of simulations is built with the different OMNeT++
 Within an OMNeT++ simulation different components are used to represent the simulated system.
 Each component is described with a \emph{network description} (NED) file and can be enhanced with C++ code.
 
+\subsection{Network}
 The outermost component is a network, which consists of other components like modules and channels.
 The simulated topology and the connections between modules are defined within the network.
+All instantiated modules, optional parameters and the connections in between the modules are defined in the networks \emph{NED} file.
+
+\subsection{Modules}
+Modules represent functional groups of different complexities.
+There are two types of modules available in OMNeT++.
 
 A simple module is the smallest part within a simulated OMNeT++ hierarchy and represent a functional unit.
 For this functional unit the behavior for handling messages, the possible connections and additional parameters can be defined.
@@ -21,12 +27,26 @@ For this functional unit the behavior for handling messages, the possible connec
 The possible connections of modules are represented by gates, which can be connected to a channel or directly to other gates.
 Multiple simple modules can be connected via channels and condensed to a compound module.
 Such compound modules can be used in the same way as simple modules, but represent bigger functional groups.
+Compound modules define, in the same way as networks, the instantiated submodules and the connections in between them.
+\\
+
+The functionality of a simple module can be implemented with the two following strategies:
+
+Via the method \emph{handleMessage} a module can react to incoming messages.
+Using this strategy the module is only activated when a message is received.
+The functions \emph{send}, \emph{scheduleAt} and \emph{cancelEvent} can be used within \emph{handleMessage} for sending messages, scheduling self-messages and cancellation of scheduled self-messages. \cite[section 4.4.1]{omnet_manual}
+
+The second strategy uses the method \emph{activity} and is also called \emph{process style} strategy.
+The method \emph{activity} is called by the simulation runtime as coroutine and can be implemented in the same way as a normal thread or process on an operating system.
+The additional available functions, in comparison to the previously discussed strategy, \emph{receive} and \emph{wait} allows the receiving of messages at various positions within the \emph{activity} method.
+A simple module using the \emph{activity} method is called as coroutine in the simulation library and are scheduled non-preemptively.
+I.e. the activity method is not interrupted by the simulation and has suspend by itself for waiting to allow the receiving of messages or the execution of other modules.
+\\
 
 The connections in between modules can be realized in different ways.
 An direct connection of two gates transports the transmitted messages immediately.
 For applying transportation parameters (e.g. delay, latency, jitter) the connection can be established with a channel.
 Such a channel can implement a simple delayed transportation or complex customized functionality.
-
 
 An example network including simple modules connected to a compound module is shown in figure \ref{fig:OMNeTComponents}.
 Each module shown in figure \ref{fig:OMNeTComponents} defines two gates which can ether be an input, output or bidirectional gate.
@@ -39,11 +59,21 @@ Each module shown in figure \ref{fig:OMNeTComponents} defines two gates which ca
 \end{figure}
 
 Each custom module and channel is defined in the \emph{NED} language.
+This description includes all information and configuration which is essential for the construction on simulated networks and connections to other modules or the simulation framework
+
+
 Specific functionality for custom components is implemented in the according C++ code.
 This assignment is usually done with identical names of the \emph{NED} file and the C++ code.
 Examples and the combination of \emph{NED} files and C++ code is shown in \cite[chapter 3, chapter 4]{omnet_manual}.
 The components can embed any functionality implemented in C/C++.
 The usage of external libraries or language features is not limited, but must be used with care due to the effect on simulation performance.
+
+\subsection{Parameters}
+Each component can define various parameters for configuration of their behavior.
+The value of these parameters can be assigned in different ways.
+The assignment from a \emph{NED} file can be done directly, via inheritance, or via a compound module or network which contains the component.
+All parameters can also be set via a configuration file (e.g. omnetpp.ini) or interactively requested from the user.
+For the case of no such assignment a parameter can also define a default value. \cite[section 3.6]{omnet_manual}
 
 
 \section{Messages}
@@ -69,7 +99,7 @@ The execution and the handling of such created events is done by the simulation 
 Handling these events can be done in various ways and define the type of implemented simulation.
 These simulations based on events are event based discrete simulations, the definitions of this type and the explanation of different simulation types are shown in the next section.
 
-\section{Results}
+\section{Simulation results}
 \emph{OMNeT++} provides multiple functionalities for recording and saving different results of a simulation.
 
 
