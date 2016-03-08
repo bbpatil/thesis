@@ -135,8 +135,16 @@ These methods work in the same way as the default \emph{send} methods but take a
 
 Messages can also be sent directly to gates of defined modules without the need of a connection to the current module.
 This is called \emph{direct sending} and can be useful when multiple sender modules send to a single input gate.
-An example for this usage is shown in figure 
-Such a gate should be declared with the \emph{@diretIn} property to avoid notifications about a not connected gate. \cite[section 4.7.5]{omnet_manual}
+An example for this usage is shown in figure \ref{fig:direct_sending}.
+
+\begin{figure}
+        \centering
+        \includegraphics[width=0.9\columnwidth]{direct_message.eps}
+        \caption{Multiple simple modules sending messages directly to simple module 3}
+        \label{fig:direct_sending}
+\end{figure}
+
+Such a gate should be declared with the \emph{@directIn} property to avoid notifications about a not connected gate. \cite[section 4.7.5]{omnet_manual}
 
 Additional handling of messages as broadcasts and retransmission requires attention to the owner of messages.
 By sending a message its owner changes to the simulation core and furthermore to the received module.
