@@ -1,6 +1,6 @@
 \chapter{OMNeT++}
+\label{cha:omnet}
 
-\label{sec:OMNeT}
 OMNeT++ represents a open source simulation framework written in C++.
 It provides a object oriented modular discrete event network simulation framework.
 The commercial supported version is OMNEST and provides licensing models, whereas OMNeT++ is only available for academic or non-profit use.
@@ -9,6 +9,7 @@ The intention of OMNeT++ is providing infrastructure for writing simulations for
 Simulations developed with OMNeT++ are based on different components, which provide functionality for communication and topologies.
 
 \section{Components}
+\label{sec:omnet_components}
 Within an OMNeT++ simulation different components are used to represent the simulated system.
 Each component is described with a \emph{network description} (NED) file and can be enhanced with C++ code.
 The \emph{NED} file contains information about the component, which is necessary for connecting and designing the simulated system, such as gates, submodules and parameters.
@@ -16,11 +17,13 @@ The \emph{NED} file contains information about the component, which is necessary
 The different types of components and their sense is explained in the next sections.
 
 \subsection{Network}
+\label{sec:omnet_components_network}
 The outermost component is a network, which consists of other components like modules and channels.
 The simulated topology and the connections between modules are defined within the network.
 All instantiated modules, optional parameters and the connections in between the modules are defined in the networks \emph{NED} file. \cite[section 3.2.1]{omnet_manual}
 
 \subsection{Modules}
+\label{sec:omnet_components_modules}
 Modules represent functional groups of different complexities.
 There are two types of modules available in OMNeT++.
 
@@ -42,7 +45,6 @@ Each module shown in figure \ref{fig:OMNeTComponents} defines two gates which ca
     \caption{OMNeT++ components in an example network}
     \label{fig:OMNeTComponents}
 \end{figure}
-
 
 Specific functionality for custom components is implemented in the linked C++ code.
 This assignment is usually done with identical names of the \emph{NED} file and the C++ code, but can also be done manually with the \emph{@class} property.
@@ -70,6 +72,7 @@ A simple module is implemented by overriding specific methods following one of t
 \end{itemize}
 
 \subsection{Channels}
+\label{sec:omnet_components_channels}
 The connections in between modules can be realized in different ways.
 An direct connection of two gates transports the transmitted messages immediately.
 For applying transportation parameters (e.g. delay, latency, jitter) the connection can be established with a channel.
@@ -85,6 +88,7 @@ The OMNeT++ framework provides three built in channels for direct usage or sub c
 \cite[section 3.5]{omnet_manual}
 
 \subsection{Parameters}
+\label{sec:omnet_components_parameters}
 Each component can define various parameters for configuration of their behavior.
 The value of these parameters can be assigned in different ways.
 The assignment from a \emph{NED} file can be done directly, via inheritance, or via a compound module or network which contains the component.
@@ -93,6 +97,7 @@ For the case of no such assignment a parameter can also define a default value. 
 
 
 \section{Messages}
+\label{sec:omnet_messages}
 Transmitted data are encapsulated in another component called messages.
 Messages are a fundamental component of a OMNeT++ simulation as they does not only transport data they can also represent functional messages like jobs, events or tasks.
 The meaning behind a message is depending on the written simulation and the simulated system.
@@ -116,15 +121,18 @@ Handling these events can be done in various ways and define the type of impleme
 These simulations based on events are event based discrete simulations, the definitions of this type and the explanation of different simulation types are shown in the next section.
 
 \section{Simulation results}
+\label{sec:omnet_results}
 \emph{OMNeT++} provides multiple functionalities for recording and saving different results of a simulation.
 
 
 \subsection{Simulation library}
+\label{sec:omnet_results_sim_lib}
 The traditional way to record simulation results is using the simulation library functions to record vectors or scalars of different objects.
 
 Since OMNeT++ 4.1 the newer strategies using \emph{signals} and \emph{statistics} are available and provide alternative methods for results recording.
 
 \subsection{Signals}
+\label{sec:omnet_results_signals}
 Signals provide a functionality for a communication between modules which are not directly connected via their gates.
 The usage of signals follows the \emph{publisher/subscriber} principle, i.e. modules can register callback objects to a specific signal.
 If a new value for the signal is emitted all registered callback objects are notified.
@@ -133,13 +141,16 @@ Signals are defined in the \emph{NED} file of the according module or channel an
 
 
 \subsection{Statistics}
+\label{sec:omnet_results_statistics}
 
 
 
 \section{Running an OMNeT++ simulation}
+\label{sec:omnet_running}
 A OMNeT++ simulation is defined by a configuration file (\emph{.ini}-file).
 
 \subsection{Configuration}
+\label{sec:omnet_running_config}
 This configuration file can be given by a command line parameter, by default the \emph{omnetpp.ini} file is used.
 The configuration files includes every information and parameter regarding the simulation.
 
@@ -150,11 +161,13 @@ The simulated network must be defined, all other parameters are optional.
 A simulation application developed with OMNeT++ can be run in different ways using different simulation environments.
 
 \subsection{Tkenv}
+\label{sec:omnet_running_tkenv}
 OMNeT++ provides the graphical environment \emph{Tkenv} for developing simulations.
 Various possibilities for graphical representation are useful for demographic purposes.
 This environment is based on the opensource framework \emph{Eclipse} and provides the integrated development environment (\emph{IDE}) for OMNeT++ simulations.
 
 \subsection{Cmdenv}
+\label{sec:omnet_running_cmdenv}
 The other environment for running \emph{OMNeT++} simulations is \emph{Cmdenv}, which represents a command line interface.
 Using this environment no graphical user interface is shown, or will be updated.
 This simulation method is recommended for batch simulations or running simulations with an increased runtime.

@@ -1,8 +1,9 @@
 \chapter{Design}
-\label{sec:ModuleDesign}
+\label{cha:design}
 Implementing a simulation of a given system brings up different design questions regarding complexity of modules and the designed hierarchy.
 
 \section{Modular design}
+\label{sec:design_modular}
 Designing a modular system in OMNeT++ with a bigger number of modules connected with channels and grouped in compound modules allows a more dynamic simulation and can increase the reuse-ability of modules.
 This approach is convenient for simulating deep features and procedures within systems.
 When a simulated system or network consists of multiple systems such a design can be problematic in sight of communication and simulation overhead.
@@ -29,6 +30,7 @@ If this requirement is met, these communication parts can be used for redirectin
 These modules build OMNeT++ messages from returning calls, decapsulate transmitted parameter from received messages and forward the calls to the enclosing modules.
 
 \section{Monolithic design}
+\label{sec:design_monolithic}
 Decreasing the overhead of communication and simulation can be achieved for example by condensing a compound module to a simple module with more complex functions to execute.
 This leads to a monolithic design containing less modules with more complex functions.
 The execution of the single modules include more normal C++ code using simple method calls and operations.

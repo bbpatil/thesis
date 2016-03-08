@@ -1,5 +1,5 @@
 \chapter{Simulation}
-\label{sec:Simulation}
+\label{cha:simulation}
 Simulation can be done in different ways. The general categories are \emph{discrete} and \emph{continuous} simulations.
 The difference is shown in the processing of the simulated systems and the handling of simulation time.
 
@@ -15,7 +15,7 @@ Simulations written with OMNeT++ are by default discrete event based simulations
 More information about the simulation types available in OMNeT++ are given in \cite[section 4.1]{omnet_manual}.
 
 \section{Event simulation}
-\label{sec:EventSimulation}
+\label{sec:simulation_event}
 Such simulations handle given events at the defined point in the simulation time.
 The execution of the event takes no simulation time.
 Each event processed in the simulation is handled at the exact simulation time which is defined individually.
@@ -40,7 +40,7 @@ Approaching the field of emulation and \emph{HiL} the discrete event based simul
 For such applications the type of real time simulation is required.
 
 \section{Real time simulation}
-\label{sec:RealTimeSimulation}
+\label{sec:simulation_real_time}
 Real time simulations change the meaning of simulation time.
 The simulated events should be executed at the correct time to match the real time.
 In this context \emph{the real time} means the real world time, cpu time, or wall time, i.e. the time which passes for the real world during the execution of the simulation.
@@ -81,7 +81,7 @@ Therefore the ideal results can be achieved by writing a custom real time schedu
 The sample scheduler provided by \emph{cRealTimeScheduler} and \emph{SocketRTScheduler} can lead to the correct strategy of implementing an optimized scheduler.
 
 The host machine for the simulation and its components affect the achieved simulation times.
-The dependencies of the host system and the result of existing researches is shown in section \ref{sec:SystemDependencies}.
+The dependencies of the host system and the result of existing researches is shown in section \ref{sec:SystemDependencies}. %TODO update ref
 
 Developing the simulation of a given system results in the situation of many provided code which should be executed depending on incoming messages and therefore creating new message for sending.
 Given systems can be designed in various hierarchies in sight of number of modules and complexity of simple modules.
