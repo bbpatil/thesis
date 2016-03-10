@@ -1,11 +1,11 @@
 \chapter{OMNeT++}
 \label{cha:omnet}
 
-OMNeT++ represents a open source simulation framework written in C++.
-It provides a object oriented modular discrete event network simulation framework.
+OMNeT++ represents an open source simulation framework written in C++.
+It provides an object oriented modular discrete event network simulation framework.
 OMNeT++ provides a platform independent simulation library and integrated development environment (IDE), which is based on the eclipse platform.
-The commercial supported version OMNEST provides licensing models, whereas OMNeT++ is only available for academic or non-profit use.
-The intention of OMNeT++ is providing infrastructure for writing simulations for various fields; especially the field of network simulations.
+The commercial version OMNEST provides various licensing models, whereas OMNeT++ is only available for academic or non-profit use.
+The intention of OMNeT++ is to providing infrastructure for writing simulations for various fields; especially the field of network simulations.
 For this thesis the current newest version of OMNeT++ 4.6 was used and analyzed.
 
 Simulations developed with OMNeT++ are based on different components, which provide functionality for communication and topologies.
@@ -13,7 +13,7 @@ Simulations developed with OMNeT++ are based on different components, which prov
 \section{Components}
 \label{sec:omnet_components}
 Within an OMNeT++ simulation different components are used to represent the simulated system.
-Each component is described with a \emph{network description} (NED) file and can be enhanced with C++ code.
+Each component is described by a \emph{network description} (NED) file and can be enhanced with C++ code.
 The \emph{NED} file contains information about the component, which is necessary for connecting and designing the simulated system, such as gates, submodules and parameters.
 
 The different types of components and their sense is explained in the next sections.
@@ -30,17 +30,17 @@ All instantiated modules, optional parameters and the connections in between the
 Modules represent functional groups of different complexities.
 There are two types of modules available in OMNeT++.
 
-A simple module is the smallest part within a simulated hierarchy and represent a functional unit.
+A simple module is the smallest part within a simulated hierarchy and represents a functional unit.
 For this functional unit the behavior for handling messages, the possible connections and additional parameters can be defined. \cite[section 3.3]{omnet_manual}
-The possible connections of modules are represented by gates, which can be connected to a channel or directly to other gates.
+The possible connections of modules are represented by gates which can be connected to a channel or directly to other gates.
 
-Multiple simple modules can be connected via channels and condensed to a compound module.
+Multiple simple modules can be connected via channels and be condensed to a compound module.
 Such compound modules can be used in the same way as simple modules, but represent bigger functional groups.
 Compound modules define, in the same way as networks, the instantiated submodules and the connections in between them. \cite[section 3.4]{omnet_manual}
 For OMNeT++ a network and a compound module is the same component just with different values for the built in property \emph{@isNetwork}.
 
-An example network including simple modules connected to a compound module is shown in figure \ref{fig:OMNeTComponents}.
-Each module shown in figure \ref{fig:OMNeTComponents} defines two gates which can ether be an input, output or bidirectional gate.
+An example network including simple modules connected to a compound module is shown in Figure \ref{fig:OMNeTComponents}.
+Each module shown in Figure \ref{fig:OMNeTComponents} defines two gates which can either be an input, output or bidirectional gate.
 
 \begin{figure}
     \centering
@@ -50,7 +50,7 @@ Each module shown in figure \ref{fig:OMNeTComponents} defines two gates which ca
 \end{figure}
 
 Specific functionality for custom components is implemented in the linked C++ code.
-This assignment is usually done with identical names of the \emph{NED} file and the C++ code, but can also be done manually with the \emph{@class} property.
+The assignment of \emph{NED} and C++ code is usually done with identical filenames, but can also be done manually with the \emph{@class} property.
 The components can embed any functionality implemented in C/C++.
 The usage of external libraries or language features is not limited, but must be used with care due to the effect on simulation performance.
 For implementing the behavior of the modules and accessing the simulation environment,for example reading the value of a defined \emph{NED} parameter or send a message via a gate, 
@@ -117,21 +117,21 @@ These parameters can be used by the implemented behavior, for example as polling
 
 \subsection{Messages}
 \label{sec:omnet_components_messages}
-Transmitted data are encapsulated in another component called messages.
-Messages are a fundamental component of a OMNeT++ simulation as they don't only transport data they can also represent functional messages like jobs, events or tasks.
-The meaning behind a message is depending on the written simulation and the simulated system. \cite[chapter 5]{omnet_manual}
+Transmitted data is encapsulated in another component called messages.
+Messages are a fundamental component of an OMNeT++ simulation as they don't only transport data but can also represent functional messages like jobs, events or tasks.
+The meaning of a message depends on the written simulation and the simulated system. \cite[chapter 5]{omnet_manual}
 
 These messages can also be customized for holding a specific set of data like a protocol header, checksum, or other specific data.
 The existing message class \emph{cMessage} and its derived specialization \emph{cPacket} provide different members and methods which can be used for simulations.
-These include control information, type information, time stamp, etc. and are included for making developing a simulation easier.
-Adding a few simple datafields to a message can be ether done by subclassing \emph{cMessage} or \emph{cPacket} or using the \emph{NED} syntax in special \emph{.msg} files.
-By defining a custom message using \emph{NED} a customized subclass will be generated by the simulation and can be normally used as Message. \cite[chapter 6]{omnet_manual}
+These include control information, type information, time stamp, etc. and are included to ease the development of a simulation.
+Adding a few simple datafields to a message can be either done by subclassing \emph{cMessage}, \emph{cPacket} or using the \emph{NED} language in special \emph{.msg} files.
+By defining a custom message using \emph{NED} a customized subclass will be generated by the simulation and can be used as normal Message. \cite[chapter 6]{omnet_manual}
 
 Any module can send a message via its gates by using the \emph{send} methods or send it to itself as \emph{self-message} with \emph{scheduleAt}.
 The mechanism of messages is also used for implementing timeouts, timers, etc. by sending a specific message to the current module.
 Therefore the method \emph{scheduleAt} takes a absolute simulation and a message as parameters and sends the given message at the given point to the current module.
-These \emph{self-message} is handled by the same function as any other message coming from other modules.
-For the identification of \emph{self-messages} there is a built in method \emph{isSelfMessage} available.
+These \emph{self-messages} are handled by the same function as any other messages coming from other modules.
+For the identification of \emph{self-messages} the built in method \emph{isSelfMessage} is available.
 A scheduled \emph{self-message} can be canceled via the method \emph{cancelEvent} taking the scheduled message. \cite[section 4.7.1]{omnet_manual}
 
 The \emph{send} methods takes the message to send and the used gate as parameter.
@@ -141,7 +141,7 @@ These methods work in the same way as the default \emph{send} methods but take a
 
 Messages can also be sent directly to gates of defined modules without the need of a connection to the current module.
 This is called \emph{direct sending} and can be useful when multiple sender modules send to a single input gate.
-An example for this usage is shown in figure \ref{fig:direct_sending}.
+An example for this usage is shown in Figure \ref{fig:direct_sending}.
 
 \begin{figure}
         \centering
@@ -156,7 +156,7 @@ Additional handling of messages as broadcasts and retransmission requires attent
 By sending a message its owner changes to the simulation core and furthermore to the received module.
 Therefore for sending a message to multiple modules or resending a message the explicit copying of a message via \emph{dup} is necessary. \cite[section 4.7.3]{omnet_manual}
 
-Each message sent ether by another module or by the current module itself represents an event for the simulation with an according time, at which this event should happen, or the message should be delivered/received.
+Each message sent either by another module or by the current module itself represents an event for the simulation with an according time, at which this event should happen, or the message should be delivered/received.
 The execution and the handling of such created events is done by the simulation core and defines the execution order and the performance of the simulation.
 The different types of simulations and the simulation core of OMNeT++ is discussed in chapter \ref{cha:simulation}.
 
