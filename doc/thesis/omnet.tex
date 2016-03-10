@@ -170,27 +170,83 @@ Therefore provides OMNeT++ multiple functionalities for recording and saving dif
 \subsection{Simulation library}
 \label{sec:omnet_results_sim_lib}
 The traditional way to record simulation results is using the simulation library functions.
+
 The built in type \emph{cOutVector} provides the functionality used for recording a time series of data.
 By holding an instance of \emph{cOutVector} a series of data can be recorded during simulation.
 During initialization of the module the according name of the recorded time series should be set.
-The recorded data of all \emph{cOutVector} instances is written at the end of the simulation to a single output vector file (\emph{.vec}).
-The recording and the format of single vector can be defined in a configuration file. \cite[section 7.9.1]{omnet_manual}
+The recorded data of all \emph{cOutVector} instances is written at the end of the simulation to a single output vector file (\emph{.vec}). \cite[section 7.9.1]{omnet_manual}
 
-Scalar values may also be recorded using the \emph{recordScalar} method of a \emph{cModule}.
-This is mostly called in the \emph{finish} method and may record a result of statistical analyze or event a whole statistic object.\cite[section 7.9.2]{omnet_manual}
+Recording single values (scalars) is done using the \emph{recordScalar} method of a \emph{cModule}.
+This is mostly called in the \emph{finish} method and may record a result of statistical analyze or event a whole statistic object.
+All recorded scalars are written in a line based textfile (\emph{.sca}). \cite[section 7.9.2]{omnet_manual}
 
+The recording and the format of single vector or single scalars can be defined in a configuration file as described in section \ref{sec:omnet_results_config}.
 
+This method of recording results comes to a increased dependency of result recording an simulated system due to the hardcoded implementation.
 Since OMNeT++ 4.1 the newer strategies using \emph{signals} and \emph{statistics} are available and provide alternative methods for results recording.
 
 \subsection{Signals and statistics}
 \label{sec:omnet_results_signals}
+The idea behind result recording using signals and statistics is the separation of data generation and recording.
+The generated data are represented and distributed via signals.
+The statistics are accessing different signal for custom recording of required results. \cite[section 12.1.1]{omnet_manual}
+
 Signals provide a functionality for a communication between modules which are not directly connected via their gates.
 The usage of signals follows the \emph{publisher/subscriber} principle, i.e. modules can register callback objects to a specific signal.
 If a new value for the signal is emitted all registered callback objects are notified.
 
-Signals are defined in the \emph{NED} file of the according module or channel and can be accessed via the library call \emph{signal} and the defined name of the signal.
+Signals are defined in the \emph{NED} file of the according module or channel and can be accessed by the defined name of the signal or the resolved signal id.
+The name of a signal is defined globally, i.e. signals with identical names in different modules represent the same global signal.
+A registered listener of such a global signal receives notification of all modules which emit a new value for the signal. \cite[section 4.14]{omnet_manual}
 
+Using the \emph{@statistic} property the recording of data can be implemented using the built in functionalities.
+By defining a statistic property to a signal a filewriter listener will be registered, which records all notifications on this signal.
+A statistic property provides multiple functionalities and options which can be defined in the \emph{NED} file.
 
+Declaring a simple statistic property creates a signal with the according statistic name.
+For separated configuration of signal and statistic the \emph{source} option can be used to define a signal as the source of recorded data.
+Built in filters provide existing functionality which can be directly embedded in the definition of the source signal.
+For example the \emph{count} filter can be used to count the value notifications received on the defined signal.
+Multiple filters can be chained for manipulating the receiving data.
+
+The \emph{record} option defines what data shall be recorded by defining a recorder.
+Recorders are the final elements of the recording chain, beginning at the source signal.
+In between the source signal and the recorder can be a variable number of filters.
+A single statistic can define multiple recorders resulting in multiple recorded data.
+For distinguishing the importance of recorders a optional question mark behind the recorder name can mark it as optional.
+Optional recorders can be skipped by default, as described in section \ref{sec:omnet_results_config}.
+Using the built in recorder like \emph{last}, \emph{min}, \emph{max}, etc. result in an output scalar.
+The recorder \emph{vector} results in an output vector.
+These output container represent the same functionalities as the traditional recording methods described in section \ref{sec:omnet_results_sim_lib}.
+
+There are various built in filters and recorders available \cite[section 4.15.2]{omnet_manual} and there is also the possibility for writing and using custom filters and recorders. 
+This can be achieved by subclassing \emph{cResultFilter} or \emph{cResultRecorder}. \cite[section 4.15.6]{omnet_manual}
+
+The configuration of the resulting output (vector, scalar) is done independent of the used recording method.
+
+\subsection{Configuration}
+\label{sec:omnet_results_config}
+The recorded results can be individually enabled and configured.
+Therefore the configuration which data is recorded in which format is independent of the generated results and can be configured via a configuration file (\emph{.ini}).
+
+The recording using signals and statistics provides more options and possibilities and require therefore more different configuration methods.
+Each statistic object can be configured individually using the \emph{result-recording-modes} for each statistic defined by its full path within the hierarchy.
+This option defines the enabled recording modes (recorders described in section \ref{sec:omnet_results_signals}).
+Additionally to the available recorders the presets \emph{default} and \emph{all} are available.
+The \emph{default} set contains all non-optional recorders, i.e. all recorders excluding recorders marked with a question mark.
+The\emph{all} set contains all non-optional and optional recorders. \cite[12.2.1]{omnet_manual}
+
+Statistics based recording consider a defined warm-up period which can be defined via \emph{warmup-period}.
+Within this time beginning from the start of simulation no statistics will be recorded.
+When using the simulation library to manually record results (cOutVector, recordScalar) the warm-up period must be considered manually. \cite[12.2.2]{omnet_manual}
+
+The resulting output files can be defined independent of the used recording method via the options \emph{output-vector-file} and \emph{output-scalar-file}. \cite[section 12.2.3]{omnet_manual}
+
+The configuration of the recording via the simulation library (section \ref{sec:omnet_results_sim_lib}) is done via \emph{scalar-recording}, \emph{vector-recording}, \emph{vector-recording-interval} and \emph{vector-record-eventnumbers}.
+These options allows the dis- or enabling of specific output vectors and scalars given by their full path within the hierarchy.
+For vector recording the definition of specific recording intervals is possible to record only interesting intervals.
+Also the addition of the event number to the output file can be dis- or enabled.
+These options also affect the recording via signals and statistics because the statistic property generate output vectors and scalars.
 
 \section{Running an OMNeT++ simulation}
 \label{sec:omnet_running}
@@ -201,7 +257,7 @@ A OMNeT++ simulation is defined by a configuration file (\emph{.ini}-file).
 This configuration file can be given by a command line parameter, by default the \emph{omnetpp.ini} file is used.
 The configuration files includes every information and parameter regarding the simulation.
 
-The simulated network must be defined, all other parameters are optional.
+The simulated network and missing values for parameters within the simulated network must be defined, all other parameters are optional.
 
 
 
