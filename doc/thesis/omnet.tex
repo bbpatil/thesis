@@ -5,7 +5,7 @@ OMNeT++ represents an open source simulation framework written in C++.
 It provides an object oriented modular discrete event network simulation framework.
 OMNeT++ provides a platform independent simulation library and integrated development environment (IDE), which is based on the eclipse platform.
 The commercial version OMNEST provides various licensing models, whereas OMNeT++ is only available for academic or non-profit use.
-The intention of OMNeT++ is to providing infrastructure for writing simulations for various fields; especially the field of network simulations.
+The intention of OMNeT++ is providing infrastructure for writing simulations for various fields; especially the field of network simulations.
 For this thesis the current newest version of OMNeT++ 4.6 was used and analyzed.
 
 Simulations developed with OMNeT++ are based on different components, which provide functionality for communication and topologies.
@@ -14,15 +14,15 @@ Simulations developed with OMNeT++ are based on different components, which prov
 \label{sec:omnet_components}
 Within an OMNeT++ simulation different components are used to represent the simulated system.
 Each component is described by a \emph{network description} (NED) file and can be enhanced with C++ code.
-The \emph{NED} file contains information about the component, which is necessary for connecting and designing the simulated system, such as gates, submodules and parameters.
+The \emph{NED} file contains information about the component which is necessary for connecting and designing the simulated system, such as gates, submodules and parameters.
 
-The different types of components and their sense is explained in the next sections.
+The different types of components and their usage is explained in the next sections.
 
 \subsection{Network}
 \label{sec:omnet_components_network}
-The outermost component is a network, which consists of other components like modules and channels.
+The outermost component is a network which consists of other components like modules and channels.
 The simulated topology and the connections between modules are defined within the network.
-A Network represents a closed systems which can be simulated by itself, other components must be instantiated within a network to be simulated.
+A network represents a closed systems which can be simulated by itself, other components must be instantiated within a network to be simulated.
 All instantiated modules, optional parameters and the connections in between the modules are defined in the networks \emph{NED} file. \cite[section 3.2.1]{omnet_manual}
 
 \subsection{Modules}
@@ -34,10 +34,10 @@ A simple module is the smallest part within a simulated hierarchy and represents
 For this functional unit the behavior for handling messages, the possible connections and additional parameters can be defined. \cite[section 3.3]{omnet_manual}
 The possible connections of modules are represented by gates which can be connected to a channel or directly to other gates.
 
-Multiple simple modules can be connected via channels and be condensed to a compound module.
-Such compound modules can be used in the same way as simple modules, but represent bigger functional groups.
+Multiple simple modules can be connected and be condensed to a compound module.
+Such compound modules are used in the same way as simple modules, but represent bigger functional groups.
 Compound modules define, in the same way as networks, the instantiated submodules and the connections in between them. \cite[section 3.4]{omnet_manual}
-For OMNeT++ a network and a compound module is the same component just with different values for the built in property \emph{@isNetwork}.
+For OMNeT++ a network and a compound module is the same component just with different values for the built in \emph{NED} property \emph{@isNetwork}.
 
 An example network including simple modules connected to a compound module is shown in Figure \ref{fig:OMNeTComponents}.
 Each module shown in Figure \ref{fig:OMNeTComponents} defines two gates which can either be an input, output or bidirectional gate.
@@ -50,10 +50,10 @@ Each module shown in Figure \ref{fig:OMNeTComponents} defines two gates which ca
 \end{figure}
 
 Specific functionality for custom components is implemented in the linked C++ code.
-The assignment of \emph{NED} and C++ code is usually done with identical filenames, but can also be done manually with the \emph{@class} property.
+The assignment of \emph{NED} and C++ code is usually done with identical filenames, but can also be done manually with the \emph{@class} \emph{NED} property.
 The components can embed any functionality implemented in C/C++.
 The usage of external libraries or language features is not limited, but must be used with care due to the effect on simulation performance.
-For implementing the behavior of the modules and accessing the simulation environment,for example reading the value of a defined \emph{NED} parameter or send a message via a gate, 
+For implementing the behavior of the modules and accessing the simulation environment, for example reading the value of a defined \emph{NED} parameter or send a message via a gate, 
 OMNeT++ provides different functionalities and strategies.
 
 The functionality of a compound module is given by the submodules and their connections.
@@ -62,14 +62,15 @@ A simple module is implemented by overriding specific methods following one of t
 \begin{itemize}
     \item Using the \emph{handleMessage} method a module can react to incoming messages.
     Using this strategy the module is only activated when a message is received.
-    The methods \emph{send}, \emph{scheduleAt} and \emph{cancelEvent} can be used within \emph{handleMessage} for sending messages, scheduling self-messages and cancellation of scheduled self-messages. \cite[section 4.4.1]{omnet_manual}
+    The methods \emph{send}, \emph{scheduleAt} and \emph{cancelEvent} can be used within \emph{handleMessage} for sending messages, scheduling self-messages and canceling of scheduled self-messages. \cite[section 4.4.1]{omnet_manual}
     
     \item The second strategy uses the method \emph{activity} and is also called \emph{process style} strategy.
     The method \emph{activity} is called by the simulation runtime as coroutine and can be implemented in the same way as a normal thread or process on an operating system.
+    Returning from the \emph{activity} methods equals the finishing of the modules simulation.
     Beside the available methods of the first strategy, additional methods can be used within \emph{activity}.
     Using the method \emph{receive} the module waits until a message is received.
     Waiting a specific amount of simulation time is achieved with the \emph{wait} method.
-    A simple module using the \emph{activity} method is called as coroutine in the simulation library and are scheduled non-preemptively.
+    A simple module using the \emph{activity} method is called as coroutine of the simulation core and is scheduled non-preemptively.
     I.e. the activity method is not interrupted by the simulation and has to suspend by itself.
     This is done by waiting for a received message or waiting a specific amount of time. \cite[section 4.4.2]{omnet_manual}
 \end{itemize}
@@ -94,15 +95,13 @@ These channels can be used directly or being subclassed for implementing custom 
 For implementing a custom Channel three Methods must be implemented:
 
 \begin{description}
-    \item[isTransmissionChannel] returns if the channel is a transmission channel, i.e. the transmission duration is calculated and set within the packet
+    \item[isTransmissionChannel] returns true if the channel is a transmission channel, i.e. the transmission duration is calculated and set within the packet.
     This type of channel only affects messages of type \emph{cPacket} or of derived types.
     \item[getTransmissionFinishTime] returns the finish time of the transmission for messages of type \emph{cPacket} or derived types.
     \item[processMessage] models the behavior of the channel and its functionality.
+    In this method the results can be stored in a provided structure, which allows a dropping of the message and a change of the resulting transmission time.
+    The transmitted message is passed to the \emph{processMessage} method, therefore various modifications can be made simulating the transmission through the channel. \cite[section 4.8]{omnet_manual}
 \end{description}
-
-The general behavior of the channel is implemented in \emph{processMessage}.
-In this method the results can be stored in a provided structure, which allows a dropping of the message and a change of the resulting transmission time.
-The transmitted message is passed to the \emph{processMessage} method, therefore various modifications can be made simulating the transmission through the channel. \cite[section 4.8]{omnet_manual}
 
 \subsection{Parameters}
 \label{sec:omnet_components_parameters}
@@ -114,10 +113,9 @@ For the case of no such assignment a parameter can also define a default value.
 
 These parameters can be used by the implemented behavior, for example as polling interval. \cite[section 3.6]{omnet_manual}
 
-
 \subsection{Messages}
 \label{sec:omnet_components_messages}
-Transmitted data is encapsulated in another component called messages.
+Transmitted data is encapsulated in another component called message.
 Messages are a fundamental component of an OMNeT++ simulation as they don't only transport data but can also represent functional messages like jobs, events or tasks.
 The meaning of a message depends on the written simulation and the simulated system. \cite[chapter 5]{omnet_manual}
 
@@ -150,21 +148,21 @@ An example for this usage is shown in Figure \ref{fig:direct_sending}.
         \label{fig:direct_sending}
 \end{figure}
 
-Such a gate should be declared with the \emph{@directIn} property to avoid notifications about a not connected gate. \cite[section 4.7.5]{omnet_manual}
+Such a gate should be declared with the \emph{@directIn} \emph{NED} property to avoid notifications about a not connected gate. \cite[section 4.7.5]{omnet_manual}
 
 Additional handling of messages as broadcasts and retransmission requires attention to the owner of messages.
-By sending a message its owner changes to the simulation core and furthermore to the received module.
-Therefore for sending a message to multiple modules or resending a message the explicit copying of a message via \emph{dup} is necessary. \cite[section 4.7.3]{omnet_manual}
+By sending a message its owner changes to the simulation core and furthermore to the receiver module.
+Therefore explicit copying of a message via \emph{dup} is necessary for sending a message to multiple modules or resending a message. \cite[section 4.7.3]{omnet_manual}
 
 Each message sent either by another module or by the current module itself represents an event for the simulation with an according time, at which this event should happen, or the message should be delivered/received.
-The execution and the handling of such created events is done by the simulation core and defines the execution order and the performance of the simulation.
+The execution and the handling of such events is done by the simulation core and defines the execution order and the performance of the simulation.
 The different types of simulations and the simulation core of OMNeT++ is discussed in chapter \ref{cha:simulation}.
 
 
 \section{Simulation results}
 \label{sec:omnet_results}
 The simulation of different systems results in different types of outcomes.
-Therefore provides OMNeT++ multiple functionalities for recording and saving different results of a simulation.
+Therefore OMNeT++ provides multiple functionalities for recording and saving different results.
 
 
 \subsection{Simulation library}
@@ -180,9 +178,9 @@ Recording single values (scalars) is done using the \emph{recordScalar} method o
 This is mostly called in the \emph{finish} method and may record a result of statistical analyze or event a whole statistic object.
 All recorded scalars are written in a line based textfile (\emph{.sca}). \cite[section 7.9.2]{omnet_manual}
 
-The recording and the format of single vector or single scalars can be defined in a configuration file as described in section \ref{sec:omnet_results_config}.
+The recording and the format of single vectors or single scalars can be defined in a configuration file as described in section \ref{sec:omnet_results_config}.
 
-This method of recording results comes to a increased dependency of result recording an simulated system due to the hardcoded implementation.
+This method leads to a increased dependency of result recording and the simulated system due to the hardcoded implementation.
 Since OMNeT++ 4.1 the newer strategies using \emph{signals} and \emph{statistics} are available and provide alternative methods for results recording.
 
 \subsection{Signals and statistics}
@@ -199,8 +197,8 @@ Signals are defined in the \emph{NED} file of the according module or channel an
 The name of a signal is defined globally, i.e. signals with identical names in different modules represent the same global signal.
 A registered listener of such a global signal receives notification of all modules which emit a new value for the signal. \cite[section 4.14]{omnet_manual}
 
-Using the \emph{@statistic} property the recording of data can be implemented using the built in functionalities.
-By defining a statistic property to a signal a filewriter listener will be registered, which records all notifications on this signal.
+Using the \emph{@statistic} \emph{NED} property the recording of data can be implemented using the built in functionalities.
+By defining a statistic property to a signal, a filewriter listener will be registered which records all notifications on this signal.
 A statistic property provides multiple functionalities and options which can be defined in the \emph{NED} file.
 
 Declaring a simple statistic property creates a signal with the according statistic name.
@@ -215,9 +213,9 @@ In between the source signal and the recorder can be a variable number of filter
 A single statistic can define multiple recorders resulting in multiple recorded data.
 For distinguishing the importance of recorders a optional question mark behind the recorder name can mark it as optional.
 Optional recorders can be skipped by default, as described in section \ref{sec:omnet_results_config}.
-Using the built in recorder like \emph{last}, \emph{min}, \emph{max}, etc. result in an output scalar.
+The built in recorders like \emph{last}, \emph{min}, \emph{max}, etc. result in an output scalar.
 The recorder \emph{vector} results in an output vector.
-These output container represent the same functionalities as the traditional recording methods described in section \ref{sec:omnet_results_sim_lib}.
+These generated output container represent the same functionalities as the traditional recording methods described in section \ref{sec:omnet_results_sim_lib}.
 
 There are various built in filters and recorders available \cite[section 4.15.2]{omnet_manual} and there is also the possibility for writing and using custom filters and recorders. 
 This can be achieved by subclassing \emph{cResultFilter} or \emph{cResultRecorder}. \cite[section 4.15.6]{omnet_manual}
@@ -234,11 +232,11 @@ Each statistic object can be configured individually using the \emph{result-reco
 This option defines the enabled recording modes (recorders described in section \ref{sec:omnet_results_signals}).
 Additionally to the available recorders the presets \emph{default} and \emph{all} are available.
 The \emph{default} set contains all non-optional recorders, i.e. all recorders excluding recorders marked with a question mark.
-The\emph{all} set contains all non-optional and optional recorders. \cite[12.2.1]{omnet_manual}
+The \emph{all} set contains all non-optional and optional recorders. \cite[section 12.2.1]{omnet_manual}
 
 Statistics based recording consider a defined warm-up period which can be defined via \emph{warmup-period}.
 Within this time beginning from the start of simulation no statistics will be recorded.
-When using the simulation library to manually record results (cOutVector, recordScalar) the warm-up period must be considered manually. \cite[12.2.2]{omnet_manual}
+When using the simulation library to manually record results (cOutVector, recordScalar) the warm-up period must be considered manually. \cite[section 12.2.2]{omnet_manual}
 
 The resulting output files can be defined independent of the used recording method via the options \emph{output-vector-file} and \emph{output-scalar-file}. \cite[section 12.2.3]{omnet_manual}
 
@@ -250,6 +248,7 @@ These options also affect the recording via signals and statistics because the s
 
 \section{Running an OMNeT++ simulation}
 \label{sec:omnet_running}
+
 A OMNeT++ simulation is defined by a configuration file (\emph{.ini}-file).
 
 \subsection{Configuration}
@@ -261,7 +260,7 @@ The simulated network and missing values for parameters within the simulated net
 
 A simulation application developed with OMNeT++ can be run in different ways using different simulation environments.
 
-\subsection{Graphical environment \emph{Tkenv}}
+\subsection{Graphical user interface \emph{Tkenv}}
 \label{sec:omnet_running_tkenv}
 OMNeT++ provides the graphical environment \emph{Tkenv} for running and visualizing simulations.
 %TODO reference and explanation of tcl/tkl
@@ -270,7 +269,7 @@ Various possibilities for graphical representation are useful for demographic pu
 
 
 
-\subsection{Command line environment \emph{Cmdenv}}
+\subsection{Command line user interface \emph{Cmdenv}}
 \label{sec:omnet_running_cmdenv}
 The other environment for running \emph{OMNeT++} simulations is \emph{Cmdenv}, which represents a command line interface.
 Using this environment no graphical user interface is shown, or will be updated.
