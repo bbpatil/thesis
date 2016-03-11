@@ -255,40 +255,78 @@ The most important parameter can be passed directly or via the \emph{-f} command
 The configuration files and some key options for running a simulation is described in section \ref{sec:omnet_running_config}.
 
 Within a configuration file multiple configurations can be defined and the configuration which should be used for simulation can be easily defined via the \emph{-c} command line option.
+If no configuration to load is specified but multiple configurations are defined within the configuration file the behavior depends on the started user interface.
+Starting the graphical user interface will prompt the user to choose a configuration.
+The command line user interface will execute the general configuration.
 
-Configurations like the path to load the \emph{NED} files can be defined within a configuration files as well as by a command line option (\emph{-n}).
-With multiple configurations the values are merged into a resulting configuration.
+The configuration of the path to load the \emph{NED} files can be defined within a configuration files as well as by a command line option (\emph{-n}).
+With multiple configurations the values are merged into a combined load path.
 
-The selection of the user interface can be defined fia the command line option \emph{-u}.
+The selection of the user interface can be defined via the command line option \emph{-u}.
 This define overrules a configured default user interface of a configuration file.
 The different user interfaces and their functionalities are shown the sections \ref{sec:omnet_running_tkenv} and \ref{sec:omnet_running_cmdenv}.
 
 OMNeT++ also provides the \emph{oop\_run} tool, which is essentially an empty simulation.
 With this tool a simulation model which is built as shared library can be started.
-With \emph{oop\_run} or any other simulation executable other available command line options are available via \emph{-h}. \cite[section 10.1.1, section 10.1.2]{omnet_manual}
+With \emph{oop\_run} or any other simulation executable other available command line options are available via \emph{-h}. 
+
+Further configuration options of the configuration file can also be set via the command line interface by preceding the option with \emph{--}.
+In case of double configuration the via command line parameter passed value will be preferred. \cite[section 10.1.1, section 10.1.2]{omnet_manual}
 
 \subsection{Configuration}
 \label{sec:omnet_running_config}
-The configuration file can be given by a command line parameter, by default the \emph{omnetpp.ini} file is used.
+The configuration file can be given by a command line parameter, usually the file \emph{omnetpp.ini} is used.
 
+Within a configuration file multiple configurations or sections can be defined.
+When starting a simulation the loaded configuration can be set, therefore multiple different simulation runs with different configurations can be defined within a single configuration file. \cite[section 9.2]{omnet_manual}
 
-The configuration files includes every information and parameter regarding the simulation.
+The most essential configuration is the simulated network which is defined by the name of the according \emph{NED} network.
 
-The simulated network and missing values for parameters within the simulated network must be defined, all other parameters are optional.
+The duration of the simulation can be defined via an ending simulated system, i.e. modules which automatically finish their execution, or a time limit is defined.
+A time limit can either be defined for the simulation time (\emph{sim-time-limit}) or the cpu time (\emph{text-cpu-time-limit}).
 
-A simulation application developed with OMNeT++ can be run in different ways using different simulation environments.
+The behavior of the simulation in case of errors and the connection behavior of debuggers can be defined via various options like \emph{debug-on-errors}, \emph{debug-attach-on-error}, etc.. \cite[section 10.1.3]{omnet_manual}
+
+Specific configuration for the command line user interface are available for controlling the output of a running simulation (\emph{cmdenv-express-mode}, \emph{cmdenv-status-frequency}, \emph{cmdenv-perormance-display}) and the possibility of user interaction (\emph{cmdenv-interactive}).
+The effects of these options are shown in section \ref{sec:omnet_running_cmdenv}.
+
+Parameters of loaded components can be set individually, commonly set via wildcards, or ask from the user.
+Values which are directly set within the \emph{NED} files can not be overwritten from a configuration file.
+Therefore a more flexible simulation model provides the majority of parameters via the configurations.
+Parameter of modules can either be set individually by the full path within the simulated hierarchy or commonly set via wildcards. \cite[section 9.3]{omnet_manual}
+
+The configuration of module parameters also allow the definition of value ranges for so called \emph{parameter studies}.
+These \emph{parameter studies} result in multiple simulation runs iterating over all specified parameters.
+Simulating all iterations can be achieved via setting the runnumber passed by command line interface (\emph{-r}) or defined in the configuration (\emph{cmdenv-runs-to-execute}. \cite[section 9.4]{omnet_manual}
+
+Defined via the command line parameter or via the \emph{user-interface} option different user interfaces can the used to start and visualize the simulation.
 
 \subsection{Graphical user interface \emph{Tkenv}}
 \label{sec:omnet_running_tkenv}
 OMNeT++ provides the graphical environment \emph{Tkenv} for running and visualizing simulations.
-%TODO reference and explanation of tcl/tkl
+The \emph{Tkenv} provides various different possibilities for a graphical presentation of the simulated network, processed events and simulation results.
 
-Various possibilities for graphical representation are useful for demographic purposes.
+This user interface is useful for developing and debugging a simulation during the development.
+The possibilities to inspect each component within the simulated system provide deep insight in the simulated system.
 
+Different possibilities for graphical representation of the system and animation of progress/results allow a convenient presentation of a simulated systems.
+This presentation allows educational and presentational purposes of the simulation. \cite[section 7.1]{omnet_user_guide}
 
+Running complex simulations with multiple parameter studies is not recommended within Tkenv due to the increased overhead for refreshing the representation.
+Different run modes (\emph{normal run}, \emph{fast run}, \emph{express run}) allow the skipping of user interface updates. \cite[section 7.3.2]{omnet_user_guide}
+
+For simulations with increased complexity and longer simulation durations the command line user interface \emph{Cmdenv} should be preferred.
 
 \subsection{Command line user interface \emph{Cmdenv}}
 \label{sec:omnet_running_cmdenv}
-The other environment for running \emph{OMNeT++} simulations is \emph{Cmdenv}, which represents a command line interface.
+The \emph{Cmdenv} environment represents a command line user interface.
 Using this environment no graphical user interface is shown, or will be updated.
-This simulation method is recommended for batch simulations or running simulations due to the improved performance.
+This simulation method is recommended for batch simulations or running simulations with increased complexity and no need for graphical representation due to the improved performance.
+
+During a running simulation within \emph{Cmdenv} the output printed to the command line depends on the configuration.
+For debugging purposes the \emph{normal mode} can be used and detailed event information will be printed to the command line.
+Running simulations over a longer period of time the \emph{express mode} is recommended and only periodically status updates will be printed.
+The frequency of the updates and the printed details can be configured via the \emph{cmdenv-status-frequency} and the \emph{cmdenv-performance-display} options. \cite[section 10.2.3]{omnet_manual}
+
+Simulations defining one ore more parameter studies result in multiple runs which can be defined via a command line parameter or in the configuration.
+For executing multiple runs OMNeT++ provides the \emph{oop\_runall} tool which starts each run in a separate operating system process.. \cite[section 10.4.3]{omnet_manual}
