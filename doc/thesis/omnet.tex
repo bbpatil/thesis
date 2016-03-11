@@ -244,16 +244,34 @@ The configuration of the recording via the simulation library (section \ref{sec:
 These options allows the dis- or enabling of specific output vectors and scalars given by their full path within the hierarchy.
 For vector recording the definition of specific recording intervals is possible to record only interesting intervals.
 Also the addition of the event number to the output file can be dis- or enabled.
-These options also affect the recording via signals and statistics because the statistic property generate output vectors and scalars.
+These options also affect the recording via signals and statistics because the statistic property generate output vectors and scalars. \cite[section 12.2.4, section 12.2.5]{omnet_manual}
 
 \section{Running an OMNeT++ simulation}
 \label{sec:omnet_running}
 
-A OMNeT++ simulation is defined by a configuration file (\emph{.ini}-file).
+The output of the OMNeT++ build process is by default an executable for starting the simulation.
+All generated simulation executables provide command line parameters for the configuration of specific simulation runs.
+The most important parameter can be passed directly or via the \emph{-f} command and defines the used configuration files for the simulation run.
+The configuration files and some key options for running a simulation is described in section \ref{sec:omnet_running_config}.
+
+Within a configuration file multiple configurations can be defined and the configuration which should be used for simulation can be easily defined via the \emph{-c} command line option.
+
+Configurations like the path to load the \emph{NED} files can be defined within a configuration files as well as by a command line option (\emph{-n}).
+With multiple configurations the values are merged into a resulting configuration.
+
+The selection of the user interface can be defined fia the command line option \emph{-u}.
+This define overrules a configured default user interface of a configuration file.
+The different user interfaces and their functionalities are shown the sections \ref{sec:omnet_running_tkenv} and \ref{sec:omnet_running_cmdenv}.
+
+OMNeT++ also provides the \emph{oop\_run} tool, which is essentially an empty simulation.
+With this tool a simulation model which is built as shared library can be started.
+With \emph{oop\_run} or any other simulation executable other available command line options are available via \emph{-h}. \cite[section 10.1.1, section 10.1.2]{omnet_manual}
 
 \subsection{Configuration}
 \label{sec:omnet_running_config}
-This configuration file can be given by a command line parameter, by default the \emph{omnetpp.ini} file is used.
+The configuration file can be given by a command line parameter, by default the \emph{omnetpp.ini} file is used.
+
+
 The configuration files includes every information and parameter regarding the simulation.
 
 The simulated network and missing values for parameters within the simulated network must be defined, all other parameters are optional.
