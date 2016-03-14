@@ -8,10 +8,18 @@
 % Handling these events can be done in various ways and define the type of implemented simulation.
 % These simulations based on events are event based discrete simulations, the definitions of this type and the explanation of different simulation types are shown in the next section.
 
+A Simulation attempts to replicate and forecast the behavior of real world systems.
+The importance of simulation is increasing steadily, due to increasing complexity and more requirements for systems.
+Especially the development and testing of real-time communication systems can be improved essentially by using simulation and emulation methods.
 
-
-Simulation can be done in different ways. The general categories are \emph{discrete} and \emph{continuous} simulations.
+Different types of simulation are applicable for different types of simulated systems and aimed results.
 Differences are shown in the processing of the simulated systems and in the handling of simulation time.
+\cite[section 1.2]{mchaney2009understanding}
+
+
+\section{Continuous simulation}
+\label{sec:simulation_cont}
+Continuous simulations handles a uninterrupted of values over a simulated time range.
 
 For continuous simulations the state of the simulated system can change at any time, therefore the complete simulated time range has to be executed.
 These executions require the definition of a resolution and the calculation of each moment within the time range.
