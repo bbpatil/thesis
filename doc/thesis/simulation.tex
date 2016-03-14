@@ -1,28 +1,27 @@
 \chapter{Simulation}
 \label{cha:simulation}
 
-%%%%%%%%%% imported from omnet chapter %%%%%%%%%%%%%%%%%%%%%%%%%
-% Handling these events can be done in various ways and define the type of the implemented simulation.
-% Simulations based on events are event based discrete simulations.
-% The definitions of this type and the explan
-% Handling these events can be done in various ways and define the type of implemented simulation.
-% These simulations based on events are event based discrete simulations, the definitions of this type and the explanation of different simulation types are shown in the next section.
-
 A Simulation attempts to replicate and forecast the behavior of real world systems.
 The importance of simulation is increasing steadily, due to increasing complexity and more requirements for systems.
-Especially the development and testing of real-time communication systems can be improved essentially by using simulation and emulation methods.
+Especially the development and testing of real-time communication systems can be improved essentially by using simulation and emulation techniques.
 
 Different types of simulation are applicable for different types of simulated systems and aimed results.
 Differences are shown in the processing of the simulated systems and in the handling of simulation time.
 \cite[section 1.2]{mchaney2009understanding}
 
-
 \section{Continuous simulation}
 \label{sec:simulation_cont}
-Continuous simulations handles a uninterrupted of values over a simulated time range.
+Continuous simulations handles uninterrupted of values over a simulated time range.
+This behavior may be determined by equations describing the system.
+For correct simulation of a continuous system the model must be executed for the whole simulated time range. \cite[section 1.2.1]{mchaney2009understanding}
 
-For continuous simulations the state of the simulated system can change at any time, therefore the complete simulated time range has to be executed.
-These executions require the definition of a resolution and the calculation of each moment within the time range.
+Simulations in the field of real-time communication is based on discrete events at specific points in time, e.g. receiving of data.
+Therefore an discrete event simulation (\emph{DES}) is more applicable.
+
+\section{Discrete event simulation}
+\label{sec:simulation_event}
+
+%TODO: enhance and rework existing texts
 
 This is not a requirement for discrete simulations, because these simulations are event based.
 For each event a time is specified at which the event has to be executed or handled.
@@ -32,12 +31,19 @@ The calculated points within the simulation time are defined by the scheduled ev
 By default simulations written with OMNeT++ are discrete event based simulations.
 More information about the simulation types available in OMNeT++ are given in \cite[section 4.1]{omnet_manual}.
 
-\section{Event simulation}
-\label{sec:simulation_event}
 Such simulations handle given events at the defined point in the simulation time.
 The execution of the event takes no simulation time.
 Each event processed in the simulation is handled at the exact simulation time which is defined individually.
 This type of simulation enables simulating various events even within a very short simulated time range.
+
+%TODO: check if useful
+%%%%%%%%%% imported from omnet chapter %%%%%%%%%%%%%%%%%%%%%%%%%
+% Handling these events can be done in various ways and define the type of the implemented simulation.
+% Simulations based on events are event based discrete simulations.
+% The definitions of this type and the explan
+% Handling these events can be done in various ways and define the type of implemented simulation.
+% These simulations based on events are event based discrete simulations, the definitions of this type and the explanation of different simulation types are shown in the next section.
+
 
 Within OMNeT++ the calculated point in time is called \emph{arrival time}.
 Each message contains the \emph{arrival time} and the \emph{sending time}, both are time points in the simulation time.
@@ -57,7 +63,7 @@ The functionality and the ordering of the executed events by the \emph{cSequenti
 Approaching the fields of emulation and \emph{HiL} the discrete event based simulation is not applicable.
 For such applications the type of real time simulation is required.
 
-\section{Real time simulation}
+\section{Real time simulation} %TODO: rework and enhance references
 \label{sec:simulation_real_time}
 Real time simulations change the meaning of simulation time.
 The simulated events should be executed at the correct time to match the real-time.
@@ -99,7 +105,7 @@ Therefore the ideal results can be achieved by writing a custom real time schedu
 The sample scheduler provided by \emph{cRealTimeScheduler} and \emph{SocketRTScheduler} can lead to the correct strategy of implementing an optimized scheduler.
 
 The host machine for the simulation and its components affect the achieved simulation times.
-The dependencies of the host system and the results of existing researches is shown in section \ref{sec:SystemDependencies}. %TODO update ref
+The dependencies of the host system and the results of existing researches is shown in section \ref{sec:parallel_sim_requriements}.
 
 Developing the simulation of a given system results in the situation of existing code, which should not be changed.
 This code must be encapsulated in modules be executed depending on incoming messages and therefore creating new message for sending.
