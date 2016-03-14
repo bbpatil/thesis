@@ -3,7 +3,7 @@
 
 OMNeT++ represents an open source simulation framework written in C++.
 It provides an object oriented modular discrete event network simulation framework.
-OMNeT++ provides a platform independent simulation library and integrated development environment (IDE), which is based on the eclipse platform.
+The platform independent simulation library includes an integrated development environment (IDE), which is based on the eclipse platform.
 The commercial version OMNEST provides various licensing models, whereas OMNeT++ is only available for academic or non-profit use.
 The intention of OMNeT++ is providing infrastructure for writing simulations for various fields; especially the field of network simulations.
 For this thesis the current newest version of OMNeT++ 4.6 was used and analyzed.
@@ -37,10 +37,10 @@ The possible connections of modules are represented by gates which can be connec
 Multiple simple modules can be connected and be condensed to a compound module.
 Such compound modules are used in the same way as simple modules, but represent bigger functional groups.
 Compound modules define, in the same way as networks, the instantiated submodules and the connections in between them. \cite[section 3.4]{omnet_manual}
-For OMNeT++ a network and a compound module is the same component just with different values for the built in \emph{NED} property \emph{@isNetwork}.
+For OMNeT++ a network and a compound module is the same component which differentiate by different values for the built in \emph{NED} property \emph{@isNetwork}.
 
 An example network including simple modules connected to a compound module is shown in Figure \ref{fig:OMNeTComponents}.
-Each module shown in Figure \ref{fig:OMNeTComponents} defines two gates which can either be an input, output or bidirectional gate.
+Each module shown in Figure \ref{fig:OMNeTComponents} defines two gates which is either an input, output or bidirectional gate.
 
 \begin{figure}
     \centering
@@ -57,11 +57,11 @@ For implementing the behavior of the modules and accessing the simulation enviro
 OMNeT++ provides different functionalities and strategies.
 
 The functionality of a compound module is given by the submodules and their connections.
-A simple module is implemented by overriding specific methods following one of the two strategies:
+A simple module is implemented by overriding specific methods following one of the two strategies below:
 
 \begin{itemize}
     \item Using the \emph{handleMessage} method a module can react to incoming messages.
-    Using this strategy the module is only activated when a message is received.
+    Using this strategy the module is only active when a message is received.
     The methods \emph{send}, \emph{scheduleAt} and \emph{cancelEvent} can be used within \emph{handleMessage} for sending messages, scheduling self-messages and canceling of scheduled self-messages. \cite[section 4.4.1]{omnet_manual}
     
     \item The second strategy uses the method \emph{activity} and is also called \emph{process style} strategy.
@@ -111,7 +111,7 @@ The assignment from a \emph{NED} file can be done directly, via inheritance, or 
 All parameters can also be set via a configuration file (e.g. omnetpp.ini) or interactively requested from the user.
 For the case of no such assignment a parameter can also define a default value.
 
-These parameters can be used by the implemented behavior, for example as polling interval. \cite[section 3.6]{omnet_manual}
+These parameters can be used by the implemented behavior by using the \emph{par} method. \cite[section 3.6]{omnet_manual}
 
 \subsection{Messages}
 \label{sec:omnet_components_messages}
@@ -134,7 +134,7 @@ A scheduled \emph{self-message} can be canceled via the method \emph{cancelEvent
 
 The \emph{send} methods takes the message to send and the used gate as parameter.
 For defining the gate the defined name, the id or the object itself can be used. \cite[section 4.7.2]{omnet_manual}
-When the transmission of the messages should occur at a later time, there is a built in functionality given with the \emph{sendDelayed} methods.
+When the transmission of the messages should occur at a later time, there is a built in functionality given with the \mbox{\emph{sendDelayed}} methods.
 These methods work in the same way as the default \emph{send} methods but take an additional parameter which represents the delay. \cite[section 4.7.6]{omnet_manual}
 
 Messages can also be sent directly to gates of defined modules without the need of a connection to the current module.
@@ -175,19 +175,19 @@ During initialization of the module the according name of the recorded time seri
 The recorded data of all \emph{cOutVector} instances is written at the end of the simulation to a single output vector file (\emph{.vec}). \cite[section 7.9.1]{omnet_manual}
 
 Recording single values (scalars) is done using the \emph{recordScalar} method of a \emph{cModule}.
-This is mostly called in the \emph{finish} method and may record a result of statistical analyze or event a whole statistic object.
+This is mostly called in the \emph{finish} method and may record a result of statistical analyze or even a whole statistic object.
 All recorded scalars are written in a line based textfile (\emph{.sca}). \cite[section 7.9.2]{omnet_manual}
 
 The recording and the format of single vectors or single scalars can be defined in a configuration file as described in section \ref{sec:omnet_results_config}.
 
-This method leads to a increased dependency of result recording and the simulated system due to the hardcoded implementation.
+This method leads to a increased dependency of result recording and the simulated system due to the hard-coded implementation.
 Since OMNeT++ 4.1 the newer strategies using \emph{signals} and \emph{statistics} are available and provide alternative methods for results recording.
 
 \subsection{Signals and statistics}
 \label{sec:omnet_results_signals}
 The idea behind result recording using signals and statistics is the separation of data generation and recording.
 The generated data are represented and distributed via signals.
-The statistics are accessing different signal for custom recording of required results. \cite[section 12.1.1]{omnet_manual}
+The statistics are accessing different signals for custom recording of required results. \cite[section 12.1.1]{omnet_manual}
 
 Signals provide a functionality for a communication between modules which are not directly connected via their gates.
 The usage of signals follows the \emph{publisher/subscriber} principle, i.e. modules can register callback objects to a specific signal.
@@ -195,7 +195,7 @@ If a new value for the signal is emitted all registered callback objects are not
 
 Signals are defined in the \emph{NED} file of the according module or channel and can be accessed by the defined name of the signal or the resolved signal id.
 The name of a signal is defined globally, i.e. signals with identical names in different modules represent the same global signal.
-A registered listener of such a global signal receives notification of all modules which emit a new value for the signal. \cite[section 4.14]{omnet_manual}
+A registered listener of such a global signal receives notification of all modules which emit a new value for their signal. \cite[section 4.14]{omnet_manual}
 
 Using the \emph{@statistic} \emph{NED} property the recording of data can be implemented using the built in functionalities.
 By defining a statistic property to a signal, a filewriter listener will be registered which records all notifications on this signal.
@@ -238,7 +238,7 @@ Statistics based recording consider a defined warm-up period which can be define
 Within this time beginning from the start of simulation no statistics will be recorded.
 When using the simulation library to manually record results (cOutVector, recordScalar) the warm-up period must be considered manually. \cite[section 12.2.2]{omnet_manual}
 
-The resulting output files can be defined independent of the used recording method via the options \emph{output-vector-file} and \emph{output-scalar-file}. \cite[section 12.2.3]{omnet_manual}
+The resulting output files can be defined independently of the used recording method via the options \emph{output-vector-file} and \emph{output-scalar-file}. \cite[section 12.2.3]{omnet_manual}
 
 The configuration of the recording via the simulation library (section \ref{sec:omnet_results_sim_lib}) is done via \emph{scalar-recording}, \emph{vector-recording}, \emph{vector-recording-interval} and \emph{vector-record-eventnumbers}.
 These options allows the dis- or enabling of specific output vectors and scalars given by their full path within the hierarchy.
@@ -254,12 +254,12 @@ All generated simulation executables provide command line parameters for the con
 The most important parameter can be passed directly or via the \emph{-f} command and defines the used configuration files for the simulation run.
 The configuration files and some key options for running a simulation is described in section \ref{sec:omnet_running_config}.
 
-Within a configuration file multiple configurations can be defined and the configuration which should be used for simulation can be easily defined via the \emph{-c} command line option.
+Within a configuration file multiple configurations can be defined and the configuration which should be used for simulation can be defined via the \emph{-c} command line option.
 If no configuration to load is specified but multiple configurations are defined within the configuration file the behavior depends on the started user interface.
 Starting the graphical user interface will prompt the user to choose a configuration.
 The command line user interface will execute the general configuration.
 
-The configuration of the path to load the \emph{NED} files can be defined within a configuration files as well as by a command line option (\emph{-n}).
+The configuration of the path to load the \emph{NED} files can be defined within a configuration file as well as by a command line option (\emph{-n}).
 With multiple configurations the values are merged into a combined load path.
 
 The selection of the user interface can be defined via the command line option \emph{-u}.
@@ -268,9 +268,9 @@ The different user interfaces and their functionalities are shown the sections \
 
 OMNeT++ also provides the \emph{oop\_run} tool, which is essentially an empty simulation.
 With this tool a simulation model which is built as shared library can be started.
-With \emph{oop\_run} or any other simulation executable other available command line options are available via \emph{-h}. 
+With \emph{oop\_run} or any other simulation executable all available command line options and their description are acessable via \emph{-h}.
 
-Further configuration options of the configuration file can also be set via the command line interface by preceding the option with \emph{--}.
+Further configuration options of the configuration file can also be set via the command line interface by preceding the option with \emph{-{}-}.
 In case of double configuration the via command line parameter passed value will be preferred. \cite[section 10.1.1, section 10.1.2]{omnet_manual}
 
 \subsection{Configuration}
@@ -283,28 +283,28 @@ When starting a simulation the loaded configuration can be set, therefore multip
 The most essential configuration is the simulated network which is defined by the name of the according \emph{NED} network.
 
 The duration of the simulation can be defined via an ending simulated system, i.e. modules which automatically finish their execution, or a time limit is defined.
-A time limit can either be defined for the simulation time (\emph{sim-time-limit}) or the cpu time (\emph{text-cpu-time-limit}).
+A time limit can either be defined for the simulation time (\emph{sim-time-limit}) or the cpu time (\emph{cpu-time-limit}).
 
-The behavior of the simulation in case of errors and the connection behavior of debuggers can be defined via various options like \emph{debug-on-errors}, \emph{debug-attach-on-error}, etc.. \cite[section 10.1.3]{omnet_manual}
+The behavior of the simulation in case of errors and the connection behavior of debuggers can be defined via various options as \emph{debug-on-errors}, \emph{debug-attach-on-error}, etc.. \cite[section 10.1.3]{omnet_manual}
 
 Specific configuration for the command line user interface are available for controlling the output of a running simulation (\emph{cmdenv-express-mode}, \emph{cmdenv-status-frequency}, \emph{cmdenv-perormance-display}) and the possibility of user interaction (\emph{cmdenv-interactive}).
 The effects of these options are shown in section \ref{sec:omnet_running_cmdenv}.
 
 Parameters of loaded components can be set individually, commonly set via wildcards, or ask from the user.
-Values which are directly set within the \emph{NED} files can not be overwritten from a configuration file.
-Therefore a more flexible simulation model provides the majority of parameters via the configurations.
+Values which are directly set within the \emph{NED} files can not be overwritten by a configuration file.
+Therefore a more flexible simulation model provides the majority of parameters via configurations.
 Parameter of modules can either be set individually by the full path within the simulated hierarchy or commonly set via wildcards. \cite[section 9.3]{omnet_manual}
 
 The configuration of module parameters also allow the definition of value ranges for so called \emph{parameter studies}.
 These \emph{parameter studies} result in multiple simulation runs iterating over all specified parameters.
-Simulating all iterations can be achieved via setting the runnumber passed by command line interface (\emph{-r}) or defined in the configuration (\emph{cmdenv-runs-to-execute}. \cite[section 9.4]{omnet_manual}
+Simulating a specific iteration can be achieved via setting the runnumber passed by command line interface (\emph{-r}) or defined in the configuration (\emph{cmdenv-runs-to-execute}. \cite[section 9.4]{omnet_manual}
 
 Defined via the command line parameter or via the \emph{user-interface} option different user interfaces can the used to start and visualize the simulation.
 
 \subsection{Graphical user interface \emph{Tkenv}}
 \label{sec:omnet_running_tkenv}
 OMNeT++ provides the graphical environment \emph{Tkenv} for running and visualizing simulations.
-The \emph{Tkenv} provides various different possibilities for a graphical presentation of the simulated network, processed events and simulation results.
+\emph{Tkenv} provides various different possibilities for a graphical presentation of the simulated network, processed events and simulation results.
 
 This user interface is useful for developing and debugging a simulation during the development.
 The possibilities to inspect each component within the simulated system provide deep insight in the simulated system.
@@ -329,4 +329,10 @@ Running simulations over a longer period of time the \emph{express mode} is reco
 The frequency of the updates and the printed details can be configured via the \emph{cmdenv-status-frequency} and the \emph{cmdenv-performance-display} options. \cite[section 10.2.3]{omnet_manual}
 
 Simulations defining one ore more parameter studies result in multiple runs which can be defined via a command line parameter or in the configuration.
-For executing multiple runs OMNeT++ provides the \emph{oop\_runall} tool which starts each run in a separate operating system process.. \cite[section 10.4.3]{omnet_manual}
+For executing multiple runs OMNeT++ provides the \emph{oop\_runall} tool which starts each run in a separate operating system process.
+Using multicore/multiprocessor systems \emph{oop\_runall} can execute different simulation runs on different cores/processors. \cite[section 10.4.3]{omnet_manual}
+\\
+
+Running the simulation within \emph{Tkenv} or \emph{Cmdenv} executes it by default sequentially.
+Parallel simulation imposes different requirements on the simulated systems and its design.
+These requirements and the functionality of parallel simulation is analyzed in chapter \ref{cha:parallel_sim}.
