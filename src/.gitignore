@@ -61,3 +61,5 @@ local.properties
 artifacts.xml
 *.instance
 DesignTest/DesignTest
+.tkenvrc
+.tkenvlog
