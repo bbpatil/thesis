@@ -21,10 +21,14 @@ Define_Module(Generator);
 void Generator::initialize()
 {
     // resolve parameter and calc delay
-    mDelay = simtime_t(par("generationInterval"), SimTimeUnit::SIMTIME_NS);
+    mDataDelay = simtime_t(par("generationInterval"), SimTimeUnit::SIMTIME_NS);
+    mCmdDelay = mDataDelay;
+    simtime_t cmdOffset = mDataDelay / 2;
 
-    // schedule starting self message
-    this->scheduleAt(simTime(), createSelfMessage(SelfMessageType::GenerateData));
+    // schedule starting data message
+    scheduleAt(simTime(), createSelfMessage(SelfMessageType::GenerateData));
+    // schedule starting cmd message
+    scheduleAt(simTime() + cmdOffset, createSelfMessage(SelfMessageType::PollingCmd));
 }
 
 void Generator::handleMessage(cMessage *msg)
@@ -51,8 +55,8 @@ void Generator::handleMessage(cMessage *msg)
                 // send message
                 send((cMessage*) pkt, "data");
 
-                // schedule polling cmd
-                this->scheduleAt(simTime() + mDelay, createSelfMessage(SelfMessageType::PollingCmd));
+                // schedule next data cmd
+                scheduleAt(simTime() + mDataDelay, createSelfMessage(SelfMessageType::GenerateData));
 
                 break;
             }
@@ -60,10 +64,8 @@ void Generator::handleMessage(cMessage *msg)
                 // send polling command
                 send(new cMessage(), "pollingCmd");
 
-                // schedule generation cmd
-
-                this->scheduleAt(simTime() + mDelay,
-                        createSelfMessage(SelfMessageType::GenerateData));
+                // schedule next polling cmd
+                scheduleAt(simTime() + mCmdDelay, createSelfMessage(SelfMessageType::PollingCmd));
                 break;
             }
             default:

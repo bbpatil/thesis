@@ -35,7 +35,8 @@ class Generator : public cSimpleModule
         // Member
     private:
         cMessage * createSelfMessage(SelfMessageType type);
-        simtime_t mDelay;
+        simtime_t mDataDelay;
+        simtime_t mCmdDelay;
 };
 
 #endif
