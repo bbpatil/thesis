@@ -1,8 +1,42 @@
-\chapter{Emulation}
+\chapter{Emulation and Hardware in the loop}
 \label{cha:emulation}
+
+The field of emulation and \emph{HiL} is strongly connected to the field of simulation.
+Emulation and \emph{HiL} includes the connection of an simulated system to the real world.
+Such real world systems can either be a software (software in the loop \emph{SiL}) or real hardware components (\emph{HiL}).
+This connection of simulated systems with real systems can be used for testing of those systems.
+Such a test method can test various different scenarios due to the flexibility of the simulated system.
+
+The most essential part for the field of emulation and \emph{HiL} is the connection possibilities of the simulation.
+I.e. the part of the simulation which is communicating with the real world and creates simulation events for occasions from the real world.
+%TODO reference
+
 
 \section{Emulation with OMneT++}
 \label{sec:emulation_omnet}
+For the fields of emulation and \emph{HiL} OMNeT++ provides the sample simulation \emph{sockets} for showing the possibilities and methods for developing an emulation.
 
 \subsection{Existing functionality}
 \label{sec:emulation_omnet_existing}
+As mentioned above the OMNeT++ sample \emph{sockets} demonstrates a possibility for the implementation of a communication interface to the real world.
+The used custom scheduler \emph{SocketRTScheduler} listens to the network interface during wait times.
+This behavior is usable for this demographic usage, but if the timings of the simulated systems sharpen this scheduler would no allow sufficient communication.
+
+
+\section{Communication with the real world}
+The communication module can be represented by two separate simple modules which implement the whole connection to the real world separated to receiving and sending.
+
+\begin{description}
+    \item[Receiving] The receiving module can be implemented using the \emph{process style} strategy described in section \ref{sec:omnet_components_modules}.
+    By using this strategy the module can listen to the communication interface and create simulation events for external occasions.
+    Executing the simulation sequentially does not allow constant listening by such a receiver module, therefore this must be interrupted to allow the execution of the remaining simulation.
+    For this execution method the scheduler \emph{SocketRTScheduler} used in the \emph{sockets} sample provides a more optimized implementation strategy.
+    
+    Using parallel simulation described in chapter \ref{cha:parallel_sim} the receiving module can be implemented blocking.
+    Assigning just the receiving module to a single processor allows a constant listening to the communication interface.
+    This represents an improved behavior and extended possibility for handling real time occasions.
+    
+    \item[Sending] The sending module can be implemented independently of the used execution method, except the sending to the communication interface is implemented blocking.
+    If the blocking is inevitable this module either should be implemented using the \emph{process style} strategy and be executed on a separate processor or the sending must be executed with care to non blocking behavior.
+    Such behavior could be accomplished with timeouts and retries after a defined waiting time while the simulation can proceed.
+\end{description}
