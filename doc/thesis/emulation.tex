@@ -15,6 +15,8 @@ I.e. the part of the simulation which is communicating with the real world and c
 \section{Emulation with OMneT++}
 \label{sec:emulation_omnet}
 For the fields of emulation and \emph{HiL} OMNeT++ provides the sample simulation \emph{sockets} for showing the possibilities and methods for developing an emulation.
+This emulation uses a custom scheduler \emph{SocketRTScheduler}, which is implemented similar to \emph{cRealTimeScheduler} and derived from \emph{cScheduler}.
+The custom scheduler holds a TCP socket for communication with the real world.
 
 \subsection{Existing functionality}
 \label{sec:emulation_omnet_existing}

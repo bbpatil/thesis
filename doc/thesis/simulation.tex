@@ -35,8 +35,6 @@ Using OMNeT++ the \emph{Event-Oriented Paradigm} and the \emph{Process Oriented 
 
 %TODO: enhance and rework existing texts
 
-%By default simulations written with OMNeT++ are discrete event based simulations.
-%More information about the simulation types available in OMNeT++ are given in \cite[section 4.1]{omnet_manual}.
 
 %TODO: check if useful
 %%%%%%%%%% imported from omnet chapter %%%%%%%%%%%%%%%%%%%%%%%%%
@@ -51,7 +49,7 @@ Using OMNeT++ the \emph{Event-Oriented Paradigm} and the \emph{Process Oriented 
 \section{Real time simulation} %TODO: rework and enhance references
 \label{sec:simulation_real_time}
 Real time simulations change the meaning of simulation time.
-The simulated events should be executed at the correct time to match the real-time.
+The simulated events should be executed atSocketRTScheduler the correct time to match the real-time.
 In this context the real-time means the real world time, cpu time, or wall time, i.e. the time which passes for the real world during the execution of the simulation.
 This type of simulation is not possible for every simulated system as the limits are defined by the execution speed of the host system.
 Achieving this match of simulation time and real time is strongly depending on the targeted time resolutions and time spans between events.
@@ -61,6 +59,9 @@ The needed time for calculating new events and reacting to incoming events is de
 
 \section{Simulation with OMNeT++}
 \label{sec:simulation_omnet}
+By default simulations written with OMNeT++ are discrete event based simulations.
+This behavior could be changed with customized scheduler and other parts of the simulation core. \cite[section 4.1]{omnet_manual}
+
 Within OMNeT++ the calculated point in time is called \emph{arrival time}.
 Events are created by modules and then inserted in the so called future event structure (\emph{FES}).
 The simulation core executes all events within the \emph{FES} at the according simulation time.
