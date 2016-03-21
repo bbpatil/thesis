@@ -15,88 +15,88 @@ Continuous simulations handles uninterrupted values over a simulated time range.
 This behavior may be determined by equations describing the system.
 For correct simulation of a continuous system the model must be executed for the whole simulated time range. \cite[section 1.2.1]{mchaney2009understanding}
 
-Simulations in the field of real-time communication is based on discrete events at specific points in time, e.g. receiving of data.
-The continuous processing of occasions in between events is often not necessary.
-Therefore an discrete event simulation (\emph{DES}) is more applicable.
+Simulations in the field of real-time communication is based on discrete events at specific points in time, e.g. the receiving of data.
+The continuous processing of occasions in between events is often not necessary, therefore a discrete event simulation (\emph{DES}) is more applicable.
 
 \section{Discrete event simulation}
 \label{sec:simulation_event}
 This type of simulation is based on processing discrete events.
-During the processing of events the simulation time does not advance and the required time is not considered in simulation time.
-The simulation time is advancing with multiple processed events and their defined point in simulation time for execution.
+During the processing of events the simulation time does not advance and the required processing time is not considered in simulation time.
+The simulation time is advancing with multiple processed events and their defined point in simulation time.
 In between two consecutive events no processing or changes of the system state is happening. \cite[chapter 1]{matloff_introduction_2008}
 
 The assumption is that no, for simulation relevant, events and changes are happening in between two consecutive events.
-This exclusion is done by the implementation of the simulated model.
+This exclusion is done by the implementation of the simulated model and must be done with care to the intention of simulation.
 Simulating a real world system therefore requires a filtering of interesting occasions. \cite[section 4.1.1]{omnet_manual}
 
-The implementation of a \emph{DES} can be done in various ways using different strategies or paradigms. \cite[chapter 2]{matloff_introduction_2008}
+The implementation of a \emph{DES} can be done in various ways using different strategies or paradigms.
+In \cite[chapter 2]{matloff_introduction_2008} Matloff introduced different paradigms to realize a \emph{DES}.
 Using OMNeT++ the \emph{Event-Oriented Paradigm} and the \emph{Process Oriented Paradigm} are applicable and can be achieved as described in section \ref{sec:omnet_components_modules}.
 
-%TODO: enhance and rework existing texts
+The usage of the \emph{handleMessage} method matches the \emph{Event-Oriented Paradigm} and allows the event based development behavior.
+The \emph{Process Oriented Paradigm} can be realized by using the \emph{activity} method and represents the \emph{process style} strategy.
 
+The discussed types of simulations belong to the group of \emph{offline simulations} i.e. the simulation time is not connected to the processing time.
+Approaching the fields of emulation and \emph{HiL} the handling of simulation time becomes significant and the behavior of \emph{offline simulations} are unusable.
+These fields demand the type of real-time simulation.  \cite[section III.B]{belanger_what_2010}
 
-%TODO: check if useful
-%%%%%%%%%% imported from omnet chapter %%%%%%%%%%%%%%%%%%%%%%%%%
-% Handling these events can be done in various ways and define the type of the implemented simulation.
-% Simulations based on events are event based discrete simulations.
-% The definitions of this type and the explan
-% Handling these events can be done in various ways and define the type of implemented simulation.
-% These simulations based on events are event based discrete simulations, the definitions of this type and the explanation of different simulation types are shown in the next section.
-
-
-
-\section{Real time simulation} %TODO: rework and enhance references
+\section{Real-time simulation}
 \label{sec:simulation_real_time}
-Real time simulations change the meaning of simulation time.
-The simulated events should be executed atSocketRTScheduler the correct time to match the real-time.
-In this context the real-time means the real world time, cpu time, or wall time, i.e. the time which passes for the real world during the execution of the simulation.
-This type of simulation is not possible for every simulated system as the limits are defined by the execution speed of the host system.
-Achieving this match of simulation time and real time is strongly depending on the targeted time resolutions and time spans between events.
-The needed time for calculating new events and reacting to incoming events is defined by the executed functions and is therefore defined by the simulated system.
+Real-time simulations change the meaning of simulation time and add a connection to the real-time.
+The simulated events should be executed at the correct time to match the real-time.
+In this context the real-time represents the real world time, cpu time, or wall time, i.e. the time which passes for the real world during the execution of the simulation.
+Running a real-time simulation results in processing a simulated second within an elapsing real world second.
+This type of simulation is not possible for every simulated system as the limits are defined by the execution speed.
 
+The achieved execution speeds are strongly depending on the following factors:
+\begin{description}
+    \item[Model] The complexity of the simulated model, i.e. the functionality to process events affects the achievable execution speed.
+    \item[Host system] The properties of the host system used for running the simulation define the possible execution capabilities and therefore the performance of the executed simulations.
+\end{description}
+
+If the execution of the models behavior for reacting to an event takes more processing time than the simulated duration (timespan to next event), the simulation lags behind the real world behavior.
+Such a erroneous behavior must be corrected by the simulation core by speeding up the simulation, for example by decreasing idle times in between events.
+The correction of such behavior results in an increased jitter (variance of event execution time).
+ \cite[section III.B]{belanger_what_2010}
 
 
 \section{Simulation with OMNeT++}
 \label{sec:simulation_omnet}
 By default simulations written with OMNeT++ are discrete event based simulations.
-This behavior could be changed with customized scheduler and other parts of the simulation core. \cite[section 4.1]{omnet_manual}
+This behavior defined by the scheduler and the simulation core, which can be tailored by using custom scheduler. \cite[section 4.1]{omnet_manual}
 
 Within OMNeT++ the calculated point in time is called \emph{arrival time}.
 Events are created by modules and then inserted in the so called future event structure (\emph{FES}).
 The simulation core executes all events within the \emph{FES} at the according simulation time.
 
 The main part of the simulation core of OMNeT++ which controls the event handling is the scheduler.
-This scheduler accesses the \emph{FES} and chooses the next event to be handled by the simulation.
+The scheduler accesses the \emph{FES} and chooses the next event to be handled by the simulation.
 The class \emph{cScheduler} represents the interface which is required for an event scheduler usable in OMNeT++.
 By default the derived class \emph{cSequentialScheduler} is used.
 This scheduler implements the default discrete event based simulation and handles the events according to their execution time, scheduling priority and scheduled time.
-The scheduling priority provides a mechanism for controlling the execution order of multiple events at the same time.
-The functionality and the ordering of the executed events by the \emph{cSequentialScheduler} are explained in \cite[section 4.1]{omnet_manual}.
-
-Approaching the fields of emulation and \emph{HiL} the discrete event based simulation is not applicable.
-For such applications the type of real time simulation is required.
+The scheduling priority provides a mechanism for controlling the execution order of multiple events at the same time. \cite[section 4.1]{omnet_manual}.
 \\
 
-
-
-% OMNeT
-Lightweight simple modules with plain functions can be simulated with faster event frequencies than compound modules consisting of multiple modules with complex behavior.
+% OMNeT - real time excution payload
+%Lightweight simple modules with plain functions can be simulated with faster event frequencies than compound modules consisting of multiple modules with complex behavior.
 
 Approaches to executing the type of real-time simulations are implemented in the \emph{cRealTimeScheduler} within OMNeT++.
 This scheduler executes the events according to their planned arrival time.
 The arrival time of the next event is compared with the current real time.
 When the simulation is ahead of the real time, the simulation is paused for the remaining time.
-The \emph{cRealTimeScheduler} waits in hard-coded 100 ms chunks for achieving a responsive simulation.
-For emulations and \emph{HiL} this concept is not applicable, because the communication with real components does not allow a sleep time.
-The OMNeT++ sample \emph{sockets} demonstrates this problem and a possible solution with a custom scheduler implementing the \emph{cScheduler} class.
-This custom scheduler named \emph{SocketRTScheduler} listens to the network interface during the times when the simulation has to wait until the next event should be executed.
-This allows the receiving of packets from real clients and the connection of the simulated components with real ones.
-The implementation of \emph{SocketRTScheduler} is not fully optimized and is intended to show the possibility of emulation and \emph{HiL} using OMNeT++.
+The \emph{cRealTimeScheduler} waits in hard-coded 100 ms chunks for allowing a responsive simulation including graphical updates.
+This provided scheduler does not handle a lagging simulation in a special way and simply skips the waiting times within the method \emph{getNextEvent}. \cite[cRealTimeScheduler]{omnet_api}
 
+%TODO: enhance sectioning and organize paragraphs
+
+%For emulations and \emph{HiL} this concept is not applicable, because the communication with real components does mostly not allow a such a static sleep time.
+%The OMNeT++ sample \emph{sockets} demonstrates this problem and a possible solution with a custom scheduler implementing the \emph{cScheduler} class.
+%This custom scheduler named \emph{SocketRTScheduler} listens to the network interface during the times when the simulation has to wait until the next event should be executed.
+%This allows the receiving of packets from real clients and the connection of the simulated components with real ones.
+%The implementation of \emph{SocketRTScheduler} is not fully optimized and is intended to show the possibility of emulation and \emph{HiL} using OMNeT++.
+
+% omnet++ real time handling/correction
 Handling a simulation which is faster than the real world system can be done in various ways as demonstrated by \emph{cRealTimeScheduler} and \emph{SocketRTScheduler}.
-The implementation of the scheduler and a description of their functionality can be found in the OMNeT++ sources and samples or in the API reference \cite{omnet_api}.
-
 If the simulation is lagging behind the real-time, the scheduler must try to speed up the simulation and catch up to the real time.
 The \emph{cRealTimeScheduler} executes the next events immediately and therefore skipping sleep times.
 With this behavior the task of catching up to the real-time becomes very difficult for complex simulations with tight timings.
@@ -115,10 +115,12 @@ Therefore the ideal results can be achieved by writing a custom real time schedu
 The sample scheduler provided by \emph{cRealTimeScheduler} and \emph{SocketRTScheduler} can lead to the correct strategy of implementing an optimized scheduler.
 
 The host machine for the simulation and its components affect the achieved simulation times.
-The dependencies of the host system and the results of existing researches is shown in section \ref{sec:parallel_sim_requriements}.
+The dependencies of the host system and the results of existing researches is shown in section \ref{sec:simulation_requirements}.
 
 Developing the simulation of a given system results in the situation of existing code.
 This code must be encapsulated in modules be executed depending on incoming messages and therefore creating new message for sending.
 Given systems can be designed in various hierarchies in sight of number of modules and complexity of simple modules.
 The different designs and their effect on real time simulation is shown in the chapter \ref{cha:design}.
 
+\section{System requirements}
+\label{sec:simulation_requirements}
