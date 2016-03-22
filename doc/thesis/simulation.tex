@@ -13,7 +13,8 @@ Differences are shown in the processing of the simulated systems and in the hand
 \label{sec:simulation_cont}
 Continuous simulations handles uninterrupted values over a simulated time range.
 This behavior may be determined by equations describing the system.
-For correct simulation of a continuous system the model must be executed for the whole simulated time range. \cite[section 1.2.1]{mchaney2009understanding}
+For correct simulation of a continuous system the model must be executed for the whole simulated time range.
+These simulations are usable for scenarios when the waveform of specific models are requested. \cite[section 1.2.1]{mchaney2009understanding}
 
 Simulations in the field of real-time communication is based on discrete events at specific points in time, e.g. the receiving of data.
 The continuous processing of occasions in between events is often not necessary, therefore a discrete event simulation (\emph{DES}) is more applicable.
@@ -25,18 +26,25 @@ During the processing of events the simulation time does not advance and the req
 The simulation time is advancing with multiple processed events and their defined point in simulation time.
 In between two consecutive events no processing or changes of the system state is happening. \cite[chapter 1]{matloff_introduction_2008}
 
-The assumption is that no, for simulation relevant, events and changes are happening in between two consecutive events.
+The assumption is that no, for simulation relevant, events are happening in between two consecutive events.
 This exclusion is done by the implementation of the simulated model and must be done with care to the intention of simulation.
-Simulating a real world system therefore requires a filtering of interesting occasions. \cite[section 4.1.1]{omnet_manual}
+Simulating a real world system therefore requires a filtering of occasions for focusing on the simulations goal. \cite[section 4.1.1]{omnet_manual}
 
 The implementation of a \emph{DES} can be done in various ways using different strategies or paradigms.
 In \cite[chapter 2]{matloff_introduction_2008} Matloff introduced different paradigms to realize a \emph{DES}.
-Using OMNeT++ the \emph{Event-Oriented Paradigm} and the \emph{Process Oriented Paradigm} are applicable and can be achieved as described in section \ref{sec:omnet_components_modules}.
+Using OMNeT++ the \emph{Event-Oriented Paradigm} and the \emph{Process-Oriented Paradigm} are applicable and can be achieved as following:
 
-The usage of the \emph{handleMessage} method matches the \emph{Event-Oriented Paradigm} and allows the event based development behavior.
-The \emph{Process Oriented Paradigm} can be realized by using the \emph{activity} method and represents the \emph{process style} strategy.
+\begin{itemize}
+    \item The usage of the \emph{handleMessage} method matches the \emph{Event-Oriented Paradigm} and allows the event based development behavior.
+    \item The \emph{Process-Oriented Paradigm} can be realized by using the \emph{activity} method and represents the \emph{process style} strategy.
+\end{itemize}
 
-The discussed types of simulations belong to the group of \emph{offline simulations} i.e. the simulation time is not connected to the processing time.
+The \emph{Activity-Oriented Paradigm} could be also implemented within OMNeT++ by using either the \emph{activity} or the \emph{handleMessage} method.
+This paradigm would require the implementation of an own polling module which checks regularly for new events or activity of other modules.
+This implementation would replace and bypass the handling and scheduling of messages in OMNeT++ and is not recommendable. \cite[chapter 2.1]{matloff_introduction_2008}
+\\
+
+The above discussed types of simulations belong to the group of \emph{offline simulations} i.e. the simulation time is not connected to the processing time.
 Approaching the fields of emulation and \emph{HiL} the handling of simulation time becomes significant and the behavior of \emph{offline simulations} are unusable.
 These fields demand the type of real-time simulation.  \cite[section III.B]{belanger_what_2010}
 
@@ -46,12 +54,14 @@ Real-time simulations change the meaning of simulation time and add a connection
 The simulated events should be executed at the correct time to match the real-time.
 In this context the real-time represents the real world time, cpu time, or wall time, i.e. the time which passes for the real world during the execution of the simulation.
 Running a real-time simulation results in processing a simulated second within an elapsing real world second.
-This type of simulation is not possible for every simulated system as the limits are defined by the execution speed.
+This type of simulation is not possible for every simulated system as the limits are defined by the time required to execute the operations defined by the model.
 
 The achieved execution speeds are strongly depending on the following factors:
 \begin{description}
     \item[Model] The complexity of the simulated model, i.e. the functionality to process events affects the achievable execution speed.
+                 Simple functionalities can be executed faster than calls to complex libraries.
     \item[Host system] The properties of the host system used for running the simulation define the possible execution capabilities and therefore the performance of the executed simulations.
+                       This dependency is described in section \ref{sec:simulation_requirements}.
 \end{description}
 
 If the execution of the models behavior for reacting to an event takes more processing time than the simulated duration (timespan to next event), the simulation lags behind the real world behavior.
@@ -124,3 +134,8 @@ The different designs and their effect on real time simulation is shown in the c
 
 \section{System requirements}
 \label{sec:simulation_requirements}
+The host system for the simulation is very important regarding speed and achievable timings of a real time simulation.
+The limitations of achievable timings of a real time simulations are defined by the execution speed of the simulated code plus the time for executing the simulation around it.
+Assuming the \emph{RAM} (random access memory) of the host systems is large enough to hold the complete simulation code and data, the limit is defined by the execution speed of the code.
+Which is affected by the \emph{CPU} (central processing unit) speed and the speed of connected memories.
+These memories include the \emph{RAM}, every cache and register which is used for holding simulation code and data.

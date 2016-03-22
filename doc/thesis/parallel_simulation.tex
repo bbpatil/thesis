@@ -8,3 +8,12 @@ Running a \emph{OMNeT++} simulation using multiple processors different requirem
 
 For a parallel simulation a message passing interface (\emph{MPI}) library must be provided.
 For linux machines the open source library openMPI can be easily used.
+
+
+% imported from paper
+As described in \cite{varga_parallel_2003} OMNeT++ is capable of running a parallel simulation when specific requirements are met.
+In \cite{varga_parallel_2003} the requirements include the compliance to OMNeT++ design guides, for example the strict usage of messages and channels for transmitting events and data.
+Is this requirement not met and communication between modules was achieved by a direct method call the simulation cannot be executed parallel.
+Running the simulation parallelized can achieve better timings and improve the performance of real time simulations
+This improvement could be possible due to shortened execution times and also the extended possibility for emulation and the field of \emph{HiL}.
+For this usage a module can be assigned to a logical processor and handle all messages which interfere with connected real systems.
