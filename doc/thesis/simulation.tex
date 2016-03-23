@@ -35,17 +35,17 @@ In \cite[chapter 2]{matloff_introduction_2008} Matloff introduced different para
 Using OMNeT++ the \emph{Event-Oriented Paradigm} and the \emph{Process-Oriented Paradigm} are applicable and can be achieved as following:
 
 \begin{itemize}
-    \item The usage of the \emph{handleMessage} method matches the \emph{Event-Oriented Paradigm} and allows the event based development.
+    \item The usage of the \emph{handleMessage} method matches the \emph{Event-Oriented Paradigm} and allows event based development.
     \item The \emph{Process-Oriented Paradigm} can be realized by using the \emph{activity} method and represents the \emph{process style} strategy.
 \end{itemize}
 
-The \emph{Activity-Oriented Paradigm} could be also implemented within OMNeT++ by using either the \emph{activity} or the \emph{handleMessage} method.
+The \emph{Activity-Oriented Paradigm} could also be implemented within OMNeT++ by using either the \emph{activity} or the \emph{handleMessage} method.
 This paradigm would require the implementation of an own polling module which checks regularly for new events or activity of other modules.
 This implementation would replace and bypass the handling and scheduling of messages in OMNeT++ and is not recommendable. \cite[chapter 2.1]{matloff_introduction_2008}
 \\
 
 The above discussed types of simulations belong to the group of \emph{offline simulations} i.e. the simulation time is not connected to the processing time.
-Approaching the fields of emulation and \emph{HiL} the handling of simulation time becomes significant and the behavior of \emph{offline simulations} are unusable.
+Approaching the fields of emulation and \emph{HiL} such a connection is necessary and the behavior of \emph{offline simulations} are unusable.
 These fields demand the type of real-time simulation.  \cite[section III.B]{belanger_what_2010}
 
 \section{Real-time simulation}
