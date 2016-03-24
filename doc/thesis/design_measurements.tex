@@ -59,6 +59,9 @@ The required time for this simulation represents the performance of the simulati
 \label{sec:measurements_methods_event}
 By defining a fixed execution time limit (\emph{cpu-time-limit}) and using the default scheduler the simulation will run for a fixed time.
 The number of processed events within this fixed time represents the performance of the simulation.
+The simulation of different designs results in contrasting event counts due to the increased number of messages within a modular design.
+Therefore for evaluating the created number within a fixed processing time the ratio of event creation must be determined.
+This ratio can be measured using the previous method.
 
 \subsection{Real time behavior}
 \label{sec:measurements_methods_realtime}
