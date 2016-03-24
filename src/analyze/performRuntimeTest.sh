@@ -45,7 +45,7 @@ function run {
 
 function printUsage {
     echo "USAGE:"
-    echo "  $(basename $0) [options]"
+    echo "  $(basename $0) [options] SIMEXEC [SIM_OPTIONS]"
     echo "    SIMEXEC ...... simulation executable"
     echo "    SIM_OPTIONS .. additional options and parameters are passed to simulation"
     echo "                   executable"
@@ -88,7 +88,7 @@ while getopts "hvd" opt; do
 done
 
 # check parameter
-if [ $# -lt 2 ]; then
+if [ $# -lt 1 ]; then
     error "Invalid number of parameter"
     printUsage
     exit 1
@@ -141,11 +141,15 @@ log "analyze results"
 for FILE in $OUTPUTFOLDER/*
 do
     CONFIG=$(echo $FILE | grep -o -P $REGEX_GET_CONFIG)
-    TIME=$(grep -o -P $REGEX_GET_ELAPSED_TIME $FILE)
+    echo ${#CONFIG[*]}
+    if [ -n $CONFIG ]; then
     
-    log "configuration $CONFIG resulted with: $TIME"
+        #TIME=$(grep -o -P $REGEX_GET_ELAPSED_TIME $FILE)
     
-    echo "$CONFIG$RESULT_SEP$TIME" >> $OUTPUTFOLDER/$RESULTFILE
+        #log "configuration $CONFIG resulted with: $TIME"
+    
+        #echo "$CONFIG$RESULT_SEP$TIME" >> $OUTPUTFOLDER/$RESULTFILE
+    fi
 done
 
 # print final message
