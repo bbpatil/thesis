@@ -4,12 +4,10 @@
 # date: 23.03.2016
 # name: Franz Profelt
 # email: franz.profelt@gmail.com
-# description: script for performing the runtime test
+# description: script for performing the runtime test of an OMNeT++ simulation
 
 VERSION=0.0.1
 DRYRUN=false
-PRINT=false
-RAMDISK=false
 
 function error {
     echo -e "\e[31mERROR: $@\e[0m"
@@ -59,8 +57,10 @@ function printUsage {
     echo "    -d ........... dry run, print parameter but don't execute simulation"
     echo ""
     echo "Additional settings available via environment parameter:"
-    echo "RESULTFILE ... generated file with gathered results"
-    echo "SEPERATOR ... seperator between results"
+    echo "RESULTFILE ..... generated file with gathered results"
+    echo "SEPERATOR ...... seperator between results"
+    echo "OUTPUTFOLDER ... folder for generated output files"
+    echo "OUTPUTPREFIX ... prefix for generated output files"
 }
 
 # parse optional parameters
@@ -110,6 +110,14 @@ else
 fi
 
 
+if [ -z $OUTPUTFOLDER ]; then
+    export OUTPUTFOLDER=output
+fi
+
+if [ -z $OUTPUTPREFIX ]; then
+    export OUTPUTPREFIX=realtime
+fi
+
 
 # print start message
 log1 "$(basename $0) called at $(date) with parameter:"
@@ -117,8 +125,6 @@ log1 "  RESULTFILE   = $RESULTFILE"
 log1 "  SEPERATOR    = $RESULT_SEP"
 
 # settings for tconf
-export OUTPUTFOLDER=output
-export OUTPUTPREFIX=out
 export SEPERATOR=.
 
 

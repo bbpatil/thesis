@@ -9,7 +9,6 @@
 
 VERSION=0.0.1
 DRYRUN=false
-PRINT=false
 RAMDISK=false
 
 function error {
@@ -61,7 +60,6 @@ function printUsage {
     echo "    -h ........... printing help message"
     echo "    -v ........... print current version"
     echo "    -d ........... dry run, print parameter but don't execute simulation"
-    echo "    -p ........... write output of simulation directly to console"
     echo "    -r ........... if no OUTPUTFOLDER is defined the files will be created at"
     echo "                   /media/ramdisk/configTest/"
     echo ""
@@ -74,7 +72,7 @@ function printUsage {
 
 
 # parse optional parameters
-while getopts "hvdpr" opt; do
+while getopts "hvdr" opt; do
     case $opt in
     h)
         echo "$(basename $0)"
@@ -90,10 +88,6 @@ while getopts "hvdpr" opt; do
         ;;
     d)
         DRYRUN=true
-        shift
-        ;;
-    p)
-        PRINT=true
         shift
         ;;
     r)
