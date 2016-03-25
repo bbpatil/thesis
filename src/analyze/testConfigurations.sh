@@ -176,4 +176,4 @@ done
 
 
 # print final message
-log1 "$(basename $0) finished ad $(date)"
+log1 "$(basename $0) finished at $(date)"

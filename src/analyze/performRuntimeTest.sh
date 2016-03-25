@@ -132,25 +132,42 @@ export SEPERATOR=.
 CONFIGS=(Modular Monolithic)
 
 REGEX_GET_ELAPSED_TIME='(?<=Elapsed:\s)(\d+\.?\d*s)(?=\s\(.*100%)'
-REGEX_GET_CONFIG="(?<=$OUTPUTFOLDER\/$OUTPUTPREFIX\\$SEPERATOR)\w+(?=\\$SEPERATOR.+)"
+REGEX_GET_CONFIG='[^\s^/.]+(?=\..+)'
 
+# execute simulations
 run tconf ${#CONFIGS[*]} ${CONFIGS[*]} $SIMEXEC $SIM_OPTIONS
+
+# check if results file does not yet exist
+if [ ! -f $OUTPUTFOLDER/$RESULTFILE ]; then
+    log "write header of result file"
+    if [ ! $DRYRUN ]; then
+        echo "Prefix"$RESULT_SEP"Configuration"$RESULT_SEP"Runtime"$RESULT_SEP"JobId" >> $OUTPUTFOLDER/$RESULTFILE
+    fi
+fi
 
 log "analyze results"
 
 for FILE in $OUTPUTFOLDER/*
 do
-    CONFIG=$(echo $FILE | grep -o -P $REGEX_GET_CONFIG)
-    echo ${#CONFIG[*]}
-    if [ -n $CONFIG ]; then
+    PARTS=($(echo $FILE | grep -o -P $REGEX_GET_CONFIG))
+    if [ "${PARTS[0]}" == "$OUTPUTPREFIX" ]; then
+        
+        CONFIG=${PARTS[1]}
+        
+        TIME=$(grep -o -P $REGEX_GET_ELAPSED_TIME $FILE)
     
-        #TIME=$(grep -o -P $REGEX_GET_ELAPSED_TIME $FILE)
-    
-        #log "configuration $CONFIG resulted with: $TIME"
-    
-        #echo "$CONFIG$RESULT_SEP$TIME" >> $OUTPUTFOLDER/$RESULTFILE
+        log "configuration $CONFIG resulted with: $TIME"
+        
+        if [ ! $DRYRUN ]; then
+            # check job information
+            if [ ${#PARTS[*]} -gt 3 ]; then
+                run $(echo "$OUTPUTPREFIX$RESULT_SEP$CONFIG$RESULT_SEP$TIME$RESULT_SEP${PARTS[3]}" >> $OUTPUTFOLDER/$RESULTFILE)
+            else
+                run $(echo "$OUTPUTPREFIX$RESULT_SEP$CONFIG$RESULT_SEP$TIME" >> $OUTPUTFOLDER/$RESULTFILE)
+            fi
+        fi
     fi
 done
 
 # print final message
-log1 "$(basename $0) finished ad $(date)"
+log1 "$(basename $0) finished at $(date)"
