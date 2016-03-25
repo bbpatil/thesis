@@ -63,3 +63,4 @@ artifacts.xml
 DesignTest/DesignTest
 .tkenvrc
 .tkenvlog
+output/
