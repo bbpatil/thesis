@@ -158,7 +158,7 @@ do
     
         log "configuration $CONFIG resulted with: $TIME"
         
-        if [ ! $DRYRUN ]; then
+        if ! $DRYRUN ; then
             # check job information
             if [ ${#PARTS[*]} -gt 3 ]; then
                 run $(echo "$OUTPUTPREFIX$RESULT_SEP$CONFIG$RESULT_SEP$TIME$RESULT_SEP${PARTS[3]}" >> $OUTPUTFOLDER/$RESULTFILE)
