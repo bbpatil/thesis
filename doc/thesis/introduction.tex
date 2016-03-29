@@ -1,17 +1,21 @@
 \chapter{Introduction}
 \label{cha:introduction}
-This thesis is intended to analyze the simulation framework \emph{OMNeT++} and the possibilities for real-time simulation and emulation of a real time communication network.
-Furthermore the simulation, real-time simulation and emulation of the real-time communication network POWERLINK with its implementation openPOWERLINK is implemented and analyzed.
+This thesis is intended to analyze the simulation framework \emph{OMNeT++} \cite{omnet_manual} and the possibilities for real-time simulation and emulation of a real time communication network.
+Furthermore a simulation of the real-time communication protocol POWERLINK and its open source implementation openPOWERLINK \cite{openpowerlink} is implemented. %TODO: add ref to POWERLINK
+This simulation is also analyzed regarding real-time simulation and emulation capabilities.
 
 \section{Motivation}
-In the field of embedded systems the testing of developed applications and systems may bring up different problems due to limited access and resources.
-Due to the increased difficulties for the testing of running systems the need for simulations is getting stronger.
+% needs and requirements for embedded systems
+The fields of embedded systems and real-time communication entail critical requirements for timings and deterministic behavior.
+The development of systems meeting those requirements can be very difficult due to the lack of possibilities for sufficient testing.
+A variable testing environment is easing the development and verification of such systems.
+The correct replication of complex scenarios and special operating conditions is not always possible.
+Therefore the need for simulation is gaining importance with increasing complexity of embedded systems.
 
-During the development of various systems a existing simulation is useful for testing newly developed features.
-
-Extended functionalities of simulation frameworks allows the usage as real time simulation.
-By simulating a system in real time, i.e. the simulated time passes according to the real (world) time, the fields of emulation and hardware in the loop (\emph{HiL}).
-These fields are necessary for testing embedded systems, due to the increased possibilities of testing scenarios.
+% real world simulation
+Extended functionalities of simulation frameworks allows the usage as real-time simulation.
+By simulating a system in real time, i.e. the simulated time passes according to the real (world) time, these simulations can be used in the fields of emulation and hardware in the loop (\emph{HiL}).
+These fields are necessary for testing embedded systems, due to the increased possibilities of testing scenarios and setups.
 
 % benefits for development
 The development benefits from the enhanced possibilities of testing the system under development.
@@ -25,4 +29,3 @@ Improved testing increases the chance of detecting a mistake before introducing 
 
 \section{Purpose}
 %TODO
-
