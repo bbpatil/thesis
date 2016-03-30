@@ -1,10 +1,10 @@
 #! /bin/bash
 
 
-# date: 23.03.2016
+# date: 30.03.2016
 # name: Franz Profelt
 # email: franz.profelt@gmail.com
-# description: script for performing the runtime test of an OMNeT++ simulation
+# description: script for performing the event test of an OMNeT++ simulation
 
 VERSION=0.0.1
 DRYRUN=false
@@ -72,7 +72,7 @@ while getopts "hvd" opt; do
     case $opt in
     h)
         echo "$(basename $0) SIMEXEC [SIM_OPTIONS]"
-        echo "  script for performing the runtime test"
+        echo "  script for performing the event test"
         printUsage
         echo "Version $VERSION"
         echo "(c) Franz Profelt 2016"
@@ -104,7 +104,7 @@ SIM_OPTIONS=$@
 
 
 if [ -z $RESULTFILE ]; then
-    RESULTFILE=runtimeResults.txt 
+    RESULTFILE=eventResults.txt 
 fi
 
 if [ -z $SEPERATOR ]; then
@@ -119,7 +119,7 @@ if [ -z $OUTPUTFOLDER ]; then
 fi
 
 if [ -z $OUTPUTPREFIX ]; then
-    export OUTPUTPREFIX=runtime
+    export OUTPUTPREFIX=event
 fi
 
 # check necessary commands
@@ -138,22 +138,21 @@ log1 "  SEPERATOR    = $RESULT_SEP"
 # settings for tconf
 export SEPERATOR=.
 
-
 # local settings
 CONFIGS=(Modular Monolithic)
-CPU_TIME_OPT=--cpu-time-limit=0
+SIM_TIME_OPT=--sim-time-limit=0
 
-REGEX_GET_ELAPSED_TIME='(?<=Elapsed:\s)(\d+\.?\d*s)(?=\s\(.*100%)'
+REGEX_GET_CREATED_EVENTS='(?<=simulation\sstopped\sat\sevent\s#)(\d*)(?=,\s)'
 REGEX_GET_CONFIG='[^\s^/.]+(?=\..+)'
 
 # execute simulations
-run $TCONF ${#CONFIGS[*]} ${CONFIGS[*]} $SIMEXEC $CPU_TIME_OPT $SIM_OPTIONS
+run $TCONF ${#CONFIGS[*]} ${CONFIGS[*]} $SIMEXEC $SIM_TIME_OPT $SIM_OPTIONS
 
 # check if results file does not yet exist
 if [ ! -f $OUTPUTFOLDER/$RESULTFILE ]; then
     log "write header of result file"
     if [ ! $DRYRUN ]; then
-        echo "Prefix"$RESULT_SEP"Configuration"$RESULT_SEP"Runtime"$RESULT_SEP"JobId" >> $OUTPUTFOLDER/$RESULTFILE
+        echo "Prefix"$RESULT_SEP"Configuration"$RESULT_SEP"Eventcount"$RESULT_SEP"JobId" >> $OUTPUTFOLDER/$RESULTFILE
     fi
 fi
 
@@ -166,16 +165,16 @@ do
         
         CONFIG=${PARTS[1]}
         
-        TIME=$(grep -o -P $REGEX_GET_ELAPSED_TIME $FILE)
+        EVENTS=$(grep -o -P $REGEX_GET_CREATED_EVENTS $FILE)
     
-        log "configuration $CONFIG resulted with: $TIME"
+        log "configuration $CONFIG resulted with: $EVENTS"
         
         if ! $DRYRUN ; then
             # check job information
             if [ ${#PARTS[*]} -gt 3 ]; then
-                run $(echo "$OUTPUTPREFIX$RESULT_SEP$CONFIG$RESULT_SEP$TIME$RESULT_SEP${PARTS[3]}" >> $OUTPUTFOLDER/$RESULTFILE)
+                run $(echo "$OUTPUTPREFIX$RESULT_SEP$CONFIG$RESULT_SEP$EVENTS$RESULT_SEP${PARTS[3]}" >> $OUTPUTFOLDER/$RESULTFILE)
             else
-                run $(echo "$OUTPUTPREFIX$RESULT_SEP$CONFIG$RESULT_SEP$TIME" >> $OUTPUTFOLDER/$RESULTFILE)
+                run $(echo "$OUTPUTPREFIX$RESULT_SEP$CONFIG$RESULT_SEP$EVENTS" >> $OUTPUTFOLDER/$RESULTFILE)
             fi
         fi
     fi
