@@ -47,6 +47,14 @@ function command_exists {
     type "$1" &> /dev/null ;
 }
 
+function ratios_within {
+python - <<END
+import sys
+
+print "hello"
+END
+}
+
 function printUsage {
     echo "USAGE:"
     echo "  $(basename $0) [options] SIMEXEC [SIM_OPTIONS]"
@@ -65,6 +73,8 @@ function printUsage {
     echo "SEPERATOR ...... seperator between results"
     echo "OUTPUTFOLDER ... folder for generated output files"
     echo "OUTPUTPREFIX ... prefix for generated output files"
+    echo "RUNSTART ....... first run number to simulate, default: 0"
+    echo "RUNEND ......... last run number to simulate, default: -1 (all runs)"
 }
 
 # parse optional parameters
@@ -119,14 +129,26 @@ if [ -z $OUTPUTFOLDER ]; then
 fi
 
 if [ -z $OUTPUTPREFIX ]; then
-    export OUTPUTPREFIX=event
+    OUTPUTPREFIX_DEF=realtime
+else
+    OUTPUTPREFIX_DEF=$OUTPUTPREFIX
+fi
+
+if [ -z $RUNSTART ]; then
+    RUNSTART=0
 fi
 
 # check necessary commands
 TCONF=tconf
+ANALYZEPERF=apr
 
 if ! command_exists $TCONF; then
     error "$TCONF command is not in PATH"
+    exit 1
+fi
+
+if ! command_exists $ANALYZEPERF; then
+    error "$ANALYZEPERF command is not in PATH"
     exit 1
 fi
 
@@ -143,8 +165,7 @@ CONFIGS=(Modular Monolithic)
 SIM_TIME_OPT=--sim-time-limit=0
 
 REGEX_GET_NUMBER_OF_RUNS='(?<=Number\sof\sruns:\s)(\d+)'
-REGEX_GET_PERF_RATIO='(\d+\.\d+)(?=\s*ev\/simsec)'
-REGEX_GET_CONFIG='[^\s^/.]+(?=\..+)'
+REGEX_GET_FILENAME_PARTS='[^\s^/.]+(?=\..+)'
 
 # check if results file does not yet exist
 if [ ! -f $OUTPUTFOLDER/$RESULTFILE ]; then
@@ -157,19 +178,56 @@ fi
 # loop through configurations
 for CONFIG in ${CONFIGS[*]}
 do
+    
     # get number of runs
     NUMBER=$($SIMEXEC $SIM_OPTIONS -x $CONFIG | grep -o -P $REGEX_GET_NUMBER_OF_RUNS)
+
+    # check run end
+    if [ -z $RUNEND ]; then
+        RUNEND=$((NUMBER -1))
+    fi
+    
+    if [ $RUNEND -ge $NUMBER ]; then
+        error "Invalid RUNEND defined: $RUNEND"
+        exit 1
+    fi
+    
+    # check run begin
+    if [ $RUNSTART -ge $NUMBER ]; then
+        error "Invalid RUNSTART defined: $RUNSTART"
+        exit 1
+    fi
     
     log "Configuration $CONFIG expands to $NUMBER runs"
     
     # loop through runs
-    # TODO
-    
-        # execute simulation for defined run and configuration
-        # TODO
+    for (( RUN=$RUNSTART; RUN<=$RUNEND; RUN++ ))
+    do
+        log "simulate run $RUN for configuration $CONFIG"
         
-        # [analyze results]
-        #TODO
+        # export outputprefix for tconf
+        export OUTPUTPREFIX=$OUTPUTPREFIX_DEF$SEPERATOR$RUN
+        
+        # execute simulation for defined run and configuration
+        run $TCONF 1 $CONFIG $SIMEXEC $SIM_OPTIONS -r$RUN
+        
+        # analyze results
+        
+        # loop through current result files
+        for FILE in $(find $OUTPUTFOLDER/ -name "$OUTPUTPREFIX$SEPERATOR*")
+        do
+            ratios_within
+            exit
+            # get parts of filename
+            PARTS=($(echo $FILE | grep -o -P $REGEX_GET_FILENAME_PARTS))
+            # get average performance ratio
+            PERFS+=(["${PARTS[3]}"]=$($ANALYZEPERF $FILE))
+        done
+        
+        echo ${PERFS[*]}
+        
+        exit
+    done
     
     # analyze/write results
     # TODO
@@ -184,7 +242,7 @@ log "analyze results"
 
 for FILE in $OUTPUTFOLDER/*
 do
-    PARTS=($(echo $FILE | grep -o -P $REGEX_GET_CONFIG))
+    PARTS=($(echo $FILE | grep -o -P $REGEX_GET_FILENAME_PARTS))
     if [ "${PARTS[0]}" == "$OUTPUTPREFIX" ]; then
         
         CONFIG=${PARTS[1]}

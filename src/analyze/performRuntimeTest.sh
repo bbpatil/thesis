@@ -144,7 +144,7 @@ CONFIGS=(Modular Monolithic)
 CPU_TIME_OPT=--cpu-time-limit=0
 
 REGEX_GET_ELAPSED_TIME='(?<=Elapsed:\s)(\d+\.?\d*s)(?=\s\(.*100%)'
-REGEX_GET_CONFIG='[^\s^/.]+(?=\..+)'
+REGEX_GET_FILENAME_PARTS='[^\s^/.]+(?=\..+)'
 
 # execute simulations
 run $TCONF ${#CONFIGS[*]} ${CONFIGS[*]} $SIMEXEC $CPU_TIME_OPT $SIM_OPTIONS
@@ -161,7 +161,7 @@ log "analyze results"
 
 for FILE in $OUTPUTFOLDER/*
 do
-    PARTS=($(echo $FILE | grep -o -P $REGEX_GET_CONFIG))
+    PARTS=($(echo $FILE | grep -o -P $REGEX_GET_FILENAME_PARTS))
     if [ "${PARTS[0]}" == "$OUTPUTPREFIX" ]; then
         
         CONFIG=${PARTS[1]}

@@ -143,7 +143,7 @@ CONFIGS=(Modular Monolithic)
 SIM_TIME_OPT=--sim-time-limit=0
 
 REGEX_GET_CREATED_EVENTS='(?<=simulation\sstopped\sat\sevent\s#)(\d*)(?=,\s)'
-REGEX_GET_CONFIG='[^\s^/.]+(?=\..+)'
+REGEX_GET_FILENAME_PARTS='[^\s^/.]+(?=\..+)'
 
 # execute simulations
 run $TCONF ${#CONFIGS[*]} ${CONFIGS[*]} $SIMEXEC $SIM_TIME_OPT $SIM_OPTIONS
@@ -160,7 +160,7 @@ log "analyze results"
 
 for FILE in $OUTPUTFOLDER/*
 do
-    PARTS=($(echo $FILE | grep -o -P $REGEX_GET_CONFIG))
+    PARTS=($(echo $FILE | grep -o -P $REGEX_GET_FILENAME_PARTS))
     if [ "${PARTS[0]}" == "$OUTPUTPREFIX" ]; then
         
         CONFIG=${PARTS[1]}
