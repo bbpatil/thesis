@@ -47,12 +47,37 @@ function command_exists {
     type "$1" &> /dev/null ;
 }
 
+# embedded python function for reading all peformance ratios and compare them
+# to the environmental borders
 function ratios_within {
-python - <<END
+python - $* <<END
 import sys
+import os
+import re
 
-print "hello"
+# regex for perf ratio
+REGEX_GET_PERF_RATIO = r'(\d+\.\d+)(?=\s*ev\/simsec)'
+
+
+file = sys.argv[1]
+upperBorder = float(os.getenv("RATIO_UPPER"))
+lowerBorder = float(os.getenv("RATIO_LOWER"))
+
+# open file and read all lines
+with open(file) as f:
+    output = f.read()
+
+# get list of floats from found ratios
+perfs = [float(perf) for perf in re.findall(REGEX_GET_PERF_RATIO, output)]
+
+for perf in perfs:
+    # check condition
+    if lowerBorder > perf or perf > upperBorder:
+        exit(1)
+        
+exit(0)
 END
+return $?
 }
 
 function printUsage {
@@ -74,7 +99,9 @@ function printUsage {
     echo "OUTPUTFOLDER ... folder for generated output files"
     echo "OUTPUTPREFIX ... prefix for generated output files"
     echo "RUNSTART ....... first run number to simulate, default: 0"
-    echo "RUNEND ......... last run number to simulate, default: -1 (all runs)"
+    echo "RATIO_UPPER .... upper border for a valid real time ratio"
+    echo "RATIO_LOWER .... lower border for a valid real time ratio"
+    echo "RUNS_WITHIN .... number of runs that must be within the defined ratio"
 }
 
 # parse optional parameters
@@ -114,7 +141,7 @@ SIM_OPTIONS=$@
 
 
 if [ -z $RESULTFILE ]; then
-    RESULTFILE=eventResults.txt 
+    RESULTFILE=realTimeResults.txt 
 fi
 
 if [ -z $SEPERATOR ]; then
@@ -138,17 +165,27 @@ if [ -z $RUNSTART ]; then
     RUNSTART=0
 fi
 
+if [ -z $RATIO_UPPER ]; then
+    export RATIO_UPPER=1.1
+fi
+
+if [ -z $RATIO_LOWER ]; then
+    export RATIO_LOWER=0.9
+fi
+
+if [ -z $RUNS_WITHIN ]; then
+    RUNS_WITHIN=3
+fi
+
+if [ -z $PAR_NAME ]; then
+    PAR_NAME=delay
+fi
+
 # check necessary commands
 TCONF=tconf
-ANALYZEPERF=apr
 
 if ! command_exists $TCONF; then
     error "$TCONF command is not in PATH"
-    exit 1
-fi
-
-if ! command_exists $ANALYZEPERF; then
-    error "$ANALYZEPERF command is not in PATH"
     exit 1
 fi
 
@@ -156,6 +193,7 @@ fi
 log1 "$(basename $0) called at $(date) with parameter:"
 log1 "  RESULTFILE   = $RESULTFILE"
 log1 "  SEPERATOR    = $RESULT_SEP"
+# TODO enhance
 
 # settings for tconf
 export SEPERATOR=.
@@ -165,13 +203,13 @@ CONFIGS=(Modular Monolithic)
 SIM_TIME_OPT=--sim-time-limit=0
 
 REGEX_GET_NUMBER_OF_RUNS='(?<=Number\sof\sruns:\s)(\d+)'
-REGEX_GET_FILENAME_PARTS='[^\s^/.]+(?=\..+)'
+REGEX_GET_PARAMETER="(?<=\\\$$PAR_NAME=)\\d+"
 
 # check if results file does not yet exist
 if [ ! -f $OUTPUTFOLDER/$RESULTFILE ]; then
     log "write header of result file"
     if [ ! $DRYRUN ]; then
-        echo "Prefix"$RESULT_SEP"Configuration"$RESULT_SEP"Eventcount"$RESULT_SEP"JobId" >> $OUTPUTFOLDER/$RESULTFILE
+        echo "Prefix"$RESULT_SEP"Configuration"$RESULT_SEP"RunNumber"$RESULT_SEP"Parameter" >> $OUTPUTFOLDER/$RESULTFILE
     fi
 fi
 
@@ -182,15 +220,7 @@ do
     # get number of runs
     NUMBER=$($SIMEXEC $SIM_OPTIONS -x $CONFIG | grep -o -P $REGEX_GET_NUMBER_OF_RUNS)
 
-    # check run end
-    if [ -z $RUNEND ]; then
-        RUNEND=$((NUMBER -1))
-    fi
-    
-    if [ $RUNEND -ge $NUMBER ]; then
-        error "Invalid RUNEND defined: $RUNEND"
-        exit 1
-    fi
+    log "Configuration $CONFIG expands to $NUMBER runs"    
     
     # check run begin
     if [ $RUNSTART -ge $NUMBER ]; then
@@ -198,69 +228,70 @@ do
         exit 1
     fi
     
-    log "Configuration $CONFIG expands to $NUMBER runs"
+    WITHIN_COUNTER=0
+    VALID_RUN_NUMBER=
     
     # loop through runs
-    for (( RUN=$RUNSTART; RUN<=$RUNEND; RUN++ ))
+    for (( RUN=$RUNSTART; RUN<$NUMBER; RUN++ ))
     do
         log "simulate run $RUN for configuration $CONFIG"
         
         # export outputprefix for tconf
         export OUTPUTPREFIX=$OUTPUTPREFIX_DEF$SEPERATOR$RUN
         
-        # execute simulation for defined run and configuration
+        # execute simulation for defined run and configuratio
         run $TCONF 1 $CONFIG $SIMEXEC $SIM_OPTIONS -r$RUN
         
         # analyze results
         
+        RUN_VALID=true
+        
         # loop through current result files
-        for FILE in $(find $OUTPUTFOLDER/ -name "$OUTPUTPREFIX$SEPERATOR*")
+        for FILE in $(find $OUTPUTFOLDER/ -name "$OUTPUTPREFIX$SEPERATOR$CONFIG$SEPERATOR*")
         do
-            ratios_within
-            exit
-            # get parts of filename
-            PARTS=($(echo $FILE | grep -o -P $REGEX_GET_FILENAME_PARTS))
-            # get average performance ratio
-            PERFS+=(["${PARTS[3]}"]=$($ANALYZEPERF $FILE))
+            # check if ratios in file are within defined border
+            ratios_within $FILE
+            
+            if [ $? != 0 ]; then
+                RUN_VALID=false
+            fi
         done
         
-        echo ${PERFS[*]}
+        # check if current run was valid
+        if $RUN_VALID; then
+            WITHIN_COUNTER=$((WITHIN_COUNTER+1))
         
-        exit
+            log "run $RUN resulted valid"
+                
+            # check if valid run number is set
+            if [ -z $VALID_RUN_NUMBER ]; then
+                VALID_RUN_NUMBER=$RUN
+            fi
+            
+            # check if necessary runs are analyzed
+            if [ $WITHIN_COUNTER -ge $RUNS_WITHIN ]; then
+                log "$WITHIN_COUNTER consecutive runs matching real time constraints starting at run $VALID_RUN_NUMBER"
+                break;
+            fi
+        else
+            WITHIN_COUNTER=0
+            VALID_RUN_NUMBER=
+        fi
     done
     
-    # analyze/write results
-    # TODO
-done
-
-exit
-
-# execute simulations
-run $TCONF ${#CONFIGS[*]} ${CONFIGS[*]} $SIMEXEC $SIM_TIME_OPT $SIM_OPTIONS
-
-log "analyze results"
-
-for FILE in $OUTPUTFOLDER/*
-do
-    PARTS=($(echo $FILE | grep -o -P $REGEX_GET_FILENAME_PARTS))
-    if [ "${PARTS[0]}" == "$OUTPUTPREFIX" ]; then
+    # check if run was detected
+    if [ -n $VALID_RUN_NUMBER ]; then
         
-        CONFIG=${PARTS[1]}
+        # get parameter of resulting run
+        FILES=($(find $OUTPUTFOLDER/ -name "$OUTPUTPREFIX_DEF$SEPERATOR$VALID_RUN_NUMBER$SEPERATOR$CONFIG$SEPERATOR*"))
+        PAR=$(grep -o -P $REGEX_GET_PARAMETER ${FILES[0]})
         
-        EVENTS=$(grep -o -P $REGEX_GET_CREATED_EVENTS $FILE)
-    
-        log "configuration $CONFIG resulted with: $EVENTS"
-        
-        if ! $DRYRUN ; then
-            # check job information
-            if [ ${#PARTS[*]} -gt 3 ]; then
-                run $(echo "$OUTPUTPREFIX$RESULT_SEP$CONFIG$RESULT_SEP$EVENTS$RESULT_SEP${PARTS[3]}" >> $OUTPUTFOLDER/$RESULTFILE)
-            else
-                run $(echo "$OUTPUTPREFIX$RESULT_SEP$CONFIG$RESULT_SEP$EVENTS" >> $OUTPUTFOLDER/$RESULTFILE)
-            fi
-        fi
+        # write results
+        run $(echo "$OUTPUTPREFIX_DEF$RESULT_SEP$CONFIG$RESULT_SEP$VALID_RUN_NUMBER$RESULT_SEP$VALID_RUN_PAR$RESULT_SEP$PAR" >> $OUTPUTFOLDER/$RESULTFILE)
     fi
+    
 done
+
 
 # print final message
 log1 "$(basename $0) finished at $(date)"
