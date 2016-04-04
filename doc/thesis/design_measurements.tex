@@ -1,7 +1,7 @@
 \chapter{Measurements}
 \label{cha:measurements}
 For measuring different simulation designs a example network was implemented using a monolithic and a modular design.
-The simulation of this network using the different designs is used for analyzing the impact of the design to the performance.
+The simulation of this network using the different designs is used for analyzing the impact of the design on the performance.
 This network simulates a message queue with different types of transmitted data (configuration, event, historical).
 The different types of data are processed by different parts within the network.
 This network includes different parts which generate data and process data.
@@ -33,7 +33,7 @@ The \emph{HistoryManager} accesses the \emph{HistoricalQueue} and processes avai
 This access is initiated by the generated polling commands from the \emph{Generator}.
 \\
 
-The functionality of dispatching and processing of the data is, as shown in Figure \ref{fig:design_test_network}, included in the sink part and is implemented twice with different designs.
+The functionality of dispatching and processing of the data is, as shown in Figure \ref{fig:design_test_network}, is included in the sink and is implemented twice with different designs.
 
 
 Given the implementation of the different parts of the targeted functionality, implementing the \emph{MonolithicSink} consists of instantiating and connecting the different parts within a single simple module.
