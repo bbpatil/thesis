@@ -25,19 +25,19 @@ module ModularSink like ISink
         input pollingCmd;
     submodules:
         dispatcherWrapper: DispatcherWrapper {
-            @display("p=119,76");
+            @display("p=118,147");
         }
         configWrapper: ConfigWrapper {
             @display("p=255,65");
         }
         eventWrapper: EventWrapper {
-            @display("p=255,148");
+            @display("p=255,147");
         }
         historicalQueueWrapper: HistoricalQueueWrapper {
-            @display("p=243,249");
+            @display("p=255,234");
         }
         historyManagerWrapper: HistoryManagerWrapper {
-            @display("p=463,249");
+            @display("p=462,234");
         }
     connections:
         dispatcherWrapper.config --> configWrapper.config;
