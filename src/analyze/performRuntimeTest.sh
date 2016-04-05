@@ -143,11 +143,11 @@ export SEPERATOR=.
 CONFIGS=(Modular Monolithic)
 CPU_TIME_OPT=--cpu-time-limit=0
 
-REGEX_GET_ELAPSED_TIME='(?<=Elapsed:\s)(\d+\.?\d*s)(?=\s\(.*100%)'
+REGEX_GET_ELAPSED_TIME='(?<=Elapsed:\s)(\d+\.?\d*s)(?=\s\(.*10[\d]%)'
 REGEX_GET_FILENAME_PARTS='[^\s^/.]+(?=\..+)'
 
 # execute simulations
-run $TCONF ${#CONFIGS[*]} ${CONFIGS[*]} $SIMEXEC $CPU_TIME_OPT $SIM_OPTIONS
+run $TCONF ${#CONFIGS[*]} ${CONFIGS[*]} $SIMEXEC $SIM_OPTIONS $CPU_TIME_OPT
 
 # check if results file does not yet exist
 if [ ! -f $OUTPUTFOLDER/$RESULTFILE ]; then
