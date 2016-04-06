@@ -1,6 +1,6 @@
 \chapter{Parallel simulation}
 \label{cha:parallel_sim}
-Simulations can be executed sequential using a single processor.
+The so called sequential simulation is executed on a single processor, either logical, physical processor or distributed machines.
 Simulating complex models and a huge number of events this simulation can take long time to execute.
 The distributed discrete event simulation (\emph{DDES}) or parallel discrete event simulation (\emph{PDES}) allows the parallel execution on multiple processors.
 
@@ -12,12 +12,14 @@ Running a \emph{OMNeT++} simulation using multiple processors different requirem
 For a parallel simulation using OMNeT++ different implementations for communication and synchronization must be defined.
 
 \subsection{Communication}
+\label{sec:parallel_omnet_comm}
 
 a message passing interface (\emph{MPI}) library must be provided.
 Rhe open source library openMPI can be used easily linux operating systems.
 
 
 \subsection{Sychronisation}
+\label{sec:parallel_omnet_sync}
 
 % imported from paper
 As described in \cite{varga_parallel_2003} OMNeT++ is capable of running a parallel simulation when specific requirements are met.
