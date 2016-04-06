@@ -21,7 +21,7 @@ package designtest;
 simple Generator
 {
     parameters:
-        double generationInterval @unit(ns) = default(1s);
+        double generationInterval @unit(ns) = default(1ms);
         @class(Generator);
     gates:
         output data;

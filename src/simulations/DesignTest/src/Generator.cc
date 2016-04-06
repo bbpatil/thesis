@@ -48,7 +48,7 @@ void Generator::handleMessage(cMessage *msg)
                 Data data;
                 data.type = static_cast<DataType>(counter++ % 3);
                 data.data =
-                {   123};
+                {123 + counter};
 
                 pkt->setData(data);
 

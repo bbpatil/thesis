@@ -33,17 +33,18 @@ EventManager::~EventManager()
 
 void EventManager::ProcessEvent(Packet packet)
 {
-    // dummy processing
+    // dummy procesing
 
     using intType = long;
     using floatType = float;
     intType dummySum = 0;
-    floatType dummyProduct = 1.2375;
+    floatType dummyProduct = 1.2345;
     multiplies<floatType> multiply;
+    auto mult = bind(multiply, placeholders::_1, ref(dummyProduct));
 
-    for (auto i = 0; i < packet[0] * 1.6; i++)
+    for (auto i = 1; i < packet[0] * 12345; i++)
     {
-        dummySum += accumulate(packet.begin(), packet.end(), 0);
-        for_each(packet.begin(), packet.end(), bind(multiply, placeholders::_1, ref(dummyProduct)));
+        dummySum = accumulate(packet.begin(), packet.end(), dummySum);
+        for_each(packet.begin(), packet.end(), mult);
     }
 }
