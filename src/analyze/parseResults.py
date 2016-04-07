@@ -33,13 +33,15 @@ def parseDuration(durationStr):
         return None
 
 class ResultAnalyzer():
-    def __init__(self, rowDelim = ' ', tagIdx = 0, tagDelim = '_', tagTimeIdx = 2, configIdx = 1, performanceIdx = 2):
+    def __init__(self, rowDelim = ' ', tagIdx = 0, tagDelim = '_', tagTimeIdx = 2, configIdx = 1, performanceIdx = 2, correction=1.0, correctionIdx=1):
         self.rowDelim = rowDelim
         self.tagIdx = tagIdx
         self.tagDelim = tagDelim
         self.tagTimeIdx = tagTimeIdx
         self.configIdx = configIdx
         self.performanceIdx = performanceIdx
+        self.correction = correction
+        self.correctionIdx = correctionIdx
         
     
     def analyzeFile(self, fileName):
@@ -48,13 +50,14 @@ class ResultAnalyzer():
             csvReader = csv.reader(results, delimiter=self.rowDelim)
             
             results = {}
-            
+            # read all rows
             for row in csvReader:
                 parts = row[self.tagIdx].split(self.tagDelim);
                 if len(parts) > self.tagTimeIdx:
+                    # get time
                     time = parseDuration(parts[self.tagTimeIdx])
                 
-                
+                # get performance value
                 performanceValue = parseDuration(row[self.performanceIdx])
                 
                 if not performanceValue:
@@ -63,9 +66,14 @@ class ResultAnalyzer():
                 if time and performanceValue:
                     if not row[self.configIdx] in results.keys():
                         results[row[self.configIdx]] = []
-                    results[row[self.configIdx]].append((time, performanceValue))
-                
-            return results
+                    results[row[self.configIdx]].append([time, performanceValue])
+            
+        
+        # apply correction factor
+        for i in range(0, len(results[results.keys()[self.correctionIdx]])):
+            results[results.keys()[self.correctionIdx]][i][1] *= self.correction
+            
+        return results
         
     def writeOutput(self, fileName, valuesList, headerNames):
         with open(fileName, 'w') as out:
@@ -92,21 +100,28 @@ if __name__ == "__main__":
     parser.add_argument("-o", "--output-dir", dest="output", help="directory for generated output files")
     parser.add_argument("-g", "--generate-results", dest="results", action="store_true", help="flag for generating the results file (ratio and diff) only for 2 configurations")
     parser.add_argument("-i", "--performance-index", dest="index", type=int, help="Index of performance value within row of results file")
+    parser.add_argument("-c", "--correction-factor", dest="correction", type=float, help="Correction value for the performance value of the second configuration")
     args = parser.parse_args()
     
     print("started")
     
     fileName = args.fileName
+    #fileName= "realTimeResults.txt"
     
     parts = fileName.split('.')
     filePrefix = '.'.join(parts[:-1])
     fileExt = parts[-1]
     fileBasename = path.splitext(path.basename(fileName))[0]
     
-    if args.index:
-        analyzer = ResultAnalyzer(performanceIdx=args.index)
+    if args.correction:
+        corr = args.correction
     else:
-        analyzer = ResultAnalyzer()
+        corr = 1.0
+    
+    if args.index:
+        analyzer = ResultAnalyzer(performanceIdx=args.index, correction=corr)
+    else:
+        analyzer = ResultAnalyzer(correction=corr)
     
     results = analyzer.analyzeFile(fileName)
     

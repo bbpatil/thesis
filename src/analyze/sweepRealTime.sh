@@ -7,7 +7,7 @@
 # description: script for performing runtime tests with simulation time sweep
 
 
-SIMTIMES=(1s 2s 5s 10s 20s 50s 1min 2min)
+SIMTIMES=(1s 2s 5s 10s 20s 50s)
 
 for SIMTIME in ${SIMTIMES[*]}
 do
