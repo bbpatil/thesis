@@ -109,9 +109,18 @@ A \emph{ramdisk} represents a filesystem which is located within the \emph{RAM} 
 \section{Sequential Simulation}
 \label{sec:measurements_sequential}
 The implemented test network described in \ref{sec:measurements_network} was developed and analyzed on a Lenovo ideapad U530 with 8GB PC3-12800 DDR3 SDRAM 1600 MHz and a 4th Gen Intel® Core™ i7-4500U (1.8 GHz 200 MHz 4MB) running Kubuntu 15.10.
-\cite{lenovo_spec}
+\cite{lenovo_spec}\\
 
 %TODO: find correct place for specs and add APC spec and execute simulation on APC
+
+Each of the three developed measurement methods were executed multiple times for the example network.
+To eliminate a possible dependency of the resulting performance to the simulated range (e.g. period of simulation time) each method was executed with different times.
+The runtime and real-time method was executed for multiple values for the simulation time limit and the event method was executed for different cpu time limits.
+
+\subsection{Runtime}
+\label{sec:measurements_sequential_runtime}
+
+The runtime results of the sequential simulations using both designs and given different simulation time limits are displayed in figure \ref{fig:results_runtime_sim_time}.
 
 \begin{figure}
     \centering
@@ -119,69 +128,108 @@ The implemented test network described in \ref{sec:measurements_network} was dev
         every axis plot/.append style={very thick}
     }
     \begin{tikzpicture}
- %       \begin{axis}[
- %       ylabel={Runtime $[ns]$},
-%        xlabel={Simulation time $[ns]$},
-%        grid=major,
-%        legend entries={Modular,Monolithic}
-%        ]
-%        
-%        \addplot[dotted,
-%        discard if not={Configuration}{Modular}] table {
-%            Prefix Configuration Parameter
-%            1s Modular 0.051s
-%            1s Monolithic 0.009s
-%            2s Modular 0.052s
-%            2s Monolithic 0.017s
-%            5s Modular 0.124s
-%            5s Monolithic 0.046s
-%            10s Modular 0.252s
-%            10s Monolithic 0.083s
-%            20s Modular 0.543s
-%            20s Monolithic 0.167s
-%            50s Modular 1.225s
-%            50s Monolithic 0.416s
-%            100s Modular 2.451s
-%            100s Monolithic 0.831s
-%            200s Modular 4.924s
-%            200s Monolithic 1.648s
-%            500s Modular 12.211s
-%            500s Monolithic 4.210s
-%            1min Modular 1.478s
-%            1min Monolithic 0.499s
-%            2min Modular 2.969s
-%            2min Monolithic 1.040s
-%            5min Modular 7.387s
-%            5min Monolithic 2.519s
-%            10min Modular 14.607s
-%            10min Monolithic 4.986s
-%            20min Modular 29.257s
-%            20min Monolithic 11.775s
-%            30min Modular 43.866s
-%            30min Monolithic 14.982s
-%            };
-%        \end{axis}
+        \begin{axis}[
+        xmode=log,
+        ymode=log,
+        ylabel={Runtime $[s]$},
+        xlabel={Simulation time $[s]$},
+        grid=major,
+        legend entries={Modular,Monolithic},
+        legend style={at={(0,1)}, anchor=north west}
+        ]
+        
+        \addplot table {results/runtimeResults.Modular.txt};
+        \addplot table {results/runtimeResults.Monolithic.txt};
+        \end{axis}
     \end{tikzpicture}    
     \caption{Runtime results for different designs over different simulation time limits.}
     \label{fig:results_runtime_sim_time}
 \end{figure}
 
+The average ratio of runtime using the modular design over the runtime using the monolithic design is 2.841.
+
+\[\frac{\sum\frac{t_{modular}}{t_{monolithic}}}{N} = 2.84\]
+
+Analyzing the resulting outputs of the simulation the ratio of generated messages (events) can be determined.
 
 
+The average ratio of number of created events using the modular design over the number of created events using the monolithic design is .%TODO
+This ratio will be used as correction value for the next measurement method.
 
-\begin{table}
+\subsection{Event}
+\label{sec:measurements_sequential_event}
+
+The event results of the sequential simulations using both designs and given different cpu time limits are displayed in figure \ref{fig:results_event_cpu_time}.
+
+\begin{figure}
     \centering
-    \begin{tabular}{|c|c|c|c|}
-        \hline \textbf{Design} & \textbf{Runtime} & \textbf{Event} & \textbf{Real-time} \\
-        \hline 
-        \hline Modular & 1234 & 5678 & 9012 \\ 
-        \hline Monolithic & 1234 & 5678 & 9012  \\ 
-        \hline 
-    \end{tabular}
-    \label{tab:measurements_design_seq}
-    \caption{Different performance results for different designs.}
-    
-\end{table}
+    \pgfplotsset{
+        every axis plot/.append style={very thick}
+    }
+    \begin{tikzpicture}
+        \begin{axis}[
+        xmode=log,
+        ymode=log,
+        ylabel={Created event},
+        xlabel={Cpu time $[s]$},
+        grid=major,
+        legend entries={Modular,Monolithic},
+        legend style={at={(0,1)}, anchor=north west}
+        ]
+        
+        \addplot table {results/eventResults.Modular.txt};
+        \addplot table {results/eventResults.Monolithic.txt};
+        \end{axis}
+    \end{tikzpicture}    
+    \caption{Event results for different designs over different cpu time limits.}
+    \label{fig:results_event_cpu_time}
+\end{figure}
+
+The average ratio of number of created events using the modular design over the number of created events using the monolithic design is 0.549.
+The number of events is increasing with a better simulation performance in contrast to the sinking required runtime.
+The reciprocal value of the average ratio and therefore a comparable performance index is 1.821.
+
+\[\frac{\sum\frac{eventcount_{modular}}{eventcount_{monolithic}}}{N} = 0.549\]
+
+\subsection{Real-time}
+\label{sec:measurements_sequential_realtime}
+
+The real-time results of the sequential simulations using both designs and given different cpu time limits are displayed in figure \ref{fig:results_realtime_sim_time}.
+
+\begin{figure}
+    \centering
+    \pgfplotsset{
+        every axis plot/.append style={very thick}
+    }
+    \begin{tikzpicture}
+        \begin{axis}[
+        %xmode=log,
+        %ymode=log,
+        ylabel={Minimal achievable real time interval [ns]},
+        xlabel={Simulation time $[s]$},
+        grid=major,
+        legend entries={Modular,Monolithic},
+        legend style={at={(0,0.5)}, anchor=north west}
+        ]
+        
+        \addplot table {results/realTimeResults.Modular.txt};
+        \addplot table {results/realTimeResults.Monolithic.txt};
+        \end{axis}
+    \end{tikzpicture}    
+    \caption{Real-time results for different designs over different simulation time limits.}
+    \label{fig:results_realtime_sim_time}
+\end{figure}
+
+The average ratio of achievable real-time generation interval using the modular design over the runtime using the monolithic design is . %TODO inser avg
+
+\subsection{Conclusion of sequential design tests}
 
 \section{Parallel simulation}
 \label{sec:measurements_parallel}
+\label{sec:measurements_sequential_conclusion}
+
+Analyzing the results displayed in section \ref{sec:measurements_sequential_runtime}, \ref{sec:measurements_methods_event} and \ref{sec:measurements_methods_realtime} the following insights were made:
+
+\begin{itemize}
+    \item Using a modular design
+\end{itemize}
