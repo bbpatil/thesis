@@ -36,18 +36,27 @@ using namespace std;
 
 void MonolithicSink::initialize()
 {
+    auto numberOfEventManager = static_cast<int>(par("numberOfEventManager"));
+
     // create inner structure
     mHistoricalQueue = make_unique<HistoricalQueue>();
     mHistoryManager = make_unique < HistoryManager > (bind(&HistoricalQueue::PopData, *mHistoricalQueue));
-    mEventManager = make_unique<EventManager>();
+
+    // create multiple event managers
+    for (auto i = 0; i < numberOfEventManager; i++)
+        mEventManagerCont.push_back(make_unique<EventManager>());
+
     mConfigManager = make_unique<ConfigurationManager>();
     mDispatcher = make_unique < Dispatcher
             > (bind(&ConfigurationManager::SetNewConfiguration, *mConfigManager, placeholders::_1), bind(
-                    &EventManager::ProcessEvent, *mEventManager, placeholders::_1), bind(&HistoricalQueue::PushData,
-                    *mHistoricalQueue, placeholders::_1));
+                    &MonolithicSink::DispatchMultipleEventManager, this, placeholders::_1, placeholders::_2), bind(
+                    &HistoricalQueue::PushData, *mHistoricalQueue, placeholders::_1));
 
     // resolve interval parmeter
     mPollingInterval = simtime_t(par("historyPollingInterval"), SimTimeUnit::SIMTIME_NS);
+
+    // resolver number of event manager
+    mNUmberOfEventManager = static_cast<int>(par("numberOfEventManager"));
 
     // schedule inital self message
     scheduleAt(simtime_t() + mPollingInterval, new cMessage());
@@ -83,4 +92,9 @@ void MonolithicSink::handleMessage(cMessage *rawMsg)
             }
         }
     }
+}
+
+void MonolithicSink::DispatchMultipleEventManager(Packet packet, CounterType idx)
+{
+    mEventManagerCont[idx % mNUmberOfEventManager]->ProcessEvent(packet);
 }

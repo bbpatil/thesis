@@ -21,7 +21,8 @@ module ModularSink like ISink
 {
     parameters:
         double historyPollingInterval @unit(ns) = default(1ms);
-    @display("bgb=587,344");
+        int numberOfEventManager = default(1);
+        @display("bgb=587,344");
     gates:
         input data;
     submodules:
@@ -31,19 +32,22 @@ module ModularSink like ISink
         configWrapper: ConfigWrapper {
             @display("p=255,65");
         }
-        eventWrapper: EventWrapper {
-            @display("p=255,147");
+        eventWrapper[numberOfEventManager]: EventWrapper {
+            @display("p=118,245,m,10,80");
         }
         historicalQueueWrapper: HistoricalQueueWrapper {
-            @display("p=255,234");
+            @display("p=255,147");
         }
         historyManagerWrapper: HistoryManagerWrapper {
             pollingInterval = historyPollingInterval;
-            @display("p=462,234");
+            @display("p=402,147");
         }
     connections:
         dispatcherWrapper.config --> configWrapper.config;
-        dispatcherWrapper.event --> eventWrapper.event;
+        for i=0..numberOfEventManager-1 {
+            dispatcherWrapper.event[i] --> eventWrapper[i].event;
+        }
+
         data --> dispatcherWrapper.data;
         dispatcherWrapper.historical --> ParallelChannel --> historicalQueueWrapper.historicalIn;
         historicalQueueWrapper.historicalOut --> historyManagerWrapper.historical;

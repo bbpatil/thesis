@@ -17,31 +17,31 @@
 #define __DESIGNTEST_DISPATCHERWRAPPER_H_
 
 #include <omnetpp.h>
+#include <memory>
 
 #include "Dispatcher.h"
 
 class DispatcherWrapper : public cSimpleModule
 {
-        // C-Tor
-    public:
-        DispatcherWrapper();
+        // Definitions
+    private:
+        using CounterType = unsigned char;
+        template<typename T>
+        using Pointer = std::unique_ptr<T>;
 
+        // Methods
     protected:
         virtual void initialize();
         virtual void handleMessage(cMessage *msg);
 
-        // Methods
-    public:
-        void sendConfig(Packet config);
-        void sendEvent(Packet event);
-        void sendHistorical(Packet historicalPacket);
-
     private:
+        void sendEvent(Packet const & event, CounterType idx);
         void sendPacket(Packet const & packet, const char * gateName);
 
         // Member
     private:
-        Dispatcher mDispatcher;
+        Pointer<Dispatcher> mDispatcher;
+        int mNumberOfEventManager;
 };
 
 #endif

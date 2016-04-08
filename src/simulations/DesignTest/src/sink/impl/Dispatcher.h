@@ -15,11 +15,13 @@ class Dispatcher
 {
         // Definitions
     private:
+        using CounterType = unsigned char;
         using ProcessDataFunc = std::function<void(Packet)>;
+        using ProcessEventFunc = std::function<void(Packet, CounterType)>;
 
         // C-Tor / D-Tor
     public:
-        Dispatcher(ProcessDataFunc processConfig, ProcessDataFunc processEvent,
+        Dispatcher(ProcessDataFunc processConfig, ProcessEventFunc processEvent,
                 ProcessDataFunc processHistorical);
         virtual ~Dispatcher();
 
@@ -29,8 +31,9 @@ class Dispatcher
         // Member
     private:
         ProcessDataFunc mProcessConfig;
-        ProcessDataFunc mProcessEvent;
+        ProcessEventFunc mProcessEvent;
         ProcessDataFunc mProcessHistorical;
+        CounterType mEventCounter;
 };
 
 #endif /* DISPATCHER_H_ */

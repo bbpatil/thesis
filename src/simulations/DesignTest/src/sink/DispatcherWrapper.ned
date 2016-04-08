@@ -20,9 +20,11 @@ package designtest.sink;
 //
 simple DispatcherWrapper
 {
+    parameters:
+        int numberOfEventManager = default(1);
     gates:
         input data;
         output config;
-        output event;
+        output event[numberOfEventManager];
         output historical;
 }

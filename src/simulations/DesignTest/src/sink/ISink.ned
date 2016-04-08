@@ -19,6 +19,7 @@ moduleinterface ISink
 {
     parameters:
         double historyPollingInterval @unit(ns);
+        int numberOfEventManager;
     gates:
         input data;
 }

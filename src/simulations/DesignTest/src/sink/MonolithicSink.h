@@ -18,6 +18,9 @@
 
 #include <omnetpp.h>
 #include <memory>
+#include <vector>
+
+#include "Data.h"
 
 // forward declarations
 class Dispatcher;
@@ -33,9 +36,17 @@ class MonolithicSink : public cSimpleModule
 {
         // Definitions
     private:
+        using CounterType = unsigned char;
         template<typename T>
         using Pointer = std::unique_ptr<T>;
+        template<typename T>
+        using Container = std::vector<T>;
         using MsgPtr = std::unique_ptr<cMessage>;
+
+
+        // Methods
+    public:
+        void DispatchMultipleEventManager(Packet packet, CounterType idx);
 
     protected:
         virtual void initialize();
@@ -45,10 +56,11 @@ class MonolithicSink : public cSimpleModule
     private:
         Pointer<Dispatcher> mDispatcher;
         Pointer<ConfigurationManager> mConfigManager;
-        Pointer<EventManager> mEventManager;
+        Container<Pointer<EventManager>> mEventManagerCont;
         Pointer<HistoricalQueue> mHistoricalQueue;
         Pointer<HistoryManager> mHistoryManager;
 
+        int mNUmberOfEventManager;
         simtime_t mPollingInterval;
 };
 

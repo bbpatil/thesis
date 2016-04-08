@@ -8,8 +8,8 @@
 #include <impl/Dispatcher.h>
 #include <stdexcept>
 
-Dispatcher::Dispatcher(ProcessDataFunc processConfig, ProcessDataFunc processEvent, ProcessDataFunc processHistorical) :
-        mProcessConfig(processConfig), mProcessEvent(processEvent), mProcessHistorical(processHistorical)
+Dispatcher::Dispatcher(ProcessDataFunc processConfig, ProcessEventFunc processEvent, ProcessDataFunc processHistorical) :
+        mProcessConfig(processConfig), mProcessEvent(processEvent), mProcessHistorical(processHistorical), mEventCounter(0)
 {
 }
 
@@ -28,7 +28,7 @@ void Dispatcher::DispatchData(const Data& data)
             break;
         case DataType::EventData:
             // process event
-            mProcessEvent(data.data);
+            mProcessEvent(data.data, mEventCounter++);
             break;
         case DataType::HistoricalData:
             // process historical

@@ -19,6 +19,7 @@ simple MonolithicSink like ISink
 {
     parameters:
         double historyPollingInterval @unit(ns) = default(1ms);
+        int numberOfEventManager = default(1);
     gates:
         input data;
 }

@@ -23,19 +23,15 @@ Define_Module(DispatcherWrapper);
 
 using namespace std;
 
-DispatcherWrapper::DispatcherWrapper()
-//: mDispatcher(bind(&DispatcherWrapper::sendConfig, this, placeholders::_1),
-//        bind(&DispatcherWrapper::sendEvent, this, placeholders::_1),
-//        bind(&DispatcherWrapper::sendHistorical, this, placeholders::_1))
-: mDispatcher(bind(&DispatcherWrapper::sendPacket, this, placeholders::_1, "config"),
-        bind(&DispatcherWrapper::sendPacket, this, placeholders::_1, "event"),
-        bind(&DispatcherWrapper::sendPacket, this, placeholders::_1, "historical"))
-{
-}
-
 void DispatcherWrapper::initialize()
 {
-    // TODO - Generated method body
+    // create enclosed dispatcher
+    mDispatcher = make_unique<Dispatcher>(bind(&DispatcherWrapper::sendPacket, this, placeholders::_1, "config"),
+            bind(&DispatcherWrapper::sendEvent, this, placeholders::_1, placeholders::_2),
+            bind(&DispatcherWrapper::sendPacket, this, placeholders::_1, "historical"));
+
+    // resolve number of event manager
+    mNumberOfEventManager = static_cast<int>(par("numberOfEventManager"));
 }
 
 
@@ -47,23 +43,18 @@ void DispatcherWrapper::handleMessage(cMessage *msg)
 
         if (data != nullptr)
         {
-            mDispatcher.DispatchData(data->getData());
+            mDispatcher->DispatchData(data->getData());
         }
 
         delete msg;
     }
 }
 
-void DispatcherWrapper::sendConfig(Packet config)
+void DispatcherWrapper::sendEvent(const Packet& event, CounterType idx)
 {
-}
-
-void DispatcherWrapper::sendEvent(Packet event)
-{
-}
-
-void DispatcherWrapper::sendHistorical(Packet historicalPacket)
-{
+    auto msg = new PacketMessage();
+    msg->setPack(event);
+    send(msg, "event", idx % mNumberOfEventManager);
 }
 
 void DispatcherWrapper::sendPacket(const Packet& packet, const char* gateName)
