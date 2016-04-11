@@ -6,38 +6,39 @@ import re
 from os import path
 
 
-def parseDuration(durationStr):
+def parseDurationOrFloat(durationStr):
     
     parts = re.split('(\d+[,\.]?\d*)', durationStr)
     parts = [p for p in parts if p and len(p) > 0]
     
-    if len(parts) < 2:
-        return None
     try:
-        if parts[1] == "ns":
-            return float(parts[0]) * 10e-9 
-        if parts[1] == "us":
-            return float(parts[0]) * 10e-6
-        if parts[1] == "ms":
-            return float(parts[0]) * 10e-3
-        if parts[1] == "s":
-            return float(parts[0])
-        if parts[1] == "min":
-            return float(parts[0]) * 60
-        if parts[1] == "h":
-            return float(parts[0]) * 60 * 60
-        if parts[1] == "d":
-            return float(parts[0]) * 60 * 60 * 24
+        if len(parts) >= 2:
+            if parts[1] == "ns":
+                return float(parts[0]) * 10e-9 
+            if parts[1] == "us":
+                return float(parts[0]) * 10e-6
+            if parts[1] == "ms":
+                return float(parts[0]) * 10e-3
+            if parts[1] == "s":
+                return float(parts[0])
+            if parts[1] == "min":
+                return float(parts[0]) * 60
+            if parts[1] == "h":
+                return float(parts[0]) * 60 * 60
+            if parts[1] == "d":
+                return float(parts[0]) * 60 * 60 * 24
+        
+        # if its no time return simple float
+        return float(durationStr)
         
     except:
-        return None
+        # if parsing fails return string
+        return durationStr
 
 class ResultAnalyzer():
-    def __init__(self, rowDelim = ' ', tagIdx = 0, tagDelim = '_', tagTimeIdx = 2, configIdx = 1, performanceIdx = 2, correction=1.0, correctionIdx=1):
+    def __init__(self, rowDelim = ' ', timeIdx = 0, configIdx = 2, performanceIdx = 3, correction=1.0, correctionIdx=1):
         self.rowDelim = rowDelim
-        self.tagIdx = tagIdx
-        self.tagDelim = tagDelim
-        self.tagTimeIdx = tagTimeIdx
+        self.timeIdx = timeIdx
         self.configIdx = configIdx
         self.performanceIdx = performanceIdx
         self.correction = correction
@@ -49,21 +50,19 @@ class ResultAnalyzer():
             
             csvReader = csv.reader(results, delimiter=self.rowDelim)
             
+            # skip header
+            next(csvReader)
+            
             results = {}
             # read all rows
             for row in csvReader:
-                parts = row[self.tagIdx].split(self.tagDelim);
-                if len(parts) > self.tagTimeIdx:
-                    # get time
-                    time = parseDuration(parts[self.tagTimeIdx])
+                time = parseDurationOrFloat(row[self.timeIdx])
                 
                 # get performance value
-                performanceValue = parseDuration(row[self.performanceIdx])
+                performanceValue = parseDurationOrFloat(row[self.performanceIdx])
                 
-                if not performanceValue:
-                    performanceValue = float(row[self.performanceIdx])
-                
-                if time and performanceValue:
+                if len(str(performanceValue)) > 0 and len(str(time)) > 0:
+                    # write results to dict
                     if not row[self.configIdx] in results.keys():
                         results[row[self.configIdx]] = []
                     results[row[self.configIdx]].append([time, performanceValue])
@@ -86,8 +85,17 @@ class ResultAnalyzer():
     
     def calcResults(self, values0, values1):
         result = []
-        for val0, val1 in zip(values0, values1):
-            result.append((val0[0], val0[1] - val1[1], val0[1]/val1[1]))
+        
+        resultList = {}
+        for val in values0:
+            resultList[val[0]] = [val[1]]
+        for val in values1:
+            if val[0] in resultList.keys():
+                resultList[val[0]].append(val[1])
+        resultList = [(k,v) for k,v in resultList.iteritems() if len(v) > 1]
+        
+        for k, val in resultList:
+            result.append((k, val[0] - val[1], val[0]/val[1]))
         
         # print average results
         print("The average difference is: %f" % (sum([val[1] for val in result]) / len(result)))
@@ -100,18 +108,22 @@ if __name__ == "__main__":
     parser.add_argument("-o", "--output-dir", dest="output", help="directory for generated output files")
     parser.add_argument("-g", "--generate-results", dest="results", action="store_true", help="flag for generating the results file (ratio and diff) only for 2 configurations")
     parser.add_argument("-i", "--performance-index", dest="index", type=int, help="Index of performance value within row of results file")
-    parser.add_argument("-c", "--correction-factor", dest="correction", type=float, help="Correction value for the performance value of the second configuration")
+    parser.add_argument("-t", "--time-index", dest="timeIdx", type=int, help="Index of time value within row of results file")
+    parser.add_argument("-c", "--config-index", dest="config", type=int, help="Index of configuration within row of results file")
+    parser.add_argument("-f", "--correction-factor", dest="correction", type=float, help="Correction value for the performance value of the second configuration")
     args = parser.parse_args()
     
     print("started")
     
     fileName = args.fileName
-    #fileName= "realTimeResults.txt"
+    #fileName= "results.txt"
     
     parts = fileName.split('.')
     filePrefix = '.'.join(parts[:-1])
     fileExt = parts[-1]
     fileBasename = path.splitext(path.basename(fileName))[0]
+    
+    # check parameter
     
     if args.correction:
         corr = args.correction
@@ -119,9 +131,21 @@ if __name__ == "__main__":
         corr = 1.0
     
     if args.index:
-        analyzer = ResultAnalyzer(performanceIdx=args.index, correction=corr)
+        idx = args.index
     else:
-        analyzer = ResultAnalyzer(correction=corr)
+        idx = 5
+        
+    if args.timeIdx:
+        timeIdx = args.timeIdx
+    else:
+        timeIdx = 1
+        
+    if args.config:
+        configIdx = args.config
+    else:
+        configIdx = 2
+    
+    analyzer = ResultAnalyzer(performanceIdx=idx, correction=corr, timeIdx=timeIdx, configIdx=configIdx)
     
     results = analyzer.analyzeFile(fileName)
     

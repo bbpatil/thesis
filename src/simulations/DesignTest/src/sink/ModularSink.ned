@@ -27,20 +27,20 @@ module ModularSink like ISink
         input data;
     submodules:
         dispatcherWrapper: DispatcherWrapper {
-            @display("p=118,147");
+            @display("p=139,148");
         }
         configWrapper: ConfigWrapper {
-            @display("p=255,65");
+            @display("p=285,68");
         }
         eventWrapper[numberOfEventManager]: EventWrapper {
-            @display("p=118,245,m,10,80");
+            @display("p=139,246,m,10,80");
         }
         historicalQueueWrapper: HistoricalQueueWrapper {
-            @display("p=255,147");
+            @display("p=285,148");
         }
         historyManagerWrapper: HistoryManagerWrapper {
             pollingInterval = historyPollingInterval;
-            @display("p=402,147");
+            @display("p=454,148");
         }
     connections:
         dispatcherWrapper.config --> configWrapper.config;

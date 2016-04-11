@@ -25,13 +25,13 @@ void Generator::initialize()
 
     // schedule starting data message
     scheduleAt(simTime(), new cMessage());
+
+    mGenerationCounter = 0;
 }
 
 void Generator::handleMessage(cMessage *rawMsg)
 {
     MsgPtr msgPtr(rawMsg);
-
-    static size_t counter = 0;
 
     if (msgPtr->isSelfMessage())
     {
@@ -39,9 +39,12 @@ void Generator::handleMessage(cMessage *rawMsg)
         auto pkt = new DataMessage();
 
         Data data;
-        data.type = static_cast<DataType>(counter++ % 3);
-        data.data =
-        {   123 + counter};
+        data.type = static_cast<DataType>(mGenerationCounter++ % 3);
+
+        size_t i = 0;
+
+        for (auto & d : data.data)
+            d = ((i++) + mGenerationCounter) * 3 + 7;
 
         pkt->setData(data);
 

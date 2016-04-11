@@ -20,10 +20,11 @@ import designtest.ParallelChannel;
 
 
 network DataGeneration
-{      
+{
     parameters:
         string sinkType;
-        
+
+        @display("bgb=204,169");
     submodules:
         generator: Generator {
             @display("p=50,78");

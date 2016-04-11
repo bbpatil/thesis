@@ -59,7 +59,7 @@ void MonolithicSink::initialize()
     mNUmberOfEventManager = static_cast<int>(par("numberOfEventManager"));
 
     // schedule inital self message
-    scheduleAt(simtime_t() + mPollingInterval, new cMessage());
+    scheduleAt(simTime() + mPollingInterval, new cMessage());
 }
 
 void MonolithicSink::handleMessage(cMessage *rawMsg)
@@ -77,7 +77,7 @@ void MonolithicSink::handleMessage(cMessage *rawMsg)
             mHistoryManager->PollHistory();
 
             // schedule self message
-            scheduleAt(simtime_t() + mPollingInterval, new cMessage());
+            scheduleAt(simTime() + mPollingInterval, new cMessage());
         }
         else // received data
         {

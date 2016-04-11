@@ -32,6 +32,7 @@ class Generator : public cSimpleModule
         // Member
     private:
         simtime_t mDataDelay;
+        unsigned int mGenerationCounter;
 };
 
 #endif

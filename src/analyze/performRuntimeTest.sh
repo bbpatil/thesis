@@ -146,6 +146,12 @@ CPU_TIME_OPT=--cpu-time-limit=0
 REGEX_GET_ELAPSED_TIME='(?<=Elapsed:\s)(\d+\.?\d*s)(?=\s\(.*10[\d]%)'
 REGEX_GET_FILENAME_PARTS='[^\s^/.]+(?=\..+)'
 
+REGEX_GET_NUMBER_OF_RUNS='(?<=Number\sof\sruns:\s)(\d+)'
+REGEX_GET_PARAMETER="(?<=\\\$$PAR_NAME=)\\d+"
+
+
+
+
 # execute simulations
 run $TCONF ${#CONFIGS[*]} ${CONFIGS[*]} $SIMEXEC $SIM_OPTIONS $CPU_TIME_OPT
 

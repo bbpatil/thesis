@@ -12,6 +12,6 @@ SIMTIMES=(1s 2s 5s 10s 20s 50s)
 for SIMTIME in ${SIMTIMES[*]}
 do
     echo "execute simulation for simtime: $SIMTIME"
-    export OUTPUTPREFIX=realtime_simtime_$SIMTIME
+    export OUTPUTPREFIX=$SIMTIME
     prtt $* --sim-time-limit=$SIMTIME
 done
