@@ -29,24 +29,27 @@ These messages are transmitted to a sink, which is described via the interface m
 The differently designed modules \emph{ModularSink} and \emph{MonolithicSink} extend the interface and represent the different tested designs.
 
 The first part within the sink is the \emph{Dispatcher} which is accessing the type information of the data and then forwards the packed data to the according parts.
-Configuration and event data are forwarded to the \emph{ConfigurationManager} and the \emph{EventManager}.
-These parts are simple implementations which executes various calculations on the received data to simulate processing.
+Configuration and are forwarded to the \emph{ConfigurationManager} whereas the event data are forwarded to the \emph{EventManagers}.
+The simulated network provides a variable number of eventmanagers and all generated event data are dispatched to the eventmanagers sequentially.
+The \emph{ConfigurationManager} and the \emph{EventManagers} are simple implementations which executes various calculations on the received data to simulate processing.
 Historical data are forwarded to the \emph{HistoricalQueue} which is internally implemented by a std::queue which holds all received data until they are accessed.
 The \emph{HistoryManager} accesses the \emph{HistoricalQueue} and processes available data similar to \emph{ConfigurationManager} and \emph{EventManager} by executing dummy calculations.
-This access is initiated by the generated polling commands from the \emph{Generator}.
+This access is initiated by a configurable polling interval.
 \\
 
 The functionality of dispatching and processing of the data is, as shown in Figure \ref{fig:design_test_network}, is included in the sink and is implemented twice with different designs.
 
 The assumption of existing implementations for the \emph{Dispatcher}, \emph{ConfigurationManager}, \emph{EventManager} and \emph{HistoryManager} which must not be changed for the simulation is made.
 Therefore implementing the \emph{MonolithicSink} consists of instantiating and connecting the different parts within a single simple module.
-Received messages will be analyzed and the enclosed data or the polling command is forwarded to the according instances.
+Received messages will be analyzed and the enclosed data is forwarded to the according instances.
+The polling done by the \emph{ConfigurationManager} is implemented using \emph{self-messages} sent in an configurable interval.
 
 Implementing the \emph{ModularSink} requires the implementation of wrapper modules for every single part which should be represented by a separate module.
 These wrapper extract the transmitted data of received messages and forward it to the enclosing parts.
 Calls from within the enclosed parts are handled by methods of the wrappers, which are passed via function pointers (functional objects).
 Within this methods according messages are created and sent via output gates.
 The internal structure of the \emph{ModularSink} is shown in figure \ref{fig:ModularSink}.
+Within the \emph{ModularSink} arrays of gates, connections and \emph{EventWrapper} are used for realizing a variable number of \emph{EventManagers}.
 
 \begin{figure}
     \centering
@@ -56,7 +59,6 @@ The internal structure of the \emph{ModularSink} is shown in figure \ref{fig:Mod
 \end{figure}
 
 The simulated network is shown in figure \ref{fig:omnet_example_network}.
-The \emph{Generator} instance is connected via two connections to the \emph{ISink} instance, although OMNeT++ only shows a single connection arrow.
 
 \begin{figure}
     \centering
@@ -87,10 +89,6 @@ The simulation of different designs results in contrasting event counts due to t
 Therefore for evaluating the created number within a fixed processing time the ratio of event creation must be determined.
 This ratio can be measured using the previous method \ref{sec:measurements_methods_runtime}.
 
-Such a ratio or offset must also be considered for the analyze of parallel simulations due to the increased number of messages for synchronization.
-This correction values can also be determined using the previous method \ref{sec:measurements_methods_runtime}.
-The impact of synchronization within parallel simulations is described in section \ref{sec:parallel_omnet_sync}
-
 \subsection{Real time behavior}
 \label{sec:measurements_methods_realtime}
 Using the built in real time scheduler \emph{cRealTimeScheduler} the simulation will try to execute the simulation matching the real time.
@@ -106,22 +104,25 @@ The automated test scripts are analyzing the outputs of the executed simulation 
 For preventing the delay of the measurements and the simulation by writing the output to a file located on an slow peripheral the output files are located on a \emph{ramdisk}.
 A \emph{ramdisk} represents a filesystem which is located within the \emph{RAM} (Random access memory) and therefore provides the maximum speed for writing and analyzing outputs.
 
-\section{Sequential Simulation}
-\label{sec:measurements_sequential}
 The implemented test network described in \ref{sec:measurements_network} was developed and analyzed on a Lenovo ideapad U530 with 8GB PC3-12800 DDR3 SDRAM 1600 MHz and a 4th Gen Intel® Core™ i7-4500U (1.8 GHz 200 MHz 4MB) running Kubuntu 15.10.
 \cite{lenovo_spec}\\
 
 %TODO: find correct place for specs and add APC spec and execute simulation on APC
 
-Each of the three developed measurement methods were executed multiple times for the example network.
+
+\section{Sequential Simulation}
+\label{sec:measurements_sequential}
+Each of the three developed measurement methods was executed multiple times with the example network.
 To eliminate a possible dependency of the resulting performance to the simulated range (e.g. period of simulation time) each method was executed with different times.
 The runtime and real-time method was executed for multiple values for the simulation time limit and the event method was executed for different cpu time limits.
+This variation of simulation time also verifies the testing measurements for independence of the simulated time range.
 
 \subsection{Runtime}
 \label{sec:measurements_sequential_runtime}
 
 The runtime results of the sequential simulations using both designs and given different simulation time limits are displayed in figure \ref{fig:results_runtime_sim_time}.
 
+%%% runtime over simulation time %%%
 \begin{figure}
     \centering
     \pgfplotsset{
@@ -156,11 +157,88 @@ Analyzing the resulting outputs of the simulation the ratio of generated message
 The average ratio of number of created events using the modular design over the number of created events using the monolithic design is .%TODO
 This ratio will be used as correction value for the next measurement method.
 
+%%% runtime over number of event manager %%%
+\begin{figure}
+    \centering
+    \pgfplotsset{
+        every axis plot/.append style={very thick}
+    }
+    \begin{tikzpicture}
+    \begin{axis}[
+    %xmode=log,
+    %ymode=log,
+    ylabel={Runtime [s]},
+    xlabel={Number of \emph{EventManager}},
+    grid=major,
+    legend entries={Modular,Monolithic},
+    legend style={at={(0,1)}, anchor=north west}
+    ]
+    
+    \addplot table {results/time/eventManagerResults.Modular.txt};
+    \addplot table {results/time/eventManagerResults.Monolithic.txt};
+    \end{axis}
+    \end{tikzpicture}    
+    \caption{Runtimeresults over variing number of \emph{EventManager}.}
+    \label{fig:results_runtime_eventmanager}
+\end{figure}
+
+%%% runtime over polling interval %%%
+\begin{figure}
+    \centering
+    \pgfplotsset{
+        every axis plot/.append style={very thick}
+    }
+    \begin{tikzpicture}
+    \begin{axis}[
+    %xmode=log,
+    %ymode=log,
+    ylabel={Runtime [s]},
+    xlabel={Polling interval [s]},
+    grid=major,
+    legend entries={Modular,Monolithic},
+    legend style={at={(1,1)}, anchor=north east}
+    ]
+    
+    \addplot table {results/time/pollingResults.Modular.txt};
+    \addplot table {results/time/pollingResults.Monolithic.txt};
+    \end{axis}
+    \end{tikzpicture}    
+    \caption{Runtimeresults over varying polling interval by \emph{HistoryManager}.}
+    \label{fig:results_runtime_polling}
+\end{figure}
+
+%%% runtime over polling interval %%%
+\begin{figure}
+    \centering
+    \pgfplotsset{
+        every axis plot/.append style={very thick}
+    }
+    \begin{tikzpicture}
+    \begin{axis}[
+    %xmode=log,
+    %ymode=log,
+    ylabel={Runtime [s]},
+    xlabel={Generation interval [s]},
+    grid=major,
+    legend entries={Modular,Monolithic},
+    legend style={at={(1,1)}, anchor=north east}
+    ]
+    
+    \addplot table {results/time/generationResults.Modular.txt};
+    \addplot table {results/time/generationResults.Monolithic.txt};
+    \end{axis}
+    \end{tikzpicture}    
+    \caption{Runtimeresults over varying generation interval by \emph{Generator}.}
+    \label{fig:results_runtime_generation}
+\end{figure}
+
+
 \subsection{Event}
 \label{sec:measurements_sequential_event}
 
 The event results of the sequential simulations using both designs and given different cpu time limits are displayed in figure \ref{fig:results_event_cpu_time}.
 
+%%% event number over cpu time %%%
 \begin{figure}
     \centering
     \pgfplotsset{
@@ -184,6 +262,59 @@ The event results of the sequential simulations using both designs and given dif
     \caption{Event results for different designs over different cpu time limits.}
     \label{fig:results_event_cpu_time}
 \end{figure}
+
+%
+%%%% events over polling interval %%%
+%\begin{figure}
+%    \centering
+%    \pgfplotsset{
+%        every axis plot/.append style={very thick}
+%    }
+%    \begin{tikzpicture}
+%    \begin{axis}[
+%    %xmode=log,
+%    %ymode=log,
+%    ylabel={Created events},
+%    xlabel={Number of EventManager},
+%    grid=major,
+%    legend entries={Modular,Monolithic},
+%    legend style={at={(1,1)}, anchor=north east}
+%    ]
+%    
+%    \addplot table {results/event/eventManagerResults.Modular.txt};
+%    \addplot table {results/event/eventManagerResults.Monolithic.txt};
+%    \end{axis}
+%    \end{tikzpicture}    
+%    \caption{Runtimeresults over varying polling interval by \emph{HistoryManager}.}
+%    \label{fig:results_event_eventmanager}
+%\end{figure}
+%
+%%%% events over polling interval %%%
+%\begin{figure}
+%    \centering
+%    \pgfplotsset{
+%        every axis plot/.append style={very thick}
+%    }
+%    \begin{tikzpicture}
+%    \begin{axis}[
+%    %xmode=log,
+%    %ymode=log,
+%    ylabel={Created events},
+%    xlabel={Polling interval [s]},
+%    grid=major,
+%    legend entries={Modular,Monolithic},
+%    legend style={at={(1,1)}, anchor=north east}
+%    ]
+%    
+%    \addplot table {results/event/pollingResults.Modular.txt};
+%    \addplot table {results/event/pollingResults.Monolithic.txt};
+%    \end{axis}
+%    \end{tikzpicture}    
+%    \caption{Runtimeresults over variing polling interval by \emph{HistoryManager}.}
+%    \label{fig:results_event_polling}
+%\end{figure}
+
+
 
 The average ratio of number of created events using the modular design over the number of created events using the monolithic design is 0.549.
 The number of events is increasing with a better simulation performance in contrast to the sinking required runtime.
@@ -223,13 +354,60 @@ The real-time results of the sequential simulations using both designs and given
 The average ratio of achievable real-time generation interval using the modular design over the runtime using the monolithic design is . %TODO inser avg
 
 \subsection{Conclusion of sequential design tests}
-
-\section{Parallel simulation}
-\label{sec:measurements_parallel}
 \label{sec:measurements_sequential_conclusion}
 
 Analyzing the results displayed in section \ref{sec:measurements_sequential_runtime}, \ref{sec:measurements_methods_event} and \ref{sec:measurements_methods_realtime} the following insights were made:
 
 \begin{itemize}
-    \item Using a modular design
+    \item Using a modular design the number of events created is bigger, for example the simulated test network resulted in a ratio of created events for a modular design over a monolithic of $2.983$.
+    \item The increased number of events and the included overhead results in an decreased performance noticeable in each of the three used measurement methods.
+    \item Varying load simulated by decreased polling interval or generation interval shows a bigger impact on the performance of the modular design network.
 \end{itemize}
+
+Using the sequential simulation a monolithic design is recommended for real-time simulations.
+
+
+\section{Parallel simulation}
+\label{sec:measurements_parallel}
+The parallel simulation was executed using the \emph{MPI} system openMPI for communication.
+The used synchronization method was the \emph{Null Message Protocol} described in section \ref{sec:parallel_omnet_sync}.
+A explicit synchronization of the different partitions is necessary due to multiple modules which are using \emph{self-messages} as timers.
+The host machine used for developing and executing the simulation provides a 4th Gen Intel® Core™ i7-4500U (1.8 GHz 200 MHz 4MB).
+This processor is a dual core CPU supporting hyper threading and therefore provides four logical processors distributed on two physical cores.
+The example network includes two autonomous modules which are scheduling their behavior with \emph{self-messages}.
+This number of autonomous modules leads to the conclusion for two parallel partitions for parallel simulation.
+
+As described in chapter \ref{cha:parallel_sim} running a simulation distributed on parallel devices requires the mapping of the simulated modules to different parallel partitions.
+The first mapping can be applied to both designs and assigns the \emph{Generator} to the partition zero and all modules within the \emph{Sink} to the partition one.
+The second tested mapping assigns all modules to the partition zero excepting the \emph{HistoryManager}, which is assigned to the partition one.
+
+As the ratio in between the number of created events by a modular or a monolithic design, described in section \ref{sec:measurements_methods_event}, running a parallel simulation also requires a correction factor due to the varying number of created events by different partitioning.
+This dependency is caused by the changing set of transmitted data messages and required synchronization messages.
+
+This correction value can also be determined using the previously discussed method \ref{sec:measurements_methods_runtime}.
+The impact of synchronization within parallel simulations is described in section \ref{sec:parallel_omnet_sync}.
+
+\subsection{Runtime}
+\label{sec:measurements_parallel_runtime}
+
+
+\subsection{Event}
+\label{sec:measurements_parallel_event}
+
+
+\subsection{Real-time}
+\label{sec:measurements_parallel_realtime}
+
+\subsection{Conclusion of parallel tests}
+
+Considering the results shown in the sections \ref{sec:measurements_parallel_runtime}, \ref{sec:measurements_parallel_event} and \ref{sec:measurements_parallel_realtime} the following insights were made:
+
+\begin{itemize}
+    \item The performance of a parallel simulation is depending strongly on the simulated model and its partitioning capabilities.
+    \item The used synchronization is highly affecting the achievable performance.
+\end{itemize}
+
+\section{Conclusion}
+Considering the results of section \ref{sec:measurements_sequential} and \ref{sec:measurements_parallel} the modular design is mostly resulting in a increased number of messages and the caused overhead leads to a debased performance.
+Analyzing the simulation of the chosen example network the parallel simulation was not able to achieve an improved performance in comparison to the sequential simulation.
+The capabilities of parallel simulation, especially for the usage in the fields of real-time simulation, emulation and \emph{HiL} must be analyzed individually for each simulated model. 
