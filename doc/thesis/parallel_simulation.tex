@@ -1,32 +1,36 @@
 \chapter{Parallel simulation}
 \label{cha:parallel_sim}
 A sequential simulation is executed on a single processor, either logical, physical processor or machine within a cluster.
-Simulating complex models and a huge number of events can result in a long execution time.
+Simulating complex models and a huge number of events can result in a long execution time with increasing complexity this leads to the demand for a improved execution method.
 The distributed discrete event simulation (\emph{DDES}) or parallel discrete event simulation (\emph{PDES}) allows the parallel execution on multiple processors.
 The goal of parallel execution is the improvement of simulation performance and reduction of required execution time.
-Events within a parallel simulation are processed by different logical processes (\emph{LP}).
-Each \emph{LP} can be executed by a different separate processing unit. \cite{bagrodia_parsec_1998}
+Within a parallel simulation events are processed by different logical processes (\emph{LP}).
+Each \emph{LP} can be executed by a different separate processing unit and therefore executed in parallel. \cite{bagrodia_parsec_1998}
 
 This distributed processing of events require synchronization for guaranteeing the causality constraint, i.e. the processing of all events within a \emph{LP} is happening with increasing timestamps.
 
 \section{Synchronization}
 \label{sec:parallel_synchronization}
-Running simulations in parallel requires a synchronization in between the \emph{LPs} for synchronizing the processed simulation time on the different \emph{LPs}.
+Running simulations in parallel requires a synchronization in between the \emph{LPs} for synchronizing the processed simulation time.
 This simulation time can diverge very strongly due to the different set of processed events.
-With varying event intervals this difference results in differencing steps within simulation time.
-For the synchronization of parallel \emph{LPs} different algorithms for this synchronization are available, the choice of the used synchronization method affects the achievable performance of the \emph{PDES}.
+With varying event intervals the steps within simulation time is differentiating.
+For the synchronization of parallel \emph{LPs} different algorithms for this synchronization are available, the choice of the used synchronization method affects the achievable performance of the \emph{PDES}. \cite[chapter 2]{bagrodia_performance_2000}
 
 Generally there are two types of synchronization algorithms:
 
 \begin{enumerate}
-    \item Optimistic algorithms allows \emph{LPs} to process events that may be timed in the future and roll back in the case of an event from the past.
-    \item Conservative algorithms strictly forbid the processing of events until the guarantee can be given that no event will be scheduled before such events. \cite[chapter 2]{bagrodia_performance_2000}
+    \item Optimistic algorithms allows \emph{LPs} to process events without guaranteeing that no new events may be scheduled in a past point in simulation time.
+    In the case of an event which will be schedules in the past a \emph{roll back} mechanism is necessary.
+    \item Conservative algorithms strictly forbid the processing of events until the guarantee can be given that no new event will be scheduled before this events.
 \end{enumerate}
 
 An example for a conservative algorithm is the \emph{Null Message Algorithm} (\emph{NMA}). \cite[section 2.1]{bagrodia_performance_2000} \cite{Varga03apractical}.
 
 \section{Parallel simulation with OMNeT++}
 \label{sec:parallel_omnet}
+
+OMNeT++ provides the functionality of running a simulation in parallel with no need for modifications.
+This is achieved by the configuration files which include all \emph{PDES} relevant parameter and settings.
 
 For a parallel simulation using OMNeT++ different implementations for communication and synchronization must be defined and specific requirements must be met.
 These factors are discussed in the following sections.
@@ -41,7 +45,7 @@ The open source library openMPI can be used easily linux operating systems.
 \subsection{Sychronization}
 \label{sec:parallel_omnet_sync}
 
-\section{Requriements}
+\subsection{Requriements}
 \label{sec:parallel_omnet_requirements}
 
 % imported from paper
