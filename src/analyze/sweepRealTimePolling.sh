@@ -11,6 +11,10 @@ TIMES=(1000ns 1100ns 1200ns 1300ns 1400ns 1500ns 2000ns 2500ns 3000ns 3500ns 400
 
 FILE=parameter.ini
 
+if [ -f $FILE ]; then
+    rm $FILE
+fi
+
 for TIME in ${TIMES[*]}
 do
     echo "[General]" >> $FILE

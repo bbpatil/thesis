@@ -178,7 +178,7 @@ if [ -z $RUNS_WITHIN ]; then
 fi
 
 if [ -z $PAR_NAME ]; then
-    PAR_NAME=delay
+    PAR_NAME=generationInterval
 fi
 
 # check necessary commands
@@ -208,7 +208,7 @@ REGEX_GET_PARAMETER="(?<=\\\$$PAR_NAME=)\\d+"
 # check if results file does not yet exist
 if [ ! -f $OUTPUTFOLDER/$RESULTFILE ]; then
     log "write header of result file"
-    if [ ! $DRYRUN ]; then
+    if [ $DRYRUN = false ]; then
         echo "Prefix"$RESULT_SEP"Configuration"$RESULT_SEP"RunNumber"$RESULT_SEP"Parameter" >> $OUTPUTFOLDER/$RESULTFILE
     fi
 fi
@@ -287,7 +287,7 @@ do
         PAR=$(grep -o -P $REGEX_GET_PARAMETER ${FILES[0]})
         
         # write results
-        run $(echo "$OUTPUTPREFIX_DEF$RESULT_SEP$CONFIG$RESULT_SEP$VALID_RUN_NUMBER$RESULT_SEP$VALID_RUN_PAR$RESULT_SEP$PAR" >> $OUTPUTFOLDER/$RESULTFILE)
+        run "echo "$OUTPUTPREFIX_DEF$RESULT_SEP$CONFIG$RESULT_SEP$VALID_RUN_NUMBER$RESULT_SEP$VALID_RUN_PAR$RESULT_SEP$PAR" >> $OUTPUTFOLDER/$RESULTFILE"
     fi
     
 done
