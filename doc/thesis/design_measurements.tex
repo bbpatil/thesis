@@ -94,8 +94,8 @@ This ratio can be measured using the previous method \ref{sec:measurements_metho
 Using the built in real time scheduler \emph{cRealTimeScheduler} the simulation will try to execute the simulation matching the real time.
 The performance output (\emph{cmdenv-performance-display}) provides the ratio of simulated seconds per real second.
 As described in section \ref{sec:simulation_omnet} this ratio must not differ too much from one for representing a real-time simulation.
-The simulated network provides a configurable interval of data/command generation.
-Using a parameter study (described in section \ref{sec:omnet_running_config}) the interval for data/command generation can be set with values form a range of intervals.
+The simulated network provides a configurable interval of data generation by \emph{Generator}.
+Using a parameter study (described in section \ref{sec:omnet_running_config}) the interval for data generation by \emph{Generator} can be set with values form a range of intervals.
 With attention to the performance ratio of the different iterations the interval limit, which still allows real-time simulation, can be determined.
 
 \subsection{Result recording}
@@ -133,7 +133,7 @@ In the following section the measurement result of the evaluation test (sweep of
 The runtime results of the sequential simulations using both designs and given different simulation time limits are displayed in figure \ref{fig:results_runtime_sim_time}.
 The double logarithmic axis shows two linear plots for modular and monolithic design.
 These nearly parallel linear plots show a constant factor in between the runtimes using the two different designs.
-The average ratio of runtime using the modular design over the runtime using the monolithic design is 9999. %TODO refresh
+The average ratio of runtime using the modular design over the runtime using the monolithic design is $9999$. %TODO refresh
 \\
 
 %TODO check if necessary
@@ -153,7 +153,7 @@ The average ratio of runtime using the modular design over the runtime using the
         xlabel={Simulation time $[s]$},
         grid=major,
         legend entries={Modular,Monolithic},
-        legend style={at={(0,1)}, anchor=north west}
+        legend style={at={(0.03,0.97)}, anchor=north west}
         ]
         
         \addplot table {results/runtimeResults.Modular.txt};
@@ -164,11 +164,16 @@ The average ratio of runtime using the modular design over the runtime using the
     \label{fig:results_runtime_sim_time}
 \end{figure}
 
-The following measurement were made with a fixed simulation time limit of 1 minute.
+The following measurement were made with a fixed simulation time limit of 1 minute.\\
 
 The runtime using different designs with a varying number of \emph{EventManagers} is shown in figure \ref{fig:results_runtime_eventmanager}.
+As expected there is no obvious dependency of the required runtime, given a fixed simulation time, to the number of included \emph{EventManagers}.
+Due to the fixed simulation time the number of created event stays the same.
+The only difference introduced by the increasing number of \emph{EventManagers} is the destination of the event typed data.
+The required time for transporting the messages and processing the data is untouched.
+In figure \ref{fig:results_runtime_eventmanager} the offset in between the different designs is representing the ratio of achieved performance regarding the runtime.
+The average of this ratio is $2.885$.
 \\
-%TODO explain
 
 %%% runtime over number of event manager %%%
 \begin{figure}
@@ -178,13 +183,13 @@ The runtime using different designs with a varying number of \emph{EventManagers
     }
     \begin{tikzpicture}
     \begin{axis}[
-    %xmode=log,
+    xmode=log,
     %ymode=log,
     ylabel={Runtime [s]},
     xlabel={Number of \emph{EventManager}},
     grid=major,
     legend entries={Modular,Monolithic},
-    legend style={at={(0,1)}, anchor=north west}
+    legend style={at={(0.97,0.5)},anchor=east}
     ]
     
     \addplot table {results/time/simtimeEventManagerResults.Modular.txt};
@@ -214,7 +219,7 @@ The average ratio of runtime using the modular design over the runtime using the
     xlabel={Polling interval [ns]},
     grid=major,
     legend entries={Modular,Monolithic},
-    legend style={at={(1,1)}, anchor=north east}
+    legend style={at={(0.97,0.97)}, anchor=north east}
     ]
     
     \addplot table {results/time/simtimePollingResults.Modular.txt};
@@ -245,7 +250,7 @@ The average ratio of runtime using the modular design over the runtime using the
     xlabel={Generation interval [ns]},
     grid=major,
     legend entries={Modular,Monolithic},
-    legend style={at={(1,1)}, anchor=north east}
+    legend style={at={(0.97,0.97)}, anchor=north east}
     ]
     
     \addplot table {results/time/simtimeGenerationResults.Modular.txt};
@@ -258,17 +263,20 @@ The average ratio of runtime using the modular design over the runtime using the
 
 
 Analyzing the resulting outputs the ratio of generated messages (events) regarding the different designs can be determined.
-The average ratio of number of created events using the modular design over the number of created events using the monolithic design is $2.143$.%TODO refresh
+The average ratio of number of created events using the modular design over the number of created events using the monolithic design is $2.143$.
 This ratio will be used as correction value for the next measurement method analyzing the created events within a fixed cpu time.
 
 \subsection{Created events}
 \label{sec:measurements_sequential_event}
 
-The results testing the simulations and analyzing the number of created events within a given cpu time are displayed in figure \ref{fig:results_event_cpu_time}.
+The results of testing the simulations and analyzing the number of created events within a given cpu time are displayed in figure \ref{fig:results_event_cpu_time}.
 Similar to the runtime results a double logarithmic display was used for analyzing the characteristic of the plots.
 The courses show potential characteristics and are nearly linear and parallel this leads to the assumption of a constant ratio in between the used designs.
-The average ratio of number of created events using the modular design over the number of created event using the monolithic design is 9999. %TODO refresh
+The average ratio of number of created events using the modular design over the number of created event using the monolithic design is $9999$. %TODO refresh
 \\
+
+%TODO check if necessary
+%\[\frac{\sum\frac{eventcount_{modular}}{eventcount_{monolithic}}}{N} = 0.549\]
 
 %%% event number over cpu time %%%
 \begin{figure}
@@ -284,7 +292,7 @@ The average ratio of number of created events using the modular design over the 
         xlabel={Cpu time $[s]$},
         grid=major,
         legend entries={Modular,Monolithic},
-        legend style={at={(0,1)}, anchor=north west}
+        legend style={at={(0.03,0.97)}, anchor=north west}
         ]
         
         \addplot table {results/eventResults.Modular.txt};
@@ -309,13 +317,13 @@ The number of created events using different designs and a varying number of \em
     }
     \begin{tikzpicture}
     \begin{axis}[
-    %xmode=log,
+    xmode=log,
     %ymode=log,
     ylabel={Created events},
     xlabel={Number of EventManager},
     grid=major,
     legend entries={Modular,Monolithic},
-    legend style={at={(1,1)}, anchor=north east}
+    legend style={at={(0.97,0.5)},anchor=east}
     ]
     
     \addplot table {results/event/cputimeEventManagerResults.Modular.txt};
@@ -327,7 +335,11 @@ The number of created events using different designs and a varying number of \em
 \end{figure}
 
 The number of created events using different designs and a varying polling interval of \emph{HistoryManager} is shown in figure \ref{fig:results_event_polling}.
-This result is leading to the assumption of no defined dependency of the number of created events to the polling interval of \emph{HistoryManager}.
+This result is leading to the assumption of no definable dependency of the number of created events to the polling interval of \emph{HistoryManager}.
+The offset in between the plots using different designs is although indicating a ratio representing the performance difference of the used designs.
+This ratio is defined by the number of created events using a modular design over the number of created events using a monolithic design.
+The average of this ratio results for this test in $0.176$.
+For comparison to the previous and following test method the reciprocal value is calculated and equals $5.681$.
 \\
 
 %%% events over polling interval %%%
@@ -338,13 +350,13 @@ This result is leading to the assumption of no defined dependency of the number 
     }
     \begin{tikzpicture}
     \begin{axis}[
-    %xmode=log,
-    %ymode=log,
+    xmode=log,
+    ymode=log,
     ylabel={Created events},
     xlabel={Polling interval [ns]},
     grid=major,
     legend entries={Modular,Monolithic},
-    legend style={at={(1,1)}, anchor=north east}
+    legend style={at={(0.97,0.5)},anchor=east}
     ]
     
     \addplot table {results/event/cputimePollingResults.Modular.txt};
@@ -355,6 +367,12 @@ This result is leading to the assumption of no defined dependency of the number 
     \label{fig:results_event_polling}
 \end{figure}
 
+The number of created events using different designs and a varying generation interval of \emph{Generator} is shown in figure \ref{fig:results_event_generation}.
+Similar to the polling interval of \emph{HistoryManager} shown in \ref{fig:results_event_polling} there is no dependency identifiable.
+The offset is related to the ratio in between the designs and the average ratio is $0.444$.
+For comparison to the previous and following test method the reciprocal value is calculated and equals $2.252$.
+\\
+
 %%% events over generation interval %%%
 \begin{figure}
     \centering
@@ -363,13 +381,13 @@ This result is leading to the assumption of no defined dependency of the number 
     }
     \begin{tikzpicture}
     \begin{axis}[
-    %xmode=log,
-    %ymode=log,
+    xmode=log,
+    ymode=log,
     ylabel={Created events},
     xlabel={Generation interval [ns]},
     grid=major,
     legend entries={Modular,Monolithic},
-    legend style={at={(1,1)}, anchor=north east}
+    legend style={at={(0.97,0.5)},anchor=east}
     ]
     
     \addplot table {results/event/cputimeGenerationResults.Modular.txt};
@@ -380,63 +398,16 @@ This result is leading to the assumption of no defined dependency of the number 
     \label{fig:results_event_generation}
 \end{figure}
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% saved log %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%   events     : 270677760
-%   perfratio  : 151.037
-%   +++ simulate run 25 for configuration Monolithic
-%   OMNeT++ Discrete Event Simulation  (C) 1992-2014 Andras Varga, OpenSim Ltd.
-%   Version: 4.6, build: 141202-f785492, edition: Academic Public License -- NOT FOR COMMERCIAL USE
-%   See the license for distribution terms and warranty disclaimer
-%   Setting up Cmdenv...
-%   Cmdenv: redirecting output to file `/home/franz/Documents/MasterThesis/src/simulations/DesignTest/output/eventManager_cputime_1min.25.Monolithic.txt'...
-%   
-%   End.
-%   Run 25 for configration Monolithic and study parameter
-%   numberOfEventManagers : 400
-%   resulted with:
-%   runtime    : 59.727s
-%   events     : 267746560
-%   perfratio  : 149.4245
-%   +++ simulate run 26 for configuration Monolithic
-%   OMNeT++ Discrete Event Simulation  (C) 1992-2014 Andras Varga, OpenSim Ltd.
-%   Version: 4.6, build: 141202-f785492, edition: Academic Public License -- NOT FOR COMMERCIAL USE
-%   See the license for distribution terms and warranty disclaimer
-%   Setting up Cmdenv...
-%   Cmdenv: redirecting output to file `/home/franz/Documents/MasterThesis/src/simulations/DesignTest/output/eventManager_cputime_1min.26.Monolithic.txt'...
-%   
-%   End.
-%   Run 26 for configration Monolithic and study parameter
-%   numberOfEventManagers : 500
-%   resulted with:
-%   runtime    : 59.738s
-%   events     : 269989376
-%   perfratio  : 150.6566
-%   truns finished at Die Apr 12 15:40:09 CEST 2016
-%   execute simulation for number of eventmanagers: 1
-%   prtt called at Die Apr 12 15:40:09 CEST 2016 with parameter:
-%   RESULTFILE   = rtEventManagerResults.txt
-%   SEPERATOR    =  
-%   +++ write header of result file
-%   
-%   <!> Error during startup: Error at `parameter.ini' line 3: section name not unique within file.
-%   +++ Configuration Modular expands to  runs
-%   /home/franz/Documents/MasterThesis/src/analyze/bin/prtt: line 226: [: 0: unary operator expected
-%   /home/franz/Documents/MasterThesis/src/analyze/bin/prtt: line 235: ((: RUN<: syntax error: operand expected (error token is "<")
-%   
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% saved log %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-The average ratio of number of created events using the modular design over the number of created events using the monolithic design is 0.549.
-The number of events is increasing with a better simulation performance in contrast to the sinking required runtime.
-The reciprocal value of the average ratio and therefore a comparable performance index is 1.821.
-
-\[\frac{\sum\frac{eventcount_{modular}}{eventcount_{monolithic}}}{N} = 0.549\]
-
 \subsection{Real-time}
 \label{sec:measurements_sequential_realtime}
 
-The real-time results of the sequential simulations using both designs and given different cpu time limits are displayed in figure \ref{fig:results_realtime_sim_time}.
+The real-time results of the sequential simulations using both designs and given different simulation time limits are displayed in figure \ref{fig:results_realtime_sim_time}.
+The simulation time limit defines the runtime of a real-time simulation, but does not affect the performance, i.e. the frequency and complexity of calculations.
+Therefore the result shows as expected no recognizable dependency of the achievable generation interval to the simulation time.
+Although an offset in between the different designs is visible.
+This offset represents the ratio of achievable generation interval using a modular design over to the achievable generation interval using a monolithic design.
+The average of this ratio is $9999$.\\
+%TODO refresh
 
 \begin{figure}
     \centering
@@ -445,13 +416,13 @@ The real-time results of the sequential simulations using both designs and given
     }
     \begin{tikzpicture}
         \begin{axis}[
-        %xmode=log,
-        %ymode=log,
-        ylabel={Minimal achievable real time interval [ns]},
+        xmode=log,
+        ymode=log,
+        ylabel={Achievable real time generation interval [ns]},
         xlabel={Simulation time $[s]$},
         grid=major,
         legend entries={Modular,Monolithic},
-        legend style={at={(0,0.5)}, anchor=north west}
+        legend style={at={(0.97,0.5)}, anchor=east}
         ]
         
         \addplot table {results/realTimeResults.Modular.txt};
@@ -462,16 +433,16 @@ The real-time results of the sequential simulations using both designs and given
     \label{fig:results_realtime_sim_time}
 \end{figure}
 
-The average ratio of achievable real-time generation interval using the modular design over the runtime using the monolithic design is . %TODO inser avg
-
 \subsection{Conclusion of sequential design tests}
 \label{sec:measurements_sequential_conclusion}
 
 Analyzing the results displayed in section \ref{sec:measurements_sequential_runtime}, \ref{sec:measurements_methods_event} and \ref{sec:measurements_methods_realtime} the following insights were made:
 
 \begin{itemize}
-    \item Using a modular design the number of events created is bigger, for example the simulated test network resulted in a ratio of created events for a modular design over a monolithic of $2.983$.
+    \item Using a modular design the number of events created is bigger, for example the simulated test network resulted in a ratio of created events for a modular design over a monolithic of $9999$. %TODO insert event avg
     \item The increased number of events and the included overhead results in an decreased performance noticeable in each of the three used measurement methods.
+    \item The average performance ratio analyzing the runtime is $9999$. %TODO insert runtime avg
+    \item The average performance ratio analyzing the real time behavior is $9999$. %TODO insert realtime avg
     \item Varying load simulated by decreased polling interval or generation interval shows a bigger impact on the performance of the modular design network.
 \end{itemize}
 

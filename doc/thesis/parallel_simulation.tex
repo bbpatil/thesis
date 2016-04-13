@@ -1,13 +1,17 @@
 \chapter{Parallel simulation}
 \label{cha:parallel_sim}
-The so called sequential simulation is executed on a single processor, either logical, physical processor or distributed machines.
-Simulating complex models and a huge number of events this simulation can take long time to execute.
+A sequential simulation is executed on a single processor, either logical, physical processor or machine within a cluster.
+Simulating complex models and a huge number of events can result in a long execution time.
 The distributed discrete event simulation (\emph{DDES}) or parallel discrete event simulation (\emph{PDES}) allows the parallel execution on multiple processors.
+The goal of parallel execution is the improvement of simulation performance and reduction of required execution time.
+Events within a parallel simulation are processed by different logical processes (\emph{LP}).
+Each \emph{LP} can be executed by a different separate processing unit. \cite{bagrodia_parsec_1998}
 
+This distributed processing of events require synchronization for guaranteeing the causality constraint, i.e. the processing of all events within a \emph{LP} is happening with increasing timestamps.
 
 \section{Synchronization}
 \label{sec:parallel_synchronization}
-Running simulations in parallel requires a synchronization in between the logical processes (\emph{LP}) for synchronizing the processed simulation time on the different \emph{LPs}.
+Running simulations in parallel requires a synchronization in between the \emph{LPs} for synchronizing the processed simulation time on the different \emph{LPs}.
 This simulation time can diverge very strongly due to the different set of processed events.
 With varying event intervals this difference results in differencing steps within simulation time.
 For the synchronization of parallel \emph{LPs} different algorithms for this synchronization are available, the choice of the used synchronization method affects the achievable performance of the \emph{PDES}.
