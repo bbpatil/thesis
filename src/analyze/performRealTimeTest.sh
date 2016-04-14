@@ -218,7 +218,10 @@ for CONFIG in ${CONFIGS[*]}
 do
     
     # get number of runs
-    NUMBER=$($SIMEXEC $SIM_OPTIONS -x $CONFIG | grep -o -P $REGEX_GET_NUMBER_OF_RUNS)
+    NUMBER=($($SIMEXEC $SIM_OPTIONS -x $CONFIG | grep -o -P $REGEX_GET_NUMBER_OF_RUNS))
+    
+    # use first number (parallel support)
+    NUMBER=${NUMBER[0]}
 
     log "Configuration $CONFIG expands to $NUMBER runs"    
     

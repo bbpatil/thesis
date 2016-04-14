@@ -230,8 +230,10 @@ for CONFIG in ${CONFIGS[*]}
 do
 
     # get number of runs
-    NUMBER=$($SIMEXEC $SIM_OPTIONS -x $CONFIG | grep -o -P $REGEX_GET_NUMBER_OF_RUNS)
-
+    NUMBER=($($SIMEXEC $SIM_OPTIONS -x $CONFIG | grep -o -P $REGEX_GET_NUMBER_OF_RUNS))
+    # get first number (parallel support)
+    NUMBER=${NUMBER[1]}
+    
     log "Configuration $CONFIG expands to $NUMBER runs"    
 
     # check run begin
@@ -245,39 +247,51 @@ do
     do
         log "simulate run $RUN for configuration $CONFIG"
         
-        # define output file name        
-        OUTPUTFILE=$OUTPUTFOLDER/$OUTPUTPREFIX$SEPERATOR$RUN$SEPERATOR$CONFIG.txt
+        # define output file name
+        OUTPUTBASE=$OUTPUTFOLDER/$OUTPUTPREFIX$SEPERATOR$RUN$SEPERATOR$CONFIG        
+        OUTPUTFILE=$OUTPUTBASE.txt
         
         # execute simulation for defined run and configuration
         run $SIMEXEC $SIM_OPTIONS -c $CONFIG --cmdenv-output-file=$OUTPUTFILE -r $RUN
         
-        # analyze output for study parameters
-        STUDY_PARAM_NAMES=$(grep -o -P $REGEX_GET_PARAMETER_NAMES $OUTPUTFILE)
-        STUDY_PARAM_VALUES=$(grep -o -P $REGEX_GET_PARAMETER_VALUES $OUTPUTFILE)
-        
-        # analyze output for performance values
-        RUNTIME=$(grep -o -P $REGEX_GET_ELAPSED_TIME $OUTPUTFILE)
-        EVENTS=$(grep -o -P $REGEX_GET_CREATED_EVENTS $OUTPUTFILE)
-        PERFRATIO=$(get_avg_ratio $OUTPUTFILE)
-        
-        
-        # write results
-        RESULTS="$OUTPUTPREFIX$RESULT_SEPERATOR$RUN$RESULT_SEPERATOR$CONFIG$RESULT_SEPERATOR$RUNTIME$RESULT_SEPERATOR$EVENTS$RESULT_SEPERATOR$PERFRATIO"
-        
-        log1 "Run $RUN for configration $CONFIG and study parameter"
-        for IDX in ${!STUDY_PARAM_NAMES[*]}
+        # loop through generated output files (for parallel support)
+        FILES=($OUTPUTBASE*)
+        NUMBER_OF_FILES=${!FILES[*]}
+        FILEIDX=0
+        for OUTFILE in ${FILES[*]}
         do
-            log1 "   ${STUDY_PARAM_NAMES[$IDX]} : ${STUDY_PARAM_VALUES[$IDX]}"
-            RESULTS="$RESULTS$RESULT_SEPERATOR${STUDY_PARAM_VALUES[$IDX]}"
-        done
-        log1 "resulted with:"
-        log1 "   runtime    : "$RUNTIME
-        log1 "   events     : "$EVENTS
-        log1 "   perfratio  : "$PERFRATIO
+            # get output for study parameters
+            STUDY_PARAM_NAMES=$(grep -o -P $REGEX_GET_PARAMETER_NAMES $OUTFILE)
+            STUDY_PARAM_VALUES=$(grep -o -P $REGEX_GET_PARAMETER_VALUES $OUTFILE)
+            
+            # get output for performance values and accumulate values
+            RUNTIME=$(grep -o -P $REGEX_GET_ELAPSED_TIME $OUTFILE)
+            EVENTS=$(grep -o -P $REGEX_GET_CREATED_EVENTS $OUTFILE)
+            PERFRATIO=$(get_avg_ratio $OUTFILE)
+            
+                    
+            # write results
+            RESULTS="$OUTPUTPREFIX$RESULT_SEPERATOR$RUN$RESULT_SEPERATOR$CONFIG$RESULT_SEPERATOR$RUNTIME$RESULT_SEPERATOR$EVENTS$RESULT_SEPERATOR$PERFRATIO"
+            
+            log1 "Run $RUN - $FILEIDX for configration $CONFIG and study parameter"
+            for IDX in ${!STUDY_PARAM_NAMES[*]}
+            do
+                log1 "   ${STUDY_PARAM_NAMES[$IDX]} : ${STUDY_PARAM_VALUES[$IDX]}"
+                RESULTS="$RESULTS$RESULT_SEPERATOR${STUDY_PARAM_VALUES[$IDX]}"
+            done
+            # append file index for parallel support
+            RESULTS="$RESULTS$RESULT_SEPERATOR$FILEIDX"
+            
+            log1 "resulted with:"
+            log1 "   runtime    : "$RUNTIME
+            log1 "   events     : "$EVENTS
+            log1 "   perfratio  : "$PERFRATIO
+            
+            run 'echo "$RESULTS" >> $OUTPUTFOLDER/$RESULTFILE'
         
-        run 'echo "$RESULTS" >> $OUTPUTFOLDER/$RESULTFILE'
+            let FILEIDX+=1
+        done
     done
-
 done
 
 

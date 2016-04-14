@@ -63,11 +63,11 @@ class ResultAnalyzer():
                 
                 if len(str(performanceValue)) > 0 and len(str(time)) > 0:
                     # write results to dict
+                    
                     if not row[self.configIdx] in results.keys():
                         results[row[self.configIdx]] = []
                     results[row[self.configIdx]].append([time, performanceValue])
             
-        
         # apply correction factor
         for i in range(0, len(results[results.keys()[self.correctionIdx]])):
             results[results.keys()[self.correctionIdx]][i][1] *= self.correction
@@ -92,6 +92,7 @@ class ResultAnalyzer():
         for val in values1:
             if val[0] in resultList.keys():
                 resultList[val[0]].append(val[1])
+        
         resultList = [(k,v) for k,v in resultList.iteritems() if len(v) > 1]
         
         for k, val in resultList:
@@ -115,6 +116,8 @@ if __name__ == "__main__":
     
     print("started")
     
+    print(args)
+    
     fileName = args.fileName
     #fileName= "results.txt"
     
@@ -125,22 +128,22 @@ if __name__ == "__main__":
     
     # check parameter
     
-    if args.correction:
+    if args.correction != None:
         corr = args.correction
     else:
         corr = 1.0
     
-    if args.index:
+    if args.index != None:
         idx = args.index
     else:
         idx = 5
-        
-    if args.timeIdx:
+    
+    if args.timeIdx != None:
         timeIdx = args.timeIdx
     else:
         timeIdx = 1
         
-    if args.config:
+    if args.config != None:
         configIdx = args.config
     else:
         configIdx = 2
@@ -169,7 +172,6 @@ if __name__ == "__main__":
             resultFile = args.output + path.sep + fileBasename + '.results.' + fileExt
         else:
             resultFile = filePrefix + '.results.' + fileExt
-        
         
         # calculate difference and ratio of performance values
         result = analyzer.calcResults(results.values()[0], results.values()[1])
