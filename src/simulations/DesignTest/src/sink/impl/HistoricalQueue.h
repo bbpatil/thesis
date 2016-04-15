@@ -17,6 +17,7 @@
 #define HISTORICALQUEUE_H_
 
 #include <functional>
+#include <memory>
 #include <queue>
 #include "Data.h"
 
@@ -24,21 +25,20 @@ class HistoricalQueue
 {
         // Definitions
     private:
-        using ProcessDataFunc = std::function<void(Packet)>;
         using PacketQueue = std::queue<Packet>;
 
         // C-Tor / D-Tor
     public:
-        HistoricalQueue(ProcessDataFunc processData);
+        HistoricalQueue();
         virtual ~HistoricalQueue();
 
         // Methods
     public:
         void PushData(Packet packet);
+        PacketPtr PopData();
 
         // Member
     private:
-        ProcessDataFunc mProcessData;
         PacketQueue mQueue;
 };
 

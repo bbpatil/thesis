@@ -20,30 +20,34 @@
 
 using namespace std;
 
-HistoryManager::HistoryManager()
+HistoryManager::HistoryManager(PopFunc popFunc) :
+        mPop(popFunc)
 {
-    // TODO Auto-generated constructor stub
-
 }
 
 HistoryManager::~HistoryManager()
 {
-    // TODO Auto-generated destructor stub
 }
 
-void HistoryManager::ProcessData(Packet packet)
+void HistoryManager::PollHistory()
 {
-    // dummy processing
+    // get data
+    auto hist = mPop();
 
-    using intType = long;
-    using floatType = float;
-    intType dummySum = 0;
-    floatType dummyProduct = 1.2375;
-    multiplies<floatType> multiply;
-
-    for (auto i = 0; i < packet[0] * 0.5; i++)
+    if (hist != nullptr)
     {
-        dummySum += accumulate(packet.begin(), packet.end(), 0);
-        for_each(packet.begin(), packet.end(), bind(multiply, placeholders::_1, ref(dummyProduct)));
+        Packet& packet = *hist;
+
+        using intType = long;
+        using floatType = float;
+        intType dummySum = 0;
+        floatType dummyProduct = 1.2375;
+        multiplies<floatType> multiply;
+
+        for (auto i = 0; i < packet[0] * 0.5; i++)
+        {
+            dummySum += accumulate(packet.begin(), packet.end(), 0);
+            for_each(packet.begin(), packet.end(), bind(multiply, placeholders::_1, ref(dummyProduct)));
+        }
     }
 }

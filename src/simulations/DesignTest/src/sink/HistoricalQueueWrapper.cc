@@ -22,36 +22,60 @@ Define_Module(HistoricalQueueWrapper);
 
 using namespace std;
 
-HistoricalQueueWrapper::HistoricalQueueWrapper() :
-        mQueue(
-                bind(&HistoricalQueueWrapper::SendHistorical, this,
-                        placeholders::_1))
-{
-}
+#define BUBBLE(msg) \
+        if (ev.isGUI())\
+            bubble(msg)
 
 void HistoricalQueueWrapper::initialize()
 {
+    mQueue = make_unique<HistoricalQueue>();
 
+    mDataGate = gate("historicalIn");
+    mCmdGate = gate("pollData");
 }
 
 void HistoricalQueueWrapper::handleMessage(cMessage *msg)
 {
     if (msg != nullptr)
     {
-        auto historical = dynamic_cast<PacketMessage*>(msg);
+        // check receiving gate
+        auto id = msg->getArrivalGateId();
 
-        if (historical != nullptr)
+        if (id == mDataGate->getId())
         {
-            mQueue.PushData(historical->getPack());
+            // forward history data
+            auto historical = dynamic_cast<PacketMessage*>(msg);
+
+            if (historical != nullptr)
+            {
+                BUBBLE("Hisorical data received");
+
+                mQueue->PushData(historical->getPack());
+            }
         }
+        else if (id == mCmdGate->getId())
+        {
+            BUBBLE("Polling cmd receievd");
+
+            // poll queue
+            auto data = mQueue->PopData();
+
+            // check if valid packet
+            if (data != nullptr)
+            {
+                // send polled packet
+                auto packet = new PacketMessage();
+                packet->setPack(*data);
+                send(packet, "historicalOut");
+            }
+            else
+                // send empty message
+                send(new cMessage(), "historicalOut");
+
+        }
+        else
+            error("invalid gate id");
 
         delete msg;
     }
-}
-
-void HistoricalQueueWrapper::SendHistorical(Packet historical)
-{
-    auto msg = new PacketMessage();
-    msg->setPack(historical);
-    send(msg, "historicalOut");
 }

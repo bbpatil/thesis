@@ -19,4 +19,5 @@ moduleinterface ISink
 {
     gates:
         input data;
+        input pollingCmd;
 }

@@ -20,7 +20,7 @@ Define_Module(Generator);
 
 void Generator::initialize()
 {
-    this->scheduleAt(simTime(), new cMessage);
+    this->scheduleAt(simTime(), createSelfMessage(SelfMessageType::GenerateData));
 }
 
 void Generator::handleMessage(cMessage *msg)
@@ -29,21 +29,50 @@ void Generator::handleMessage(cMessage *msg)
 
     if (msg->isSelfMessage())
     {
-        // create new message
-        auto pkt = new DataMessage();
+        // check message kind
+        switch (msg->getKind())
+        {
+            case static_cast<short>(SelfMessageType::GenerateData): {
 
-        Data data;
-        data.type = static_cast<DataType>(counter++ % 3);
-        data.data = {123};
+                // create new message
+                auto pkt = new DataMessage();
 
-        pkt->setData(data);
+                Data data;
+                data.type = static_cast<DataType>(counter++ % 3);
+                data.data =
+                {   123};
 
-        // send message
-        send((cMessage*)pkt, "data");
+                pkt->setData(data);
 
-        // schedule next call
-        this->scheduleAt(simTime() + par("generationInterval"), new cMessage);
+                // send message
+                send((cMessage*) pkt, "data");
+
+                // schedule polling cmd
+                this->scheduleAt(simTime() + par("generationInterval"), createSelfMessage(SelfMessageType::PollingCmd));
+
+                break;
+            }
+            case static_cast<short>(SelfMessageType::PollingCmd): {
+                // send polling command
+                send(new cMessage(), "pollingCmd");
+
+                // schedule generation cmd
+                this->scheduleAt(simTime() + par("generationInterval"),
+                        createSelfMessage(SelfMessageType::GenerateData));
+                break;
+            }
+            default:
+                error("invalid message kind");
+        }
+
     }
 
     delete msg;
+}
+
+cMessage* Generator::createSelfMessage(SelfMessageType type)
+{
+    auto msg = new cMessage();
+    msg->setKind(static_cast<short>(type));
+    return msg;
 }

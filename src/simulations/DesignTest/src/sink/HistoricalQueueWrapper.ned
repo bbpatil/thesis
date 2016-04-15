@@ -22,5 +22,6 @@ simple HistoricalQueueWrapper
 {
     gates:
         input historicalIn;
+        input pollData;
         output historicalOut;
 }

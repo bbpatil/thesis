@@ -22,4 +22,5 @@ simple MonolithicSink like ISink
         @statistic[msgTypeRec](title="Message Types"; record=vector?; source=msgType);
     gates:
         input data;
+        input pollingCmd;
 }

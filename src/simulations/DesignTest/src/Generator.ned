@@ -25,4 +25,5 @@ simple Generator
         	@class(Generator);
     gates:
         output data;
+        output pollingCmd;
 }

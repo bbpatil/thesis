@@ -21,5 +21,7 @@ package designtest.sink;
 simple HistoryManagerWrapper
 {
     gates:
+        output pollData;
         input historical;
+        input pollingCmd;
 }

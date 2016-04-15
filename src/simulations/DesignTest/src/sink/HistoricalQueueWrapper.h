@@ -17,6 +17,7 @@
 #define __DESIGNTEST_HISTORICALQUEUEWRAPPER_H_
 
 #include <omnetpp.h>
+#include <memory>
 
 #include "Data.h"
 #include "HistoricalQueue.h"
@@ -26,21 +27,15 @@
  */
 class HistoricalQueueWrapper : public cSimpleModule
 {
-        // C-Tor
-    public:
-        HistoricalQueueWrapper();
-
     protected:
         virtual void initialize();
         virtual void handleMessage(cMessage *msg);
 
-        // Methods
-    public:
-        void SendHistorical(Packet historical);
-
         // Member
     private:
-        HistoricalQueue mQueue;
+        std::unique_ptr<HistoricalQueue> mQueue;
+        cGate* mDataGate;
+        cGate* mCmdGate;
 };
 
 #endif

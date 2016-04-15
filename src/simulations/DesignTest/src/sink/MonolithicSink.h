@@ -36,10 +36,6 @@ class MonolithicSink : public cSimpleModule
         template<typename T>
         using Pointer = std::unique_ptr<T>;
 
-        // C-Tor
-    public:
-        MonolithicSink();
-
     protected:
         virtual void initialize();
         virtual void handleMessage(cMessage *msg);
@@ -51,6 +47,9 @@ class MonolithicSink : public cSimpleModule
         Pointer<EventManager> mEventManager;
         Pointer<HistoricalQueue> mHistoricalQueue;
         Pointer<HistoryManager> mHistoryManager;
+
+        cGate * mDataGate;
+        cGate * mCmdGate;
 
         simsignal_t mSignalId;
 };

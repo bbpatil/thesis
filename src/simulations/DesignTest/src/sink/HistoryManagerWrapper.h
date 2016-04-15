@@ -17,21 +17,32 @@
 #define __DESIGNTEST_HISTORYMANAGERWRAPPER_H_
 
 #include <omnetpp.h>
+#include <memory>
 
 #include "HistoryManager.h"
+#include "Data.h"
 
-/**
- * TODO - Generated class
- */
 class HistoryManagerWrapper : public cSimpleModule
 {
-  protected:
-    virtual void initialize();
-    virtual void handleMessage(cMessage *msg);
+        // Definitions
+    private:
+        using MsgPtr = std::unique_ptr<cMessage>;
 
-    // Member
-  private:
-    HistoryManager mHistoryManager;
+    public:
+        HistoryManagerWrapper();
+
+    protected:
+
+        virtual void activity();
+
+        // Methods
+    public:
+        PacketPtr ProcessPop();
+
+
+        // Member
+    private:
+        std::unique_ptr<HistoryManager> mHistoryManager;
 };
 
 #endif

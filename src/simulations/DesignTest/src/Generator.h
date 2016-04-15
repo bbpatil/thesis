@@ -20,9 +20,20 @@
 
 class Generator : public cSimpleModule
 {
+        // Definitions
+    private:
+        enum class SelfMessageType : short
+        {
+            GenerateData,
+            PollingCmd
+        };
+
     protected:
         virtual void initialize();
         virtual void handleMessage(cMessage *msg);
+
+    private:
+        cMessage * createSelfMessage(SelfMessageType type);
 };
 
 #endif

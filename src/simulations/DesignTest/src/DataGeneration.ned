@@ -35,4 +35,5 @@ network DataGeneration
         }
     connections:
         generator.data --> sink.data;
+        generator.pollingCmd --> sink.pollingCmd;
 }

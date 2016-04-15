@@ -16,18 +16,27 @@
 #ifndef HISTORYMANAGER_H_
 #define HISTORYMANAGER_H_
 
+#include <functional>
 #include "Data.h"
 
 class HistoryManager
 {
+        // Definitions
+    private:
+        using PopFunc = std::function<PacketPtr(void)>;
+
         // C-Tor / D-Tor
     public:
-        HistoryManager();
+        HistoryManager(PopFunc popFunc);
         virtual ~HistoryManager();
 
         // Methods
     public:
-        void ProcessData(Packet packet);
+        void PollHistory();
+
+        // Member
+    private:
+        PopFunc mPop;
 };
 
 #endif /* HISTORYMANAGER_H_ */

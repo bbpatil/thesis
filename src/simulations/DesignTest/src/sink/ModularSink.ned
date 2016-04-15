@@ -20,6 +20,7 @@ module ModularSink like ISink
     @display("bgb=587,344");
     gates:
         input data;
+        input pollingCmd;
     submodules:
         dispatcherWrapper: DispatcherWrapper {
             @display("p=119,76");
@@ -42,4 +43,6 @@ module ModularSink like ISink
         data --> dispatcherWrapper.data;
         dispatcherWrapper.historical --> historicalQueueWrapper.historicalIn;
         historicalQueueWrapper.historicalOut --> historyManagerWrapper.historical;
+        historyManagerWrapper.pollData --> historicalQueueWrapper.pollData;
+        pollingCmd --> historyManagerWrapper.pollingCmd;
 }

@@ -13,30 +13,70 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
+#include <functional>
+#include <memory>
+
 #include "HistoryManagerWrapper.h"
 #include "PacketMessage_m.h"
 
 Define_Module(HistoryManagerWrapper);
 
-void HistoryManagerWrapper::initialize()
+#define BUBBLE(msg) \
+        if (ev.isGUI())\
+            bubble(msg)
+
+
+HistoryManagerWrapper::HistoryManagerWrapper()
+    : cSimpleModule(512)
 {
-    // TODO - Generated method body
+    mHistoryManager = std::make_unique<HistoryManager>(std::bind(&HistoryManagerWrapper::ProcessPop, this));
 }
 
-void HistoryManagerWrapper::handleMessage(cMessage *msg)
+// called within activity
+PacketPtr HistoryManagerWrapper::ProcessPop()
 {
-    if (msg != nullptr)
+    BUBBLE("Send poll cmd");
+
+    // send poll message
+    send(new cMessage(), "pollData");
+
+    // receive data message
+    MsgPtr msg(receive());
+
+    // get packet from data
+    auto historical = dynamic_cast<PacketMessage*>(msg.get());
+
+    if (historical != nullptr)
     {
-        auto historical = dynamic_cast<PacketMessage*>(msg);
+        BUBBLE("Historical Data received");
+        return std::make_unique<Packet>(historical->getPack());
+    }
 
-        if (historical != nullptr)
+    return nullptr;
+}
+
+
+void HistoryManagerWrapper::activity()
+{
+    auto cmdGate = gate("pollingCmd");
+
+    bool running = true;
+
+    while(running)
+    {
+        // receive cmd message
+        MsgPtr msg(receive());
+
+        // check input gate
+        auto id = msg->getArrivalGate()->getId();
+
+        if (id == cmdGate->getId())
         {
-            mHistoryManager.ProcessData(historical->getPack());
-
-            if (ev.isGUI())
-                bubble("Historical data processed");
+            // process polling cmd
+            mHistoryManager->PollHistory();
         }
+        else
+            error("unknown reiceiving gate pointer");
 
-        delete msg;
     }
 }

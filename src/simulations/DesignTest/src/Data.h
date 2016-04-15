@@ -9,8 +9,10 @@
 #define DATA_H_
 
 #include <array>
+#include <memory>
 
 using Packet = std::array<unsigned char, 64>;
+using PacketPtr = std::unique_ptr<Packet>;
 
 enum class DataType
 {

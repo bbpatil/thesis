@@ -15,29 +15,30 @@
 
 #include <HistoricalQueue.h>
 
-HistoricalQueue::HistoricalQueue(ProcessDataFunc processData) :
-        mProcessData(processData)
+HistoricalQueue::HistoricalQueue()
 {
 }
 
 HistoricalQueue::~HistoricalQueue()
 {
-    // TODO Auto-generated destructor stub
 }
 
 void HistoricalQueue::PushData(Packet packet)
 {
     // add packet to internal queue
     mQueue.push(packet);
+}
 
-    // check if more than 4 elements are in the queue
-    if (mQueue.size() > 4)
+PacketPtr HistoricalQueue::PopData()
+{
+    // check internal queue
+    if (!mQueue.empty())
     {
-        // process all elements
-        while(!mQueue.empty())
-        {
-            mProcessData(mQueue.front());
-            mQueue.pop();
-        }
+        // get element and make pointer
+        PacketPtr packet(new Packet(mQueue.front()));
+        mQueue.pop();
+        return std::move(packet);
     }
+
+    return nullptr;
 }
