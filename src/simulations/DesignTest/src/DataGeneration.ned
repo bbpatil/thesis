@@ -24,7 +24,7 @@ import designtest.sink.*;
 network DataGeneration
 {
     parameters:
-        string sinkType = default("MonolithicSink");
+        string sinkType;
 
     submodules:
         generator: Generator {

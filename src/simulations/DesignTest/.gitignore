@@ -5,3 +5,4 @@ Makefile*
 .settings
 DesignTest
 results/
+comm/

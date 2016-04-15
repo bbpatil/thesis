@@ -15,6 +15,31 @@
 
 package designtest.sink;
 
-module ModularSink
+module ModularSink like ISink
 {
+    @display("bgb=587,344");
+    gates:
+        input data;
+    submodules:
+        dispatcherWrapper: DispatcherWrapper {
+            @display("p=119,76");
+        }
+        configWrapper: ConfigWrapper {
+            @display("p=255,65");
+        }
+        eventWrapper: EventWrapper {
+            @display("p=255,148");
+        }
+        historicalQueueWrapper: HistoricalQueueWrapper {
+            @display("p=243,249");
+        }
+        historyManagerWrapper: HistoryManagerWrapper {
+            @display("p=463,249");
+        }
+    connections:
+        dispatcherWrapper.config --> configWrapper.config;
+        dispatcherWrapper.event --> eventWrapper.event;
+        data --> dispatcherWrapper.data;
+        dispatcherWrapper.historical --> historicalQueueWrapper.historicalIn;
+        historicalQueueWrapper.historicalOut --> historyManagerWrapper.historical;
 }

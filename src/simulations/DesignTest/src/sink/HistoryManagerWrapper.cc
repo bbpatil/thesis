@@ -13,37 +13,30 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include "Generator.h"
-#include "DataMessage_m.h"
+#include "HistoryManagerWrapper.h"
+#include "PacketMessage_m.h"
 
-Define_Module(Generator);
+Define_Module(HistoryManagerWrapper);
 
-void Generator::initialize()
+void HistoryManagerWrapper::initialize()
 {
-    this->scheduleAt(simTime(), new cMessage);
+    // TODO - Generated method body
 }
 
-void Generator::handleMessage(cMessage *msg)
+void HistoryManagerWrapper::handleMessage(cMessage *msg)
 {
-    static size_t counter = 0;
-
-    if (msg->isSelfMessage())
+    if (msg != nullptr)
     {
-        // create new message
-        auto pkt = new DataMessage();
+        auto historical = dynamic_cast<PacketMessage*>(msg);
 
-        Data data;
-        data.type = static_cast<DataType>(counter++ % 3);
-        data.data = {123};
+        if (historical != nullptr)
+        {
+            mHistoryManager.ProcessData(historical->getPack());
 
-        pkt->setData(data);
+            if (ev.isGUI())
+                bubble("Historical data processed");
+        }
 
-        // send message
-        send((cMessage*)pkt, "data");
-
-        // schedule next call
-        this->scheduleAt(simTime() + par("generationInterval"), new cMessage);
+        delete msg;
     }
-
-    delete msg;
 }

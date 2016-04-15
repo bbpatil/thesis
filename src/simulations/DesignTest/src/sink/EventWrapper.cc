@@ -13,37 +13,35 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include "Generator.h"
-#include "DataMessage_m.h"
+#include "EventWrapper.h"
+#include "PacketMessage_m.h"
 
-Define_Module(Generator);
+Define_Module(EventWrapper);
 
-void Generator::initialize()
+EventWrapper::EventWrapper()
 {
-    this->scheduleAt(simTime(), new cMessage);
 }
 
-void Generator::handleMessage(cMessage *msg)
+void EventWrapper::initialize()
 {
-    static size_t counter = 0;
+    // TODO - Generated method body
+}
 
-    if (msg->isSelfMessage())
+void EventWrapper::handleMessage(cMessage *msg)
+{
+    // get packet from message
+    if (msg != nullptr)
     {
-        // create new message
-        auto pkt = new DataMessage();
+        auto event = dynamic_cast<PacketMessage*>(msg);
 
-        Data data;
-        data.type = static_cast<DataType>(counter++ % 3);
-        data.data = {123};
+        if (event != nullptr)
+        {
+            mEventManager.ProcessEvent(event->getPack());
 
-        pkt->setData(data);
+            if (ev.isGUI())
+                bubble("Event processed");
+        }
 
-        // send message
-        send((cMessage*)pkt, "data");
-
-        // schedule next call
-        this->scheduleAt(simTime() + par("generationInterval"), new cMessage);
+        delete msg;
     }
-
-    delete msg;
 }

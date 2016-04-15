@@ -13,37 +13,25 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include "Generator.h"
-#include "DataMessage_m.h"
+#ifndef __DESIGNTEST_HISTORYMANAGERWRAPPER_H_
+#define __DESIGNTEST_HISTORYMANAGERWRAPPER_H_
 
-Define_Module(Generator);
+#include <omnetpp.h>
 
-void Generator::initialize()
+#include "HistoryManager.h"
+
+/**
+ * TODO - Generated class
+ */
+class HistoryManagerWrapper : public cSimpleModule
 {
-    this->scheduleAt(simTime(), new cMessage);
-}
+  protected:
+    virtual void initialize();
+    virtual void handleMessage(cMessage *msg);
 
-void Generator::handleMessage(cMessage *msg)
-{
-    static size_t counter = 0;
+    // Member
+  private:
+    HistoryManager mHistoryManager;
+};
 
-    if (msg->isSelfMessage())
-    {
-        // create new message
-        auto pkt = new DataMessage();
-
-        Data data;
-        data.type = static_cast<DataType>(counter++ % 3);
-        data.data = {123};
-
-        pkt->setData(data);
-
-        // send message
-        send((cMessage*)pkt, "data");
-
-        // schedule next call
-        this->scheduleAt(simTime() + par("generationInterval"), new cMessage);
-    }
-
-    delete msg;
-}
+#endif

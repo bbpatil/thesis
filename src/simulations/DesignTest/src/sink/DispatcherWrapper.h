@@ -13,37 +13,35 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include "Generator.h"
-#include "DataMessage_m.h"
+#ifndef __DESIGNTEST_DISPATCHERWRAPPER_H_
+#define __DESIGNTEST_DISPATCHERWRAPPER_H_
 
-Define_Module(Generator);
+#include <omnetpp.h>
 
-void Generator::initialize()
+#include "Dispatcher.h"
+
+class DispatcherWrapper : public cSimpleModule
 {
-    this->scheduleAt(simTime(), new cMessage);
-}
+        // C-Tor
+    public:
+        DispatcherWrapper();
 
-void Generator::handleMessage(cMessage *msg)
-{
-    static size_t counter = 0;
+    protected:
+        virtual void initialize();
+        virtual void handleMessage(cMessage *msg);
 
-    if (msg->isSelfMessage())
-    {
-        // create new message
-        auto pkt = new DataMessage();
+        // Methods
+    public:
+        void sendConfig(Packet config);
+        void sendEvent(Packet event);
+        void sendHistorical(Packet historicalPacket);
 
-        Data data;
-        data.type = static_cast<DataType>(counter++ % 3);
-        data.data = {123};
+    private:
+        void sendPacket(Packet const & packet, const char * gateName);
 
-        pkt->setData(data);
+        // Member
+    private:
+        Dispatcher mDispatcher;
+};
 
-        // send message
-        send((cMessage*)pkt, "data");
-
-        // schedule next call
-        this->scheduleAt(simTime() + par("generationInterval"), new cMessage);
-    }
-
-    delete msg;
-}
+#endif
