@@ -8,6 +8,7 @@
 
 VERSION=0.0.1
 DRYRUN=false
+DEBUG=false
 
 function error {
     echo -e "\e[31mERROR: $@\e[0m"
@@ -19,6 +20,12 @@ function log {
 
 function log1 {
     echo -e "\e[32m$@\e[0m"
+}
+
+function logd {
+    if [ $DEBUG = true ]; then
+        log $*
+    fi
 }
 
 # function for executing given commands only when dry run is deactivated
@@ -102,6 +109,8 @@ function printUsage {
     echo "RATIO_UPPER .... upper border for a valid real time ratio"
     echo "RATIO_LOWER .... lower border for a valid real time ratio"
     echo "RUNS_WITHIN .... number of runs that must be within the defined ratio"
+    echo "PAR_NAME ....... name of run parameter"
+    echo "DEBUG .......... detailed debug output"
 }
 
 # parse optional parameters
@@ -139,9 +148,8 @@ fi
 SIMEXEC=$1; shift
 SIM_OPTIONS=$@
 
-
 if [ -z $RESULTFILE ]; then
-    RESULTFILE=realTimeResults.txt 
+    RESULTFILE=realTimeResults.txt
 fi
 
 if [ -z $SEPERATOR ]; then
@@ -191,9 +199,17 @@ fi
 
 # print start message
 log1 "$(basename $0) called at $(date) with parameter:"
+log1 "  SIMEXEC      = $SIMEXEC"
+log1 "  SIM_OPTIONS  = $SIM_OPTIONS"
 log1 "  RESULTFILE   = $RESULTFILE"
 log1 "  SEPERATOR    = $RESULT_SEP"
-# TODO enhance
+log1 "  OUTPUTFOLDER = $OUTPUTFOLDER"
+log1 "  OUTPUTPREFIX = $OUTPUTPREFIX"
+log1 "  RUNSTART     = $RUNSTART"
+log1 "  RATIO_UPPER  = $RATIO_UPPER"
+log1 "  RATIO_LOWER  = $RATIO_LOWER"
+log1 "  RUNS_WITHIN  = $RUNS_WITHIN"
+log1 "  PAR_NAME     = $PAR_NAME"
 
 # settings for tconf
 export SEPERATOR=.
@@ -252,10 +268,13 @@ do
         # loop through current result files
         for FILE in $(find $OUTPUTFOLDER/ -name "$OUTPUTPREFIX$SEPERATOR$CONFIG$SEPERATOR*")
         do
+            logd "Analyzing file: $FILE"
+        
             # check if ratios in file are within defined border
             ratios_within $FILE
             
             if [ $? != 0 ]; then
+                logd "file resulted invalid"
                 RUN_VALID=false
             fi
         done
@@ -268,6 +287,7 @@ do
                 
             # check if valid run number is set
             if [ -z $VALID_RUN_NUMBER ]; then
+                logd "first valid run in sequence"
                 VALID_RUN_NUMBER=$RUN
             fi
             
@@ -277,21 +297,27 @@ do
                 break;
             fi
         else
+            logd "invalid run"
             WITHIN_COUNTER=0
             VALID_RUN_NUMBER=
         fi
     done
     
+    logd "finished analzye $VALID_RUN_NUMBER"
+    
     # check if run was detected
-    if [ -n $VALID_RUN_NUMBER ]; then
+    if [ -n "$VALID_RUN_NUMBER" ]; then
         
+        logd "valid run detected"
         # get parameter of resulting run
         FILES=($(find $OUTPUTFOLDER/ -name "$OUTPUTPREFIX_DEF$SEPERATOR$VALID_RUN_NUMBER$SEPERATOR$CONFIG$SEPERATOR*"))
         PAR=$(grep -o -P $REGEX_GET_PARAMETER ${FILES[0]})
         
         # write results
-        run "echo "$OUTPUTPREFIX_DEF$RESULT_SEP$CONFIG$RESULT_SEP$VALID_RUN_NUMBER$RESULT_SEP$VALID_RUN_PAR$RESULT_SEP$PAR" >> $OUTPUTFOLDER/$RESULTFILE"
+        run 'echo "$OUTPUTPREFIX_DEF$RESULT_SEP$CONFIG$RESULT_SEP$VALID_RUN_NUMBER$RESULT_SEP$VALID_RUN_PAR$RESULT_SEP$PAR" >> $OUTPUTFOLDER/$RESULTFILE'
     fi
+    
+    logd "done with configuration $CONFIG"
     
 done
 
