@@ -27,7 +27,7 @@ Define_Module(HistoryManagerWrapper);
 
 
 HistoryManagerWrapper::HistoryManagerWrapper()
-    : cSimpleModule(512)
+    : cSimpleModule(1)
 {
     mHistoryManager = std::make_unique<HistoryManager>(std::bind(&HistoryManagerWrapper::ProcessPop, this));
 }

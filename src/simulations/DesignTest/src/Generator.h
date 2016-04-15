@@ -32,8 +32,10 @@ class Generator : public cSimpleModule
         virtual void initialize();
         virtual void handleMessage(cMessage *msg);
 
+        // Member
     private:
         cMessage * createSelfMessage(SelfMessageType type);
+        simtime_t mDelay;
 };
 
 #endif

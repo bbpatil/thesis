@@ -32,7 +32,6 @@ class HistoryManagerWrapper : public cSimpleModule
         HistoryManagerWrapper();
 
     protected:
-
         virtual void activity();
 
         // Methods

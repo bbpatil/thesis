@@ -20,6 +20,10 @@ Define_Module(Generator);
 
 void Generator::initialize()
 {
+    // resolve parameter and calc delay
+    mDelay = simtime_t(par("generationInterval"), SimTimeUnit::SIMTIME_NS);
+
+    // schedule starting self message
     this->scheduleAt(simTime(), createSelfMessage(SelfMessageType::GenerateData));
 }
 
@@ -48,7 +52,7 @@ void Generator::handleMessage(cMessage *msg)
                 send((cMessage*) pkt, "data");
 
                 // schedule polling cmd
-                this->scheduleAt(simTime() + par("generationInterval"), createSelfMessage(SelfMessageType::PollingCmd));
+                this->scheduleAt(simTime() + mDelay, createSelfMessage(SelfMessageType::PollingCmd));
 
                 break;
             }
@@ -57,7 +61,8 @@ void Generator::handleMessage(cMessage *msg)
                 send(new cMessage(), "pollingCmd");
 
                 // schedule generation cmd
-                this->scheduleAt(simTime() + par("generationInterval"),
+
+                this->scheduleAt(simTime() + mDelay,
                         createSelfMessage(SelfMessageType::GenerateData));
                 break;
             }

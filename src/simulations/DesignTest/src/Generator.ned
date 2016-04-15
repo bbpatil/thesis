@@ -21,8 +21,8 @@ package designtest;
 simple Generator
 {
     parameters:
-        int generationInterval @unit(s) = default(exponential(1s));
-        	@class(Generator);
+        double generationInterval @unit(ns) = default(1s);
+        @class(Generator);
     gates:
         output data;
         output pollingCmd;
