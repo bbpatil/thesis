@@ -1,5 +1,4 @@
 *.o
-*.o
 *.d
 *.log
 <<<<<<< HEAD
@@ -7,9 +6,11 @@
 .tkenvlog
 =======
 
+*.a
 */bin/*
 *.so
 
+out/
 
 .metadata
 bin/
