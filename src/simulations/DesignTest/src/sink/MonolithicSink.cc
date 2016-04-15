@@ -15,7 +15,26 @@
 
 #include "MonolithicSink.h"
 
+#include "impl/Dispatcher.h"
+#include "impl/ConfigurationManager.h"
+#include "impl/EventManager.h"
+#include "impl/HistoricalQueue.h"
+#include "impl/HistoryManager.h"
+
+#include <memory>
+
 Define_Module(MonolithicSink);
+
+
+MonolithicSink::MonolithicSink()
+{
+    // create inner structure
+    mHistoryManager = std::make_unique<HistoryManager>();
+    mHistoricalQueue = std::make_unique<HistoricalQueue>(std::mem_fun(&HistoryManager::ProcessData, *mHistoryManager));
+    mEventManager = std::make_unique<EventManager>();
+    mConfigManager = std::make_unique<ConfigurationManager>();
+    //mDispatcher = std::make_unique<Dispatcher>();
+}
 
 void MonolithicSink::initialize()
 {

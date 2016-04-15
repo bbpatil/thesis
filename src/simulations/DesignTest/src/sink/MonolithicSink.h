@@ -17,19 +17,40 @@
 #define __DESIGNTEST_MONOLITHICSINK_H_
 
 #include <omnetpp.h>
+#include <memory>
+
+// forward declarations
+class Dispatcher;
+class ConfigurationManager;
+class EventManager;
+class HistoricalQueue;
+class HistoryManager;
 
 /**
  * TODO - Generated class
  */
 class MonolithicSink : public cSimpleModule
 {
-  protected:
-    virtual void initialize();
-    virtual void handleMessage(cMessage *msg);
+        // Definitions
+    private:
+        template<typename T>
+        using Pointer = std::unique_ptr<T>;
 
-    // Member
-  private:
+        // C-Tor
+    public:
+        MonolithicSink();
 
+    protected:
+        virtual void initialize();
+        virtual void handleMessage(cMessage *msg);
+
+        // Member
+    private:
+        Pointer<Dispatcher> mDispatcher;
+        Pointer<ConfigurationManager> mConfigManager;
+        Pointer<EventManager> mEventManager;
+        Pointer<HistoricalQueue> mHistoricalQueue;
+        Pointer<HistoryManager> mHistoryManager;
 };
 
 #endif
