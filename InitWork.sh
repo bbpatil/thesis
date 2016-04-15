@@ -12,4 +12,10 @@ pushd $OMNETPP_ROOT
  google-chrome https://omnetpp.org/documentation &
  
  echo "open masterthesis"
- texstudio doc/thesis/masterthesis.tex &
+ texstudio doc/thesis/masterthesis.tex --master &
+ 
+ echo "open doc folder"
+ dolphin doc &
+ 
+ echo "switch to src folder"
+ cd src
