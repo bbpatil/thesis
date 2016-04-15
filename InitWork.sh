@@ -5,22 +5,56 @@ pushd $OMNETPP_ROOT
 source setenv
 popd
 
-ANALYZE_BIN=$(realpath src/analyze/bin/)
+PRJ_HOME=$(pwd)
+ANALYZE_BIN=$PRJ_HOME/src/analyze/bin
 
-echo "add analyze bin folder to PATH"
-export PATH=$PATH:$ANALYZE_BIN
+function execute_if_not_yet {
+ARGS=($*)
+LINKNAME=${ARGS[3]}
+if [ -e $LINKNAME ]; then
+	echo "link already exists $LINKNAME"
+else	
+	eval $*
+fi
+}
+
+# check if analyze bin dir does not exists
+if [ ! -d $ANALYZE_BIN ]; then
+    echo "create analyze bin directory"
+    mkdir $ANALYZE_BIN
+fi
+
+echo "create symlinks to analyze scripts"
+execute_if_not_yet "ln -s $PRJ_HOME/src/analyze/performEventTest.sh $ANALYZE_BIN/pet"
+execute_if_not_yet "ln -s $PRJ_HOME/src/analyze/performRuntimeTest.sh $ANALYZE_BIN/prt"
+execute_if_not_yet "ln -s $PRJ_HOME/src/analyze/performRealTimeTest.sh $ANALYZE_BIN/prtt"
+execute_if_not_yet "ln -s $PRJ_HOME/src/analyze/sweepCpuTime.sh $ANALYZE_BIN/sct"
+execute_if_not_yet "ln -s $PRJ_HOME/src/analyze/sweepSimTime.sh $ANALYZE_BIN/sst"
+execute_if_not_yet "ln -s $PRJ_HOME/src/analyze/sweepRealTimeEventManagers.sh $ANALYZE_BIN/srte"
+execute_if_not_yet "ln -s $PRJ_HOME/src/analyze/sweepRealTimePolling.sh $ANALYZE_BIN/srtp"
+execute_if_not_yet "ln -s $PRJ_HOME/src/analyze/sweepRealTimeSimtime.sh $ANALYZE_BIN/srts"
+execute_if_not_yet "ln -s $PRJ_HOME/src/analyze/testRuns.sh $ANALYZE_BIN/truns"
+execute_if_not_yet "ln -s $PRJ_HOME/src/analyze/testConfigurations.sh $ANALYZE_BIN/tconf"
+execute_if_not_yet "ln -s $PRJ_HOME/src/analyze/parseResults.py $ANALYZE_BIN/parseRes"
+
+echo "add analyze bin directory to PATH"
+export PATH=$PATH:$ANALYZE_BIN/
 
 echo "start omnet++ ide"
 omnetpp &
 
-echo "open omnet++ documentation"
-google-chrome https://omnetpp.org/documentation &
+# prepare documentation if parameter is passed
+if [ $# -ge 1 ]; then
 
-echo "open masterthesis"
-texstudio doc/thesis/masterthesis.tex --master &
+    echo "open omnet++ documentation"
+    google-chrome https://omnetpp.org/documentation &
 
-echo "open doc folder"
-dolphin doc &
+    echo "open masterthesis"
+    texstudio doc/thesis/masterthesis.tex --master &
+
+    echo "open doc folder"
+    dolphin doc &
+fi
 
 echo "switch to src folder"
 cd src
