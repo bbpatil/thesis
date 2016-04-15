@@ -23,12 +23,14 @@ void ConfigWrapper::initialize()
     // TODO - Generated method body
 }
 
-void ConfigWrapper::handleMessage(cMessage *msg)
+void ConfigWrapper::handleMessage(cMessage *rawMsg)
 {
+    MsgPtr msgPtr(rawMsg);
+
     // get packet from message
-    if (msg != nullptr)
+    if (msgPtr != nullptr)
     {
-        auto config = dynamic_cast<PacketMessage*>(msg);
+        auto config = dynamic_cast<PacketMessage*>(msgPtr.get());
 
         if (config != nullptr)
         {
@@ -37,7 +39,5 @@ void ConfigWrapper::handleMessage(cMessage *msg)
             if (ev.isGUI())
                 bubble("New Configuration set");
         }
-
-        delete msg;
     }
 }

@@ -20,8 +20,9 @@ package designtest.sink;
 //
 simple HistoryManagerWrapper
 {
+    parameters:
+        double pollingInterval @unit(ns) = default(1ms);
     gates:
         output pollData;
         input historical;
-        input pollingCmd;
 }

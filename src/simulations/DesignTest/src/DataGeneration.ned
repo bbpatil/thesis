@@ -33,5 +33,4 @@ network DataGeneration
         }
     connections:
         generator.data --> ParallelChannel --> sink.data;
-        generator.pollingCmd --> ParallelChannel --> sink.pollingCmd;
 }

@@ -18,9 +18,7 @@ package designtest.sink;
 simple MonolithicSink like ISink
 {
     parameters:
-        @signal[msgType](type=int);
-        @statistic[msgTypeRec](title="Message Types"; record=vector?; source=msgType);
+        double historyPollingInterval @unit(ns) = default(1ms);
     gates:
         input data;
-        input pollingCmd;
 }

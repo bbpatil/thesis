@@ -17,16 +17,13 @@
 #define __DESIGNTEST_GENERATOR_H_
 
 #include <omnetpp.h>
+#include <memory>
 
 class Generator : public cSimpleModule
 {
         // Definitions
     private:
-        enum class SelfMessageType : short
-        {
-            GenerateData,
-            PollingCmd
-        };
+        using MsgPtr = std::unique_ptr<cMessage>;
 
     protected:
         virtual void initialize();
@@ -34,9 +31,7 @@ class Generator : public cSimpleModule
 
         // Member
     private:
-        cMessage * createSelfMessage(SelfMessageType type);
         simtime_t mDataDelay;
-        simtime_t mCmdDelay;
 };
 
 #endif

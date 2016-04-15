@@ -58,25 +58,16 @@ PacketPtr HistoryManagerWrapper::ProcessPop()
 
 void HistoryManagerWrapper::activity()
 {
-    auto cmdGate = gate("pollingCmd");
-
     bool running = true;
+
+    auto pollingInt = simtime_t(par("pollingInterval"), SimTimeUnit::SIMTIME_NS);
 
     while(running)
     {
-        // receive cmd message
-        MsgPtr msg(receive());
+        // wait polling interval
+        wait(pollingInt);
 
-        // check input gate
-        auto id = msg->getArrivalGate()->getId();
-
-        if (id == cmdGate->getId())
-        {
-            // process polling cmd
-            mHistoryManager->PollHistory();
-        }
-        else
-            error("unknown reiceiving gate pointer");
-
+        // process polling
+        mHistoryManager->PollHistory();
     }
 }

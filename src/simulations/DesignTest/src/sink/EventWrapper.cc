@@ -18,21 +18,17 @@
 
 Define_Module(EventWrapper);
 
-EventWrapper::EventWrapper()
-{
-}
-
 void EventWrapper::initialize()
 {
-    // TODO - Generated method body
 }
 
-void EventWrapper::handleMessage(cMessage *msg)
+void EventWrapper::handleMessage(cMessage *rawMsg)
 {
+    MsgPtr msgPtr(rawMsg);
     // get packet from message
-    if (msg != nullptr)
+    if (msgPtr != nullptr)
     {
-        auto event = dynamic_cast<PacketMessage*>(msg);
+        auto event = dynamic_cast<PacketMessage*>(msgPtr.get());
 
         if (event != nullptr)
         {
@@ -41,7 +37,5 @@ void EventWrapper::handleMessage(cMessage *msg)
             if (ev.isGUI())
                 bubble("Event processed");
         }
-
-        delete msg;
     }
 }

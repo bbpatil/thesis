@@ -34,17 +34,19 @@ void HistoricalQueueWrapper::initialize()
     mCmdGate = gate("pollData");
 }
 
-void HistoricalQueueWrapper::handleMessage(cMessage *msg)
+void HistoricalQueueWrapper::handleMessage(cMessage *rawMsg)
 {
-    if (msg != nullptr)
+    MsgPtr msgPtr(rawMsg);
+
+    if (msgPtr != nullptr)
     {
         // check receiving gate
-        auto id = msg->getArrivalGateId();
+        auto id = msgPtr->getArrivalGateId();
 
         if (id == mDataGate->getId())
         {
             // forward history data
-            auto historical = dynamic_cast<PacketMessage*>(msg);
+            auto historical = dynamic_cast<PacketMessage*>(msgPtr.get());
 
             if (historical != nullptr)
             {
@@ -75,7 +77,5 @@ void HistoricalQueueWrapper::handleMessage(cMessage *msg)
         }
         else
             error("invalid gate id");
-
-        delete msg;
     }
 }

@@ -35,6 +35,7 @@ class MonolithicSink : public cSimpleModule
     private:
         template<typename T>
         using Pointer = std::unique_ptr<T>;
+        using MsgPtr = std::unique_ptr<cMessage>;
 
     protected:
         virtual void initialize();
@@ -48,10 +49,7 @@ class MonolithicSink : public cSimpleModule
         Pointer<HistoricalQueue> mHistoricalQueue;
         Pointer<HistoryManager> mHistoryManager;
 
-        cGate * mDataGate;
-        cGate * mCmdGate;
-
-        simsignal_t mSignalId;
+        simtime_t mPollingInterval;
 };
 
 #endif

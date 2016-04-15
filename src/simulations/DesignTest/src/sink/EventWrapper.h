@@ -17,15 +17,17 @@
 #define __DESIGNTEST_EVENTWRAPPER_H_
 
 #include <omnetpp.h>
+#include <memory>
 
 #include "EventManager.h"
 
 class EventWrapper : public cSimpleModule
 {
-        // C-Tor
-    public:
-        EventWrapper();
+        // Definitions
+    private:
+        using MsgPtr = std::unique_ptr<cMessage>;
 
+        // Methods
     protected:
         virtual void initialize();
         virtual void handleMessage(cMessage *msg);

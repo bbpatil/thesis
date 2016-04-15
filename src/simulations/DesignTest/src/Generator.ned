@@ -22,8 +22,6 @@ simple Generator
 {
     parameters:
         double generationInterval @unit(ns) = default(1ms);
-        @class(Generator);
     gates:
         output data;
-        output pollingCmd;
 }

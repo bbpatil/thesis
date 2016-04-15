@@ -46,43 +46,41 @@ void MonolithicSink::initialize()
                     &EventManager::ProcessEvent, *mEventManager, placeholders::_1), bind(&HistoricalQueue::PushData,
                     *mHistoricalQueue, placeholders::_1));
 
-    // get resolve gates
-    mDataGate = gate("data");
-    mCmdGate = gate("pollingCmd");
+    // resolve interval parmeter
+    mPollingInterval = simtime_t(par("historyPollingInterval"), SimTimeUnit::SIMTIME_NS);
 
-    mSignalId = registerSignal("msgType");
+    // schedule inital self message
+    scheduleAt(simtime_t() + mPollingInterval, new cMessage());
 }
 
-void MonolithicSink::handleMessage(cMessage *msg)
+void MonolithicSink::handleMessage(cMessage *rawMsg)
 {
-    if (msg != nullptr)
+    MsgPtr msgPtr(rawMsg);
+
+    if (msgPtr != nullptr)
     {
-        // check receiving gate
-        auto id = msg->getArrivalGateId();
-        if (id == mDataGate->getId())
-        {
-            // process data
-            auto packet = dynamic_cast<DataMessage*>(msg);
-            if (packet != nullptr)
-            {
-                BUBBLE(("Dispatched Message of type: " + to_string(static_cast<int>(packet->getData().type))).c_str());
-
-                emit(mSignalId, static_cast<int>(packet->getData().type));
-
-                // forward data packet to dispatcher
-                mDispatcher->DispatchData(packet->getData());
-            }
-        }
-        else if (id == mCmdGate->getId())
+        // check if self message (polling command)
+        if (msgPtr->isSelfMessage())
         {
             BUBBLE("Process polling cmd");
 
             // process polling cmd
             mHistoryManager->PollHistory();
-        }
-        else
-            error("unknown reiceiving gate");
 
-        delete msg;
+            // schedule self message
+            scheduleAt(simtime_t() + mPollingInterval, new cMessage());
+        }
+        else // received data
+        {
+            // process data
+            auto packet = dynamic_cast<DataMessage*>(msgPtr.get());
+            if (packet != nullptr)
+            {
+                BUBBLE(("Dispatched Message of type: " + to_string(static_cast<int>(packet->getData().type))).c_str());
+
+                // forward data packet to dispatcher
+                mDispatcher->DispatchData(packet->getData());
+            }
+        }
     }
 }

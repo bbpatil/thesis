@@ -17,15 +17,22 @@
 #define __DESIGNTEST_CONFIGWRAPPER_H_
 
 #include <omnetpp.h>
+#include <memory>
 
 #include "ConfigurationManager.h"
 
 class ConfigWrapper : public cSimpleModule
 {
+        // Definitions
+    private:
+        using MsgPtr = std::unique_ptr<cMessage>;
+
+        // Methods
     protected:
         virtual void initialize();
         virtual void handleMessage(cMessage *msg);
 
+        // Member
     private:
         ConfigurationManager mConfigManager;
 };

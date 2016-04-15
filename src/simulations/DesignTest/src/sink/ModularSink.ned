@@ -19,10 +19,11 @@ import designtest.ParallelChannel;
 
 module ModularSink like ISink
 {
+    parameters:
+        double historyPollingInterval @unit(ns) = default(1ms);
     @display("bgb=587,344");
     gates:
         input data;
-        input pollingCmd;
     submodules:
         dispatcherWrapper: DispatcherWrapper {
             @display("p=118,147");
@@ -37,6 +38,7 @@ module ModularSink like ISink
             @display("p=255,234");
         }
         historyManagerWrapper: HistoryManagerWrapper {
+            pollingInterval = historyPollingInterval;
             @display("p=462,234");
         }
     connections:
@@ -46,5 +48,4 @@ module ModularSink like ISink
         dispatcherWrapper.historical --> ParallelChannel --> historicalQueueWrapper.historicalIn;
         historicalQueueWrapper.historicalOut --> historyManagerWrapper.historical;
         historyManagerWrapper.pollData --> historicalQueueWrapper.pollData;
-        pollingCmd --> ParallelChannel --> historyManagerWrapper.pollingCmd;
 }

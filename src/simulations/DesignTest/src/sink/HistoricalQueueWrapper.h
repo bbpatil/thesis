@@ -27,6 +27,11 @@
  */
 class HistoricalQueueWrapper : public cSimpleModule
 {
+        // Definitions
+    private:
+        using MsgPtr = std::unique_ptr<cMessage>;
+
+        // Methods
     protected:
         virtual void initialize();
         virtual void handleMessage(cMessage *msg);

@@ -17,7 +17,8 @@ package designtest.sink;
 
 moduleinterface ISink
 {
+    parameters:
+        double historyPollingInterval @unit(ns);
     gates:
         input data;
-        input pollingCmd;
 }

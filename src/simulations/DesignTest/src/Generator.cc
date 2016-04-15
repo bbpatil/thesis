@@ -22,64 +22,33 @@ void Generator::initialize()
 {
     // resolve parameter and calc delay
     mDataDelay = simtime_t(par("generationInterval"), SimTimeUnit::SIMTIME_NS);
-    mCmdDelay = mDataDelay;
-    simtime_t cmdOffset = mDataDelay / 2;
 
     // schedule starting data message
-    scheduleAt(simTime(), createSelfMessage(SelfMessageType::GenerateData));
-    // schedule starting cmd message
-    scheduleAt(simTime() + cmdOffset, createSelfMessage(SelfMessageType::PollingCmd));
+    scheduleAt(simTime(), new cMessage());
 }
 
-void Generator::handleMessage(cMessage *msg)
+void Generator::handleMessage(cMessage *rawMsg)
 {
+    MsgPtr msgPtr(rawMsg);
+
     static size_t counter = 0;
 
-    if (msg->isSelfMessage())
+    if (msgPtr->isSelfMessage())
     {
-        // check message kind
-        switch (msg->getKind())
-        {
-            case static_cast<short>(SelfMessageType::GenerateData): {
+        // create new message
+        auto pkt = new DataMessage();
 
-                // create new message
-                auto pkt = new DataMessage();
+        Data data;
+        data.type = static_cast<DataType>(counter++ % 3);
+        data.data =
+        {   123 + counter};
 
-                Data data;
-                data.type = static_cast<DataType>(counter++ % 3);
-                data.data =
-                {123 + counter};
+        pkt->setData(data);
 
-                pkt->setData(data);
+        // send message
+        send((cMessage*) pkt, "data");
 
-                // send message
-                send((cMessage*) pkt, "data");
-
-                // schedule next data cmd
-                scheduleAt(simTime() + mDataDelay, createSelfMessage(SelfMessageType::GenerateData));
-
-                break;
-            }
-            case static_cast<short>(SelfMessageType::PollingCmd): {
-                // send polling command
-                send(new cMessage(), "pollingCmd");
-
-                // schedule next polling cmd
-                scheduleAt(simTime() + mCmdDelay, createSelfMessage(SelfMessageType::PollingCmd));
-                break;
-            }
-            default:
-                error("invalid message kind");
-        }
-
+        // schedule next data cmd
+        scheduleAt(simTime() + mDataDelay, new cMessage());
     }
-
-    delete msg;
-}
-
-cMessage* Generator::createSelfMessage(SelfMessageType type)
-{
-    auto msg = new cMessage();
-    msg->setKind(static_cast<short>(type));
-    return msg;
 }
