@@ -1,0 +1,3 @@
+package designtest;
+
+@license(LGPL);

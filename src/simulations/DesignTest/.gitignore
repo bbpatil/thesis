@@ -1,0 +1,7 @@
+*_m.cc
+*_m.h
+ou/
+out/
+Makefile*
+.settings
+DesignTest
