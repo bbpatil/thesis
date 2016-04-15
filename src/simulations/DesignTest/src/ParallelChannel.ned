@@ -15,23 +15,9 @@
 
 package designtest;
 
-import designtest.sink.*;
-import designtest.ParallelChannel;
-
-
-network DataGeneration
-{      
+channel ParallelChannel extends ned.DelayChannel
+{
     parameters:
-        string sinkType;
-        
-    submodules:
-        generator: Generator {
-            @display("p=50,78");
-        }
-        sink: <sinkType> like ISink {
-            @display("p=136,78");
-        }
-    connections:
-        generator.data --> ParallelChannel --> sink.data;
-        generator.pollingCmd --> ParallelChannel --> sink.pollingCmd;
+    	double channelDelay @unit(s) = default(0ms);
+    	delay = channelDelay;
 }

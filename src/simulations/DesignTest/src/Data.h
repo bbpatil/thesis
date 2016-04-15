@@ -8,6 +8,8 @@
 #ifndef DATA_H_
 #define DATA_H_
 
+#include <ccommbuffer.h>
+
 #include <array>
 #include <memory>
 
@@ -24,5 +26,10 @@ struct Data
         DataType type;
         Packet data;
 };
+
+// Packing functions
+void doPacking(cCommBuffer *buffer, Data& data);
+
+void doUnpacking(cCommBuffer *buffer, Data& data);
 
 #endif /* DATA_H_ */

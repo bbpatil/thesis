@@ -15,6 +15,8 @@
 
 package designtest.sink;
 
+import designtest.ParallelChannel;
+
 module ModularSink like ISink
 {
     @display("bgb=587,344");
@@ -41,8 +43,8 @@ module ModularSink like ISink
         dispatcherWrapper.config --> configWrapper.config;
         dispatcherWrapper.event --> eventWrapper.event;
         data --> dispatcherWrapper.data;
-        dispatcherWrapper.historical --> historicalQueueWrapper.historicalIn;
+        dispatcherWrapper.historical --> ParallelChannel --> historicalQueueWrapper.historicalIn;
         historicalQueueWrapper.historicalOut --> historyManagerWrapper.historical;
         historyManagerWrapper.pollData --> historicalQueueWrapper.pollData;
-        pollingCmd --> historyManagerWrapper.pollingCmd;
+        pollingCmd --> ParallelChannel --> historyManagerWrapper.pollingCmd;
 }
