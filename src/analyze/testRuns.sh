@@ -231,9 +231,12 @@ do
 
     # get number of runs
     NUMBER=($($SIMEXEC $SIM_OPTIONS -x $CONFIG | grep -o -P $REGEX_GET_NUMBER_OF_RUNS))
-    # get first number (parallel support)
-    NUMBER=${NUMBER[1]}
     
+	# check if multiple numbers (parallel)
+	if [ ${#NUMBER[*]} -gt 1 ]; then
+		NUMBER=${NUMBER[1]}
+	fi
+	
     log "Configuration $CONFIG expands to $NUMBER runs"    
 
     # check run begin
