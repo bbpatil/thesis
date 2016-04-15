@@ -2,7 +2,7 @@
  
  echo "load omnet++ environment variables"
 pushd $OMNETPP_ROOT
- . setenv
+ source setenv
  popd
  
  echo "start omnet++ ide"
