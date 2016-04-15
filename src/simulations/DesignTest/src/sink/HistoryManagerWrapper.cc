@@ -60,7 +60,7 @@ void HistoryManagerWrapper::activity()
 {
     bool running = true;
 
-    auto pollingInt = simtime_t(par("pollingInterval"), SimTimeUnit::SIMTIME_NS);
+    auto pollingInt = simtime_t(par("pollingInterval").longValue(), SimTimeUnit::SIMTIME_NS);
 
     while(running)
     {

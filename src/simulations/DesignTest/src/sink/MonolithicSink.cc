@@ -53,7 +53,7 @@ void MonolithicSink::initialize()
                     &HistoricalQueue::PushData, *mHistoricalQueue, placeholders::_1));
 
     // resolve interval parmeter
-    mPollingInterval = simtime_t(par("historyPollingInterval"), SimTimeUnit::SIMTIME_NS);
+    mPollingInterval = simtime_t(par("historyPollingInterval").longValue(), SimTimeUnit::SIMTIME_NS);
 
     // resolver number of event manager
     mNUmberOfEventManager = static_cast<int>(par("numberOfEventManager"));

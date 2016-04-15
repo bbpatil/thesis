@@ -21,7 +21,7 @@ Define_Module(Generator);
 void Generator::initialize()
 {
     // resolve parameter and calc delay
-    mDataDelay = simtime_t(par("generationInterval"), SimTimeUnit::SIMTIME_NS);
+    mDataDelay = simtime_t(par("generationInterval").longValue(), SimTimeUnit::SIMTIME_NS);
 
     // schedule starting data message
     scheduleAt(simTime(), new cMessage());
