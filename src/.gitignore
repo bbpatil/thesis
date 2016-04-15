@@ -57,4 +57,4 @@ local.properties
 .directory
 *~
 *.properties
->>>>>>> 2ff04c2... setup:
+artifacts.xml
