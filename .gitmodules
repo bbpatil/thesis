@@ -1,0 +1,3 @@
+[submodule "src/openPOWERLINK_V2"]
+	path = src/openPOWERLINK_V2
+	url = https://github.com/openPOWERLINK/openPOWERLINK_V2.git
