@@ -1,0 +1,38 @@
+Loading NED files from C:\Work\thesis\src\simulations\DesignTest\src: 12
+
+Preparing for running configuration Monolithic, run #0...
+Scenario: $pollingInterval=1000, $repetition=0
+Assigned runID=Monolithic-0-20160418-07:20:10-3340
+Setting up network `designtest.DataGeneration'...
+Initializing...
+
+Running simulation...
+** Event #1   T=0   Elapsed: 0.000s (0m 00s)  0% completed
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 2   present: 2   in FES: 2
+** Event #9148160   T=8.968782   Elapsed: 2.010s (0m 02s)  14% completed
+     Speed:     ev/sec=4.55132e+006   simsec/sec=4.46208   ev/simsec=1.02e+006
+     Messages:  created: 9148161   present: 2   in FES: 2
+** Event #18368512   T=18.00834   Elapsed: 4.020s (0m 04s)  30% completed
+     Speed:     ev/sec=4.58724e+006   simsec/sec=4.49729   ev/simsec=1.02e+006
+     Messages:  created: 18368513   present: 2   in FES: 2
+** Event #27602432   T=27.061202   Elapsed: 6.030s (0m 06s)  45% completed
+     Speed:     ev/sec=4.59399e+006   simsec/sec=4.50391   ev/simsec=1.02e+006
+     Messages:  created: 27602433   present: 2   in FES: 2
+** Event #36834304   T=36.112054   Elapsed: 8.040s (0m 08s)  60% completed
+     Speed:     ev/sec=4.59297e+006   simsec/sec=4.50291   ev/simsec=1.02e+006
+     Messages:  created: 36834305   present: 2   in FES: 2
+** Event #46063104   T=45.159896   Elapsed: 10.050s (0m 10s)  75% completed
+     Speed:     ev/sec=4.59144e+006   simsec/sec=4.50141   ev/simsec=1.02e+006
+     Messages:  created: 46063105   present: 2   in FES: 2
+** Event #55297536   T=54.213258   Elapsed: 12.060s (0m 12s)  90% completed
+     Speed:     ev/sec=4.59424e+006   simsec/sec=4.50416   ev/simsec=1.02e+006
+     Messages:  created: 55297537   present: 2   in FES: 2
+** Event #61200015   T=60   Elapsed: 13.337s (0m 13s)  100% completed
+     Speed:     ev/sec=4.62214e+006   simsec/sec=4.53151   ev/simsec=1.02e+006
+     Messages:  created: 61200016   present: 2   in FES: 2
+
+<!> Simulation time limit reached -- simulation stopped at event #61200015, t=60.
+
+
+Calling finish() at end of Run #0...

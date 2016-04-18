@@ -13,8 +13,8 @@ This distributed processing of events require synchronization for guaranteeing t
 \label{sec:parallel_synchronization}
 Running simulations in parallel requires a synchronization in between the \emph{LPs} for synchronizing the processed simulation time.
 This simulation time can diverge very strongly due to the different set of processed events.
-With varying event intervals the steps within simulation time is differentiating.
-For the synchronization of parallel \emph{LPs} different algorithms for this synchronization are available, the choice of the used synchronization method affects the achievable performance of the \emph{PDES}. \cite[chapter 2]{bagrodia_performance_2000}
+With varying event intervals (i.e. time in between two consecutive events) the steps within simulation time are differentiating.
+For the synchronization of parallel \emph{LPs} different algorithms are available, the choice of the used synchronization method affects the achievable performance of the \emph{PDES}. \cite[chapter 2]{bagrodia_performance_2000}
 
 Generally there are two types of synchronization algorithms:
 
@@ -25,12 +25,24 @@ Generally there are two types of synchronization algorithms:
 \end{enumerate}
 
 An example for a conservative algorithm is the \emph{Null Message Algorithm} (\emph{NMA}). \cite[section 2.1]{bagrodia_performance_2000} \cite{Varga03apractical}.
+The synchronization method is exchanging information from one \emph{LP} to another.
+A communication method is required which allows this exchange of information.
+
+\section{Communication}
+\label{sec:parallel_communication}
+Depending on the used hardware and the type of distribution of the processing unit different communication methods can be used and allow an optimal performance.
+For this communication every inter-thread, inter-process or inter-machine communication method can be used.
+
+The synchronization requires the transmission of messages therefore the demanded communication represents a message passing interface \emph{MPI}.
+On different operating systems and depending on the specific simulation setup the \emph{MPI} can be based on various transport technologies.
+For the simulations running on a linux operating system the open source library openMPI provides a implementation for this usage. \cite{openmpi_hp}
 
 \section{Parallel simulation with OMNeT++}
 \label{sec:parallel_omnet}
 
-OMNeT++ provides the functionality of running a simulation in parallel with no need for modifications.
+OMNeT++ provides the functionality of running a simulation in parallel with no need for modifications of the simulated model, in terms of source code.
 This is achieved by the configuration files which include all \emph{PDES} relevant parameter and settings.
+Therefore the decision for a parallel simulation can be made during runtime and realized via different configurations. \cite[section III.A]{varga_parallel_2003}
 
 For a parallel simulation using OMNeT++ different implementations for communication and synchronization must be defined and specific requirements must be met.
 These factors are discussed in the following sections.
@@ -38,8 +50,16 @@ These factors are discussed in the following sections.
 \subsection{Communication}
 \label{sec:parallel_omnet_comm}
 
-a message passing interface (\emph{MPI}) library must be provided.
-The open source library openMPI can be used easily linux operating systems.
+OMNeT++ provides a defined interface for parallel simulation communication represented by the class \emph{cParsimCommunications}.
+By subclassing \emph{cParsimCommunications} any implemented communication method can be used for parallel simulation.
+These built in implementations are available in OMNeT++: \cite{omnet_par_api}
+
+\begin{description}
+    \item[cFileCommunications] represents the communication via textfiles.
+                               Due to the necessary file operations and the big dependency of the disk where this file is located this communication method is more recommended for debugging purposes.
+    \item[cNamedPipeCommunications] is using named pipes for the transport of messages.
+    \item[cMPICommunications] 
+\end{description}
 
 
 \subsection{Sychronization}

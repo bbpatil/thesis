@@ -1,0 +1,38 @@
+Loading NED files from C:\Work\thesis\src\simulations\DesignTest\src: 12
+
+Preparing for running configuration Modular, run #0...
+Scenario: $generationInterval=500, $repetition=0
+Assigned runID=Modular-0-20160418-11:28:39-2612
+Setting up network `designtest.DataGeneration'...
+Initializing...
+
+Running simulation...
+** Event #1   T=0   Elapsed: 0.000s (0m 00s)  0% completed
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 2   present: 2   in FES: 2
+** Event #4456192   T=0.739003   Elapsed: 2.012s (0m 02s)  14% completed
+     Speed:     ev/sec=2.21481e+006   simsec/sec=0.367298   ev/simsec=6.03001e+006
+     Messages:  created: 4448803   present: 3   in FES: 3
+** Event #8916480   T=1.478686   Elapsed: 4.025s (0m 04s)  29% completed
+     Speed:     ev/sec=2.21574e+006   simsec/sec=0.367453   ev/simsec=6.03e+006
+     Messages:  created: 8901694   present: 3   in FES: 3
+** Event #13424384   T=2.226266   Elapsed: 6.037s (0m 06s)  44% completed
+     Speed:     ev/sec=2.24051e+006   simsec/sec=0.371561   ev/simsec=6.03e+006
+     Messages:  created: 13402122   present: 2   in FES: 2
+** Event #17933312   T=2.974015   Elapsed: 8.049s (0m 08s)  59% completed
+     Speed:     ev/sec=2.24102e+006   simsec/sec=0.371645   ev/simsec=6.03e+006
+     Messages:  created: 17903572   present: 2   in FES: 2
+** Event #22411776   T=3.716712   Elapsed: 10.062s (0m 10s)  74% completed
+     Speed:     ev/sec=2.22477e+006   simsec/sec=0.36895   ev/simsec=6.03e+006
+     Messages:  created: 22374610   present: 3   in FES: 3
+** Event #26875392   T=4.456947   Elapsed: 12.074s (0m 12s)  89% completed
+     Speed:     ev/sec=2.2185e+006   simsec/sec=0.36791   ev/simsec=6.03e+006
+     Messages:  created: 26830824   present: 3   in FES: 3
+** Event #30150003   T=5   Elapsed: 13.525s (0m 13s)  100% completed
+     Speed:     ev/sec=2.2568e+006   simsec/sec=0.374261   ev/simsec=6.03e+006
+     Messages:  created: 30100004   present: 3   in FES: 3
+
+<!> Simulation time limit reached -- simulation stopped at event #30150003, t=5.
+
+
+Calling finish() at end of Run #0...

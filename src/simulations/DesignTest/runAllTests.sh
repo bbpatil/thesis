@@ -16,11 +16,11 @@ if [ $1 = "sequential" ]; then
     ######################### sequential simulations ################################
 
     ########### measurement evaluation ################
-    OUTPUTFOLDER=output/realtimeEval OUTPUTPREFIX= srts ./DesignTest -f simulations/realtime.ini -f simulations/intervalstudy-data-realtime-boundaries.ini
-
     OUTPUTFOLDER=output/runtimeEval OUTPUTPREFIX= sst ./DesignTest -f simulations/cmdenv.ini
 
     OUTPUTFOLDER=output/eventEval OUTPUTPREFIX= sct ./DesignTest -f simulations/cmdenv.ini
+    
+    OUTPUTFOLDER=output/realtimeEval OUTPUTPREFIX= srts ./DesignTest -f simulations/realtime.ini -f simulations/intervalstudy-data-realtime-boundaries.ini
 
 
     ########### load measurement for fixed sim time ############
