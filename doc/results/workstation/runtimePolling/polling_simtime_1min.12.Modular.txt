@@ -1,0 +1,38 @@
+Loading NED files from C:\Work\thesis\src\simulations\DesignTest\src: 12
+
+Preparing for running configuration Modular, run #12...
+Scenario: $pollingInterval=4500, $repetition=0
+Assigned runID=Modular-12-20160418-07:19:45-5760
+Setting up network `designtest.DataGeneration'...
+Initializing...
+
+Running simulation...
+** Event #1   T=0   Elapsed: 0.000s (0m 00s)  0% completed
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 2   present: 2   in FES: 2
+** Event #6308864   T=9.055782   Elapsed: 2.010s (0m 02s)  15% completed
+     Speed:     ev/sec=3.13874e+006   simsec/sec=4.50536   ev/simsec=696667
+     Messages:  created: 4296469   present: 2   in FES: 2
+** Event #12715008   T=18.251199   Elapsed: 4.020s (0m 04s)  30% completed
+     Speed:     ev/sec=3.18714e+006   simsec/sec=4.57483   ev/simsec=696667
+     Messages:  created: 8659187   present: 3   in FES: 2
+** Event #19093504   T=27.406926   Elapsed: 6.030s (0m 06s)  45% completed
+     Speed:     ev/sec=3.17338e+006   simsec/sec=4.55509   ev/simsec=696667
+     Messages:  created: 13003077   present: 3   in FES: 2
+** Event #25415168   T=36.481086   Elapsed: 8.040s (0m 08s)  60% completed
+     Speed:     ev/sec=3.14511e+006   simsec/sec=4.51451   ev/simsec=696667
+     Messages:  created: 17308261   present: 2   in FES: 2
+** Event #31806720   T=45.6555555   Elapsed: 10.050s (0m 10s)  76% completed
+     Speed:     ev/sec=3.17988e+006   simsec/sec=4.56441   ev/simsec=696667
+     Messages:  created: 21661042   present: 3   in FES: 2
+** Event #38210048   T=54.846936   Elapsed: 12.060s (0m 12s)  91% completed
+     Speed:     ev/sec=3.18574e+006   simsec/sec=4.57283   ev/simsec=696667
+     Messages:  created: 26021841   present: 2   in FES: 2
+** Event #41800023   T=60.000003   Elapsed: 13.182s (0m 13s)  100% completed
+     Speed:     ev/sec=3.19962e+006   simsec/sec=4.59275   ev/simsec=696667
+     Messages:  created: 28466690   present: 3   in FES: 2
+
+<!> Simulation time limit reached -- simulation stopped at event #41800023, t=60.000003.
+
+
+Calling finish() at end of Run #12...

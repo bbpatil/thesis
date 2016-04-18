@@ -1,0 +1,23 @@
+Loading NED files from C:\Work\thesis\src\simulations\DesignTest\src: 12
+
+Preparing for running configuration Monolithic, run #0...
+Scenario: $repetition=0
+Assigned runID=Monolithic-0-20160418-11:54:42-6684
+Setting up network `designtest.DataGeneration'...
+Initializing...
+
+Running simulation...
+** Event #1   T=0   Elapsed: 0.000s (0m 00s)  0% completed
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 2   present: 2   in FES: 2
+** Event #6937600   T=231.250987467   Elapsed: 2.012s (0m 02s)  50% completed
+     Speed:     ev/sec=3.44811e+006   simsec/sec=114.936   ev/simsec=30000.3
+     Messages:  created: 6937601   present: 2   in FES: 2
+** Event #13663744   T=455.453545419   Elapsed: 3.947s (0m 03s)  100% completed
+     Speed:     ev/sec=3.47604e+006   simsec/sec=115.867   ev/simsec=30000.3
+     Messages:  created: 13663745   present: 2   in FES: 2
+
+<!> CPU time limit reached -- simulation stopped at event #13663744, t=455.453545419.
+
+
+Calling finish() at end of Run #0...

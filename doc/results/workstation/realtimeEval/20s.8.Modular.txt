@@ -1,0 +1,50 @@
+Loading NED files from C:\Work\thesis\src\simulations\DesignTest\src: 12
+
+Preparing for running configuration Modular, run #8...
+Scenario: $generationInterval=1300, $repetition=0
+Assigned runID=Modular-8-20160418-11:42:13-1216
+Setting up network `designtest.DataGeneration'...
+Initializing...
+
+Running simulation...
+** Event #1   T=0   Elapsed: 0.000s (0m 00s)  0% completed
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 2   present: 2   in FES: 2
+** Event #4512000   T=1.9301074   Elapsed: 2.012s (0m 02s)  9% completed
+     Speed:     ev/sec=2.24254e+006   simsec/sec=0.959298   ev/simsec=2.33769e+006
+     Messages:  created: 4492700   present: 3   in FES: 3
+** Event #9086976   T=3.887156   Elapsed: 4.025s (0m 04s)  19% completed
+     Speed:     ev/sec=2.27272e+006   simsec/sec=0.972205   ev/simsec=2.33769e+006
+     Messages:  created: 9048106   present: 3   in FES: 3
+** Event #13660672   T=5.8436547   Elapsed: 6.037s (0m 06s)  29% completed
+     Speed:     ev/sec=2.27321e+006   simsec/sec=0.972415   ev/simsec=2.33769e+006
+     Messages:  created: 13602236   present: 3   in FES: 3
+** Event #18234880   T=7.8003744   Elapsed: 8.050s (0m 08s)  39% completed
+     Speed:     ev/sec=2.27233e+006   simsec/sec=0.972042   ev/simsec=2.33769e+006
+     Messages:  created: 18156877   present: 3   in FES: 3
+** Event #22809088   T=9.7570941   Elapsed: 10.063s (0m 10s)  48% completed
+     Speed:     ev/sec=2.27233e+006   simsec/sec=0.972042   ev/simsec=2.33769e+006
+     Messages:  created: 22711518   present: 3   in FES: 3
+** Event #27381248   T=11.7129376   Elapsed: 12.075s (0m 12s)  58% completed
+     Speed:     ev/sec=2.27245e+006   simsec/sec=0.972089   ev/simsec=2.33769e+006
+     Messages:  created: 27264118   present: 2   in FES: 2
+** Event #31962624   T=13.6727227   Elapsed: 14.088s (0m 14s)  68% completed
+     Speed:     ev/sec=2.27589e+006   simsec/sec=0.973564   ev/simsec=2.33769e+006
+     Messages:  created: 31825897   present: 3   in FES: 3
+** Event #36523520   T=15.6237471   Elapsed: 16.100s (0m 16s)  78% completed
+     Speed:     ev/sec=2.26685e+006   simsec/sec=0.969694   ev/simsec=2.33769e+006
+     Messages:  created: 36367281   present: 2   in FES: 2
+** Event #41104896   T=17.5835322   Elapsed: 18.113s (0m 18s)  87% completed
+     Speed:     ev/sec=2.27589e+006   simsec/sec=0.973564   ev/simsec=2.33769e+006
+     Messages:  created: 40929060   present: 3   in FES: 3
+** Event #45695232   T=19.547151   Elapsed: 20.126s (0m 20s)  97% completed
+     Speed:     ev/sec=2.28035e+006   simsec/sec=0.975469   ev/simsec=2.33769e+006
+     Messages:  created: 45499760   present: 3   in FES: 3
+** Event #46753857   T=20.0000008   Elapsed: 20.578s (0m 20s)  100% completed
+     Speed:     ev/sec=2.34209e+006   simsec/sec=1.00188   ev/simsec=2.33769e+006
+     Messages:  created: 46553856   present: 3   in FES: 3
+
+<!> Simulation time limit reached -- simulation stopped at event #46753857, t=20.0000008.
+
+
+Calling finish() at end of Run #8...

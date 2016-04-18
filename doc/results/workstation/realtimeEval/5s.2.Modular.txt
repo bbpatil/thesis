@@ -1,0 +1,32 @@
+Loading NED files from C:\Work\thesis\src\simulations\DesignTest\src: 12
+
+Preparing for running configuration Modular, run #2...
+Scenario: $generationInterval=700, $repetition=0
+Assigned runID=Modular-2-20160418-11:29:04-6128
+Setting up network `designtest.DataGeneration'...
+Initializing...
+
+Running simulation...
+** Event #1   T=0   Elapsed: 0.000s (0m 00s)  0% completed
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 2   present: 2   in FES: 2
+** Event #4421120   T=1.0244234   Elapsed: 2.013s (0m 02s)  20% completed
+     Speed:     ev/sec=2.19628e+006   simsec/sec=0.508904   ev/simsec=4.31572e+006
+     Messages:  created: 4410876   present: 2   in FES: 2
+** Event #8893184   T=2.0606516   Elapsed: 4.025s (0m 04s)  41% completed
+     Speed:     ev/sec=2.2227e+006   simsec/sec=0.515024   ev/simsec=4.31571e+006
+     Messages:  created: 8872578   present: 2   in FES: 2
+** Event #13378304   T=3.0999045   Elapsed: 6.038s (0m 06s)  61% completed
+     Speed:     ev/sec=2.22808e+006   simsec/sec=0.516271   ev/simsec=4.31572e+006
+     Messages:  created: 13347305   present: 2   in FES: 2
+** Event #17877760   T=4.1424789   Elapsed: 8.050s (0m 08s)  82% completed
+     Speed:     ev/sec=2.23631e+006   simsec/sec=0.518178   ev/simsec=4.31572e+006
+     Messages:  created: 17836336   present: 3   in FES: 3
+** Event #21578577   T=5.0000006   Elapsed: 9.688s (0m 09s)  100% completed
+     Speed:     ev/sec=2.25935e+006   simsec/sec=0.523518   ev/simsec=4.31571e+006
+     Messages:  created: 21528578   present: 3   in FES: 3
+
+<!> Simulation time limit reached -- simulation stopped at event #21578577, t=5.0000006.
+
+
+Calling finish() at end of Run #2...

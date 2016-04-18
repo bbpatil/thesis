@@ -1,0 +1,23 @@
+Loading NED files from C:\Work\thesis\src\simulations\DesignTest\src: 12
+
+Preparing for running configuration Modular, run #10...
+Scenario: $generationInterval=1500, $repetition=0
+Assigned runID=Modular-10-20160418-11:28:00-4164
+Setting up network `designtest.DataGeneration'...
+Initializing...
+
+Running simulation...
+** Event #1   T=0   Elapsed: 0.000s (0m 00s)  0% completed
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 2   present: 2   in FES: 2
+** Event #4054016   T=1.997052   Elapsed: 2.012s (0m 02s)  99% completed
+     Speed:     ev/sec=2.01492e+006   simsec/sec=0.992571   ev/simsec=2.03e+006
+     Messages:  created: 4034046   present: 2   in FES: 2
+** Event #4060005   T=2.000001   Elapsed: 2.012s (0m 02s)  100% completed
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 4040006   present: 3   in FES: 3
+
+<!> Simulation time limit reached -- simulation stopped at event #4060005, t=2.000001.
+
+
+Calling finish() at end of Run #10...

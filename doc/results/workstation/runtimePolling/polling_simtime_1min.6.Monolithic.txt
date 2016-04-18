@@ -1,0 +1,32 @@
+Loading NED files from C:\Work\thesis\src\simulations\DesignTest\src: 12
+
+Preparing for running configuration Monolithic, run #6...
+Scenario: $pollingInterval=1500, $repetition=0
+Assigned runID=Monolithic-6-20160418-07:21:18-824
+Setting up network `designtest.DataGeneration'...
+Initializing...
+
+Running simulation...
+** Event #1   T=0   Elapsed: 0.000s (0m 00s)  0% completed
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 2   present: 2   in FES: 2
+** Event #9167616   T=13.350891   Elapsed: 2.010s (0m 02s)  22% completed
+     Speed:     ev/sec=4.561e+006   simsec/sec=6.64223   ev/simsec=686667
+     Messages:  created: 9167617   present: 2   in FES: 2
+** Event #18439424   T=26.853522   Elapsed: 4.020s (0m 04s)  44% completed
+     Speed:     ev/sec=4.61284e+006   simsec/sec=6.71773   ev/simsec=686667
+     Messages:  created: 18439425   present: 2   in FES: 2
+** Event #27360000   T=39.844647   Elapsed: 6.030s (0m 06s)  66% completed
+     Speed:     ev/sec=4.4381e+006   simsec/sec=6.46325   ev/simsec=686667
+     Messages:  created: 27360001   present: 2   in FES: 2
+** Event #36622592   T=53.333856   Elapsed: 8.040s (0m 08s)  88% completed
+     Speed:     ev/sec=4.60825e+006   simsec/sec=6.71105   ev/simsec=686667
+     Messages:  created: 36622593   present: 2   in FES: 2
+** Event #41200015   T=60   Elapsed: 9.022s (0m 09s)  100% completed
+     Speed:     ev/sec=4.66133e+006   simsec/sec=6.78833   ev/simsec=686667
+     Messages:  created: 41200016   present: 2   in FES: 2
+
+<!> Simulation time limit reached -- simulation stopped at event #41200015, t=60.
+
+
+Calling finish() at end of Run #6...

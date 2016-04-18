@@ -1,0 +1,15 @@
+Prefix RunNumber Configuration Runtime CreatedEvents Sec/Simsec StudyParameter
+generation_cputime_1min 0 Modular 59.562s 176204288 0.976367466667 1000 0
+generation_cputime_1min 1 Modular 59.172s 175368960 1.074836 1100 0
+generation_cputime_1min 2 Modular 59.546s 176303360 1.17033666667 1200 0
+generation_cputime_1min 3 Modular 59.563s 176234496 1.26575133333 1300 0
+generation_cputime_1min 4 Modular 59.531s 176748544 1.366481 1400 0
+generation_cputime_1min 5 Modular 59.547s 176520960 1.46024766667 1500 0
+generation_cputime_1min 6 Modular 59.546s 176633856 1.46135033333 1500 0
+generation_cputime_1min 7 Modular 59.532s 176483328 1.93766533333 2000 0
+generation_cputime_1min 8 Modular 59.561s 177284864 2.42000866667 2500 0
+generation_cputime_1min 9 Modular 59.562s 176059136 2.86997733333 3000 0
+generation_cputime_1min 10 Modular 59.548s 175991296 3.33163233333 3500 0
+generation_cputime_1min 11 Modular 59.549s 175709952 3.78303 4000 0
+generation_cputime_1min 12 Modular 59.548s 175644416 4.23402433333 4500 0
+generation_cputime_1min 13 Modular 59.595s 175649024 4.678492 5000 0
