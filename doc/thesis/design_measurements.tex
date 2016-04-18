@@ -91,6 +91,7 @@ This ratio can be measured using the configuration of the previous method \ref{s
 
 Analyzing a parallel simulation and comparing the performance to a sequential simulation requires further attention to the number of created events.
 An additional correction factor is necessary due to the varying number of sent synchronization messages.
+Because of this additional correction factor and the increasing uncertainty coming with it this measurement method was not used for parallel simulation.
 
 \subsection{Real time behavior}
 \label{sec:measurements_methods_realtime}
@@ -138,9 +139,6 @@ These nearly parallel linear characteristics show a constant factor in between t
 The average ratio of runtime using the modular design over the runtime using the monolithic design is $3.393$. %TODO refresh
 \\
 
-%TODO check if necessary
-% \[\frac{\sum\frac{t_{modular}}{t_{monolithic}}}{N} = 2.84\]
-
 %%% runtime over simulation time %%%
 \begin{figure}
     \centering
@@ -158,8 +156,8 @@ The average ratio of runtime using the modular design over the runtime using the
         legend style={at={(0.03,0.97)}, anchor=north west}
         ]
         
-        \addplot table {results/runtimeResults.Modular.txt};
-        \addplot table {results/runtimeResults.Monolithic.txt};
+        \addplot table {../results/lenovo/runtimeResults.Modular.txt};
+        \addplot table {../results/lenovo/runtimeResults.Monolithic.txt};
         \end{axis}
     \end{tikzpicture}    
     \caption{Runtime using different designs over different simulation time limits.}
@@ -193,8 +191,8 @@ The average of this ratio is $3.342$.
     legend style={at={(0.97,0.5)},anchor=east}
     ]
     
-    \addplot table {results/time/simtimeEventManagerResults.Modular.txt};
-    \addplot table {results/time/simtimeEventManagerResults.Monolithic.txt};
+    \addplot table {../results/lenovo/time/simtimeEventManagerResults.Modular.txt};
+    \addplot table {../results/lenovo/time/simtimeEventManagerResults.Monolithic.txt};
     \end{axis}
     \end{tikzpicture}    
     \caption{Runtime using different designs over variing number of \emph{EventManager}.}
@@ -225,8 +223,8 @@ The average ratio of runtime using the modular design over the runtime using the
     legend style={at={(0.97,0.97)}, anchor=north east}
     ]
     
-    \addplot table {results/time/simtimePollingResults.Modular.txt};
-    \addplot table {results/time/simtimePollingResults.Monolithic.txt};
+    \addplot table {../results/lenovo/time/simtimePollingResults.Modular.txt};
+    \addplot table {../results/lenovo/time/simtimePollingResults.Monolithic.txt};
     \end{axis}
     \end{tikzpicture}    
     \caption{Runtime using different designs over varying polling interval by the \emph{HistoryManager}.}
@@ -256,8 +254,8 @@ The average ratio of runtime using the modular design over the runtime using the
     legend style={at={(0.97,0.97)}, anchor=north east}
     ]
     
-    \addplot table {results/time/simtimeGenerationResults.Modular.txt};
-    \addplot table {results/time/simtimeGenerationResults.Monolithic.txt};
+    \addplot table {../results/lenovo/time/simtimeGenerationResults.Modular.txt};
+    \addplot table {../results/lenovo/time/simtimeGenerationResults.Monolithic.txt};
     \end{axis}
     \end{tikzpicture}    
     \caption{Runtime using different designs over varying generation interval by the \emph{Generator}.}
@@ -279,9 +277,6 @@ The average ratio of number of created events using the modular design over the 
 For comparison to the previous and following test method the reciprocal value is calculated and equals $3.521$.
 \\
 
-%TODO check if necessary
-%\[\frac{\sum\frac{eventcount_{modular}}{eventcount_{monolithic}}}{N} = 0.549\]
-
 %%% event number over cpu time %%%
 \begin{figure}
     \centering
@@ -299,8 +294,8 @@ For comparison to the previous and following test method the reciprocal value is
         legend style={at={(0.03,0.97)}, anchor=north west}
         ]
         
-        \addplot table {results/eventResults.Modular.txt};
-        \addplot table {results/eventResults.Monolithic.txt};
+        \addplot table {../results/lenovo/eventResults.Modular.txt};
+        \addplot table {../results/lenovo/eventResults.Monolithic.txt};
         \end{axis}
     \end{tikzpicture}    
     \caption{Created events for different designs over different cpu time limits.}
@@ -333,8 +328,8 @@ For comparison to the previous and following test method the reciprocal value is
     legend style={at={(0.97,0.5)},anchor=east}
     ]
     
-    \addplot table {results/event/cputimeEventManagerResults.Modular.txt};
-    \addplot table {results/event/cputimeEventManagerResults.Monolithic.txt};
+    \addplot table {../results/lenovo/event/cputimeEventManagerResults.Modular.txt};
+    \addplot table {../results/lenovo/event/cputimeEventManagerResults.Monolithic.txt};
     \end{axis}
     \end{tikzpicture}    
     \caption{Created events using different designs over varying number of \emph{EventManager}.}
@@ -342,11 +337,12 @@ For comparison to the previous and following test method the reciprocal value is
 \end{figure}
 
 The number of created events using different designs and a varying polling interval by the \emph{HistoryManager} is shown in figure \ref{fig:results_event_polling}.
-This result is leading to the assumption of no definable dependency of the number of created events to the polling interval of \emph{HistoryManager}.
+As expected the number of created events is sinking with increased polling interval by the \emph{HistoryManager}.
+This behavior is introduced by the increased frequency of polling messages or self messages for timer implementations and therefore an increased number of created messages.
 The offset in between the plots using different designs is although indicating a ratio representing the performance difference of the used designs.
 This ratio is defined by the number of created events using a modular design over the number of created events using a monolithic design.
-The average of this ratio results for this test in $0.166$.
-For comparison to the previous and following test method the reciprocal value is calculated and equals $6.024$.
+The average of this ratio results for this test in $0.118$.
+For comparison to the previous and following test method the reciprocal value is calculated and equals $8.475$.
 \\
 
 %%% events over polling interval %%%
@@ -363,21 +359,21 @@ For comparison to the previous and following test method the reciprocal value is
     xlabel={Polling interval [ns]},
     grid=major,
     legend entries={Modular,Monolithic},
-    legend style={at={(0.97,0.5)},anchor=east}
+    legend style={at={(0.03,0.5)},anchor=west}
     ]
     
-    \addplot table {results/event/cputimePollingResults.Modular.txt};
-    \addplot table {results/event/cputimePollingResults.Monolithic.txt};
+    \addplot table {../results/lenovo/event/cputimePollingResults.Modular.txt};
+    \addplot table {../results/lenovo/event/cputimePollingResults.Monolithic.txt};
     \end{axis}
     \end{tikzpicture}    
-    \caption{Created events using different designs over variing polling interval by the \emph{HistoryManager}.}
+    \caption{Created events using different designs over varying polling interval by the \emph{HistoryManager}.}
     \label{fig:results_event_polling}
 \end{figure}
 
 The number of created events using different designs and a varying generation interval by the \emph{Generator} is shown in figure \ref{fig:results_event_generation}.
-Similar to the polling interval of \emph{HistoryManager} shown in \ref{fig:results_event_polling} there is no dependency identifiable.
-The offset is related to the ratio in between the designs and the average ratio is $0.436$.
-For comparison to the previous and following test method the reciprocal value is calculated and equals $2.294$.
+Similar to the polling interval of \emph{HistoryManager} shown in \ref{fig:results_event_polling} number of created events is sinking with increased generation interval.
+The offset is related to the ratio in between the designs and the average ratio is $0.414$.
+For comparison to the previous and following test method the reciprocal value is calculated and equals $2.415$.
 \\
 
 %%% events over generation interval %%%
@@ -397,11 +393,11 @@ For comparison to the previous and following test method the reciprocal value is
     legend style={at={(0.97,0.5)},anchor=east}
     ]
     
-    \addplot table {results/event/cputimeGenerationResults.Modular.txt};
-    \addplot table {results/event/cputimeGenerationResults.Monolithic.txt};
+    \addplot table {../results/lenovo/event/cputimeGenerationResults.Modular.txt};
+    \addplot table {../results/lenovo/event/cputimeGenerationResults.Monolithic.txt};
     \end{axis}
     \end{tikzpicture}    
-    \caption{Created events using different designs over variing generation interval by the \emph{Generator}.}
+    \caption{Created events using different designs over varying generation interval by the \emph{Generator}.}
     \label{fig:results_event_generation}
 \end{figure}
 
@@ -432,8 +428,8 @@ The average of this ratio is $1.717$.\\
         legend style={at={(0.97,0.97)}, anchor=north east}
         ]
         
-        \addplot table {results/realTimeResults.Modular.txt};
-        \addplot table {results/realTimeResults.Monolithic.txt};
+        \addplot table {../results/lenovo/realTimeResults.Modular.txt};
+        \addplot table {../results/lenovo/realTimeResults.Monolithic.txt};
         \end{axis}
     \end{tikzpicture}    
     \caption{Real-time results for different designs over different simulation time limits.}
@@ -463,8 +459,8 @@ The average ratio of the achievable generation interval using different designs 
     legend style={at={(0.97,0.5)}, anchor=east}
     ]
     
-    \addplot table {results/realtime/rtEventManagerResults.Modular.txt};
-    \addplot table {results/realtime/rtEventManagerResults.Monolithic.txt};
+    \addplot table {../results/lenovo/realtime/rtEventManagerResults.Modular.txt};
+    \addplot table {../results/lenovo/realtime/rtEventManagerResults.Monolithic.txt};
     \end{axis}
     \end{tikzpicture}    
     \caption{Real-time results for different designs over a varying number of \emph{EventManagers}.}
@@ -474,8 +470,7 @@ The average ratio of the achievable generation interval using different designs 
 The real-time results for a varying polling interval of \emph{HistoryManager} is shown in figure \ref{fig:results_realtime_polling}.
 Similar to the previous results there is no noticeable dependency of the achievable generation interval to the used polling interval.
 The performance difference is again shown in the ratio of the achieved intervals.
-The average of this ratio is $99999$.
-%TODO add average
+The average of this ratio is $1.525$.
 \\
 
 % realtime over polling interval
@@ -495,8 +490,8 @@ The average of this ratio is $99999$.
     legend style={at={(0.97,0.5)}, anchor=east}
     ]
     
-    \addplot table {results/realtime/rtPollingResults.Modular.txt};
-    \addplot table {results/realtime/rtPollingResults.Monolithic.txt};
+    \addplot table {../results/lenovo/realtime/rtPollingResults.Modular.txt};
+    \addplot table {../results/lenovo/realtime/rtPollingResults.Monolithic.txt};
     \end{axis}
     \end{tikzpicture}    
     \caption{Real-time results for different designs over a varying polling interval of \emph{HistoryManager}.}
@@ -512,9 +507,11 @@ Therefore the scenario with varying generation intervals cannot be analyzed usin
 The analyzed methods were also executed on two additional host machines:
 
 \begin{description}
-    \item[Workstation] including an Intel  running Windows 7.
-    \item[Build Server] running Linux Mint 17. %TODO????
-\end{description}}
+    \item[Workstation] including an Intel® Core™ i3-2100 CPU @ 3.10GHz with 4GB \emph{RAM} running Windows 7.
+    \item[Build Server] including an Intel® Core™ i7-4770 CPU @ 3.40GHz with 16GB running Linux Mint 17. %TODO????
+\end{description}
+
+These further measurements amount to similar results and are shown in appendix chapter \ref{app:measurements}.
 
 Analyzing the results displayed in section \ref{sec:measurements_sequential_runtime}, \ref{sec:measurements_methods_event} and \ref{sec:measurements_methods_realtime} the following insights were made:
 
@@ -526,13 +523,12 @@ Analyzing the results displayed in section \ref{sec:measurements_sequential_runt
     \item Varying load simulated by decreased polling interval or generation interval shows a bigger impact on the performance of the modular design network.
 \end{itemize}
 
-Using the sequential simulation a monolithic design is recommended for real-time simulations.
-
+Using the sequential simulation the resulting recommendation for achieving the best performance e.g. for real-time simulations is using a monolithic design.
 
 \section{Parallel simulation}
 \label{sec:measurements_parallel}
-The parallel simulation was executed using the \emph{MPI} system openMPI for communication.
-The used synchronization method was the \emph{Null Message Protocol} described in section \ref{sec:parallel_omnet_sync}.
+For communication and synchronization, as described in section \ref{sec:parallel_omnet_sync}, the \emph{MPI} system openMPI and the \emph{Null Message Algorithm} was used.
+
 A explicit synchronization of the different partitions is necessary due to multiple modules which are using \emph{self-messages} as timers.
 The host machine used for developing and executing the simulation provides a 4th Gen Intel® Core™ i7-4500U (1.8 GHz 200 MHz 4MB).
 This processor is a dual core CPU supporting hyper threading and therefore provides four logical processors distributed on two physical cores.
@@ -540,25 +536,203 @@ The example network includes two autonomous modules which are scheduling their b
 This number of autonomous modules leads to the conclusion for two parallel partitions for parallel simulation.
 
 As described in chapter \ref{cha:parallel_sim} running a simulation distributed on parallel devices requires the mapping of the simulated modules to different parallel partitions.
+The example network was tested using two different mappings.
 The first mapping can be applied to both designs and assigns the \emph{Generator} to the partition zero and all modules within the \emph{Sink} to the partition one.
 The second tested mapping assigns all modules to the partition zero excepting the \emph{HistoryManager}, which is assigned to the partition one.
 
-As the ratio in between the number of created events by a modular or a monolithic design, described in section \ref{sec:measurements_methods_event}, running a parallel simulation also requires a correction factor due to the varying number of created events by different partitioning.
+As the ratio in between the number of created events by a modular or a monolithic design running a parallel simulation also requires a correction factor due to the varying number of created events by different partitioning.
 This dependency is caused by the changing set of transmitted data messages and required synchronization messages.
-
-This correction value can also be determined using the previously discussed method \ref{sec:measurements_methods_runtime}.
-The impact of synchronization within parallel simulations is described in section \ref{sec:parallel_omnet_sync}.
 
 \subsection{Runtime}
 \label{sec:measurements_parallel_runtime}
 
+The measured runtime of each partition is accumulated for the comparison of different simulation runs.
+The resulting runtimes over varying simulation times are shown in figure \ref{fig:results_parallel_runtime_eval}.
+Similar to the sequential results the double logarithmic axis leads to a noticeable potential characteristic. %??????
+The average ratio of resulting runtime using different designs is $99999$.
+\\
 
-\subsection{Event}
-\label{sec:measurements_parallel_event}
+%%% parallel runtime over simulation time %%%
+\begin{figure}
+    \centering
+    \pgfplotsset{
+        every axis plot/.append style={very thick}
+    }
+    \begin{tikzpicture}
+    \begin{axis}[
+    xmode=log,
+    ymode=log,
+    ylabel={Accumulated runtime [s]},
+    xlabel={Simulation time [s]},
+    grid=major,
+    legend entries={Modular,Monolithic},
+    legend style={at={(0.03,0.97)},anchor=north west}
+    ]
+    
+    \addplot table {../results/lenovo/runtimeResults.Modular.txt};
+    \addplot table {../results/lenovo/runtimeResults.Monolithic.txt};
+    \end{axis}
+    \end{tikzpicture}    
+    \caption{Accumulated runtime over varying simulation time limits.}
+    \label{fig:results_parallel_runtime_eval}
+\end{figure}
 
+
+%%% parallel runtime over event managers %%%
+\begin{figure}
+    \centering
+    \pgfplotsset{
+        every axis plot/.append style={very thick}
+    }
+    \begin{tikzpicture}
+    \begin{axis}[
+    xmode=log,
+    ymode=log,
+    ylabel={Accumulated runtime [s]},
+    xlabel={Number of \emph{EventManagers}},
+    grid=major,
+    legend entries={Modular,Monolithic},
+    legend style={at={(0.03,0.97)},anchor=north west}
+    ]
+    
+    \addplot table {../results/lenovo/runtimeResults.Modular.txt};
+    \addplot table {../results/lenovo/runtimeResults.Monolithic.txt};
+    \end{axis}
+    \end{tikzpicture}    
+    \caption{Accumulated runtime over varying number of \emph{EventManagers}.}
+    \label{fig:results_parallel_runtime_eventmanagers}
+\end{figure}
+
+%%% parallel runtime polling interval %%%
+\begin{figure}
+    \centering
+    \pgfplotsset{
+        every axis plot/.append style={very thick}
+    }
+    \begin{tikzpicture}
+    \begin{axis}[
+    xmode=log,
+    ymode=log,
+    ylabel={Accumulated runtime [s]},
+    xlabel={Polling interval by the \emph{HistoryManager} [ns]},
+    grid=major,
+    legend entries={Modular,Monolithic},
+    legend style={at={(0.03,0.97)},anchor=north west}
+    ]
+    
+    \addplot table {../results/lenovo/runtimeResults.Modular.txt};
+    \addplot table {../results/lenovo/runtimeResults.Monolithic.txt};
+    \end{axis}
+    \end{tikzpicture}    
+    \caption{Accumulated runtime over varying polling interval by the \emph{HistoryManager}.}
+    \label{fig:results_parallel_runtime_polling}
+\end{figure}
+
+%%% parallel runtime generation interval %%%
+\begin{figure}
+    \centering
+    \pgfplotsset{
+        every axis plot/.append style={very thick}
+    }
+    \begin{tikzpicture}
+    \begin{axis}[
+    xmode=log,
+    ymode=log,
+    ylabel={Accumulated runtime [s]},
+    xlabel={Generation interval by the \emph{Generator} [ns]},
+    grid=major,
+    legend entries={Modular,Monolithic},
+    legend style={at={(0.03,0.97)},anchor=north west}
+    ]
+    
+    \addplot table {../results/lenovo/runtimeResults.Modular.txt};
+    \addplot table {../results/lenovo/runtimeResults.Monolithic.txt};
+    \end{axis}
+    \end{tikzpicture}    
+    \caption{Accumulated runtime over varying generation interval by the \emph{Generator}.}
+    \label{fig:results_parallel_runtime_generation}
+\end{figure}
 
 \subsection{Real-time}
 \label{sec:measurements_parallel_realtime}
+
+
+%%% parallel realtime over simulation time %%%
+\begin{figure}
+    \centering
+    \pgfplotsset{
+        every axis plot/.append style={very thick}
+    }
+    \begin{tikzpicture}
+    \begin{axis}[
+    xmode=log,
+    ymode=log,
+    ylabel={Achievable real time generation interval [ns]},
+    xlabel={Simulation time [s]},
+    grid=major,
+    legend entries={Modular,Monolithic},
+    legend style={at={(0.03,0.97)},anchor=north west}
+    ]
+    
+    \addplot table {../results/lenovo/runtimeResults.Modular.txt};
+    \addplot table {../results/lenovo/runtimeResults.Monolithic.txt};
+    \end{axis}
+    \end{tikzpicture}    
+    \caption{Real-time results for different designs over a varying simulation time.}
+    \label{fig:results_parallel_realtime_eval}
+\end{figure}
+
+
+%%% parallel realtime over event managers %%%
+\begin{figure}
+    \centering
+    \pgfplotsset{
+        every axis plot/.append style={very thick}
+    }
+    \begin{tikzpicture}
+    \begin{axis}[
+    xmode=log,
+    ymode=log,
+    ylabel={Achievable real time generation interval [ns]},
+    xlabel={Number of \emph{EventManagers}},
+    grid=major,
+    legend entries={Modular,Monolithic},
+    legend style={at={(0.03,0.97)},anchor=north west}
+    ]
+    
+    \addplot table {../results/lenovo/runtimeResults.Modular.txt};
+    \addplot table {../results/lenovo/runtimeResults.Monolithic.txt};
+    \end{axis}
+    \end{tikzpicture}    
+    \caption{Real-time results for different designs over a varying number of \emph{EventManagers}.}
+    \label{fig:results_parallel_realtime_eventmanagers}
+\end{figure}
+
+%%% parallel realtime polling interval %%%
+\begin{figure}
+    \centering
+    \pgfplotsset{
+        every axis plot/.append style={very thick}
+    }
+    \begin{tikzpicture}
+    \begin{axis}[
+    xmode=log,
+    ymode=log,
+    ylabel={Achievable real time generation interval [ns]},
+    xlabel={Polling interval by the \emph{HistoryManager} [ns]},
+    grid=major,
+    legend entries={Modular,Monolithic},
+    legend style={at={(0.03,0.97)},anchor=north west}
+    ]
+    
+    \addplot table {../results/lenovo/runtimeResults.Modular.txt};
+    \addplot table {../results/lenovo/runtimeResults.Monolithic.txt};
+    \end{axis}
+    \end{tikzpicture}    
+    \caption{Real-time results for different designs over a varying polling interval by the \emph{HistoryManager}.}
+    \label{fig:results_parallel_realtime_polling}
+\end{figure}
+
 
 \subsection{Conclusion of parallel tests}
 
