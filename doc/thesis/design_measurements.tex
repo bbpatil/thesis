@@ -6,7 +6,7 @@ These implementations represent examples of the designs discussed in chapter \re
 
 \section{Simulated example network}
 \label{sec:measurements_network}
-The example network simulates a message queue with different types of transmitted data (configuration, event, historical).
+The example network simulates a message queue with dispatching of different types of transmitted data (configuration, event, historical).
 The different types of data are processed by different parts within the network.
 This network includes parts for data generation and data processing.
 Such a exemplary network was chosen, due to multiple similar practical applications.
@@ -15,7 +15,7 @@ An overview of the simulated network is shown in Figure \ref{fig:design_test_net
 \begin{figure}
     \centering
     \includegraphics[width=0.9\linewidth]{design_test_network.eps}
-    \caption{Example network including \emph{Generator}, \emph{Sink}, \emph{HistoricalQueue} and the data processing \emph{ConfigurationManager}, \emph{EventManager}, \emph{HistoryManager}.}
+    \caption{Example network including \emph{Generator}, \emph{Sink}, \emph{HistoricalQueue} and the data processing modles \emph{ConfigurationManager}, \emph{EventManager}, and \emph{HistoryManager}.}
     \label{fig:design_test_network}
 \end{figure}
 
@@ -39,14 +39,14 @@ The assumption of existing implementations for the \emph{Dispatcher}, \emph{Hist
 This assumption should connect this design test to practical scenarios where existing code cannot be changed for the simulation.
 Therefore implementing the \emph{MonolithicSink} consists of instantiating and connecting the different parts within a single simple module.
 Received messages will be analyzed and the enclosed data is forwarded to the according instances.
-The polling done by the \emph{ConfigurationManager} is implemented using \emph{self-messages} sent in an configurable interval.
+The polling is done by the \emph{ConfigurationManager} using \emph{self-messages} sent in an configurable interval.
 
 Implementing the \emph{ModularSink} requires the implementation of wrapper modules for every single part which should be represented by a separate module.
 These wrapper extract the transmitted data of received messages and forward it to the enclosed parts.
 Calls from within the enclosed parts are handled by methods of the wrappers, which are passed via function pointers (functional objects).
 Within this methods according messages are created and sent via the correct output gates.
 The internal structure of the \emph{ModularSink} is shown in figure \ref{fig:ModularSink}.
-Within the \emph{ModularSink} arrays of gates, connections and \emph{EventWrapper} are used for realizing a variable number of \emph{EventManagers}.
+Within the \emph{ModularSink} arrays of gates, connections and instances of \emph{EventWrappers} are used for realizing a variable number of \emph{EventManagers}.
 
 \begin{figure}
     \centering
@@ -74,8 +74,8 @@ These methods were implemented via different scripts for automated executing and
 \subsection{Runtime measurement}
 \label{sec:measurements_methods_runtime}
 The performance of the simulated design can be analyzed by defining a fixed simulation time limit (\emph{sim-time-limit}).
-Using the default (non real-time) scheduler this results in a simulation which executes as fast as possible for the needed number of events for reaching the simulation time limit.
-The required time for this simulation represents the performance of the simulation.
+Using the default (non real-time) scheduler this results in a simulation which executes as fast as possible for the required number of events for reaching the simulation time limit.
+The required execution time for this simulation represents the performance of the simulation.
 
 Analyzing a parallel simulation using this method does not require special attention, except the handling of multiple resulting runtime values.
 
@@ -85,7 +85,8 @@ By defining a fixed execution time limit (\emph{cpu-time-limit}) and using the d
 The number of processed events within this fixed time represents the performance of the simulation.
 
 The simulation of different designs results in contrasting event counts due to the varying number of messages using other designs with more modules and therefore more communication.
-Therefore for evaluating the created number within a fixed processing time a correction factor, describing the ratio of event creation depending on the design, must be considered.
+For comparison of the performance the created number within a fixed processing time a correction factor must be considered.
+This factor describes the ratio of create events using the different designs.
 This ratio can be measured using the configuration of the previous method \ref{sec:measurements_methods_runtime} and analyzing the number of created events.
 
 Analyzing a parallel simulation and comparing the performance to a sequential simulation requires further attention to the number of created events.
@@ -166,7 +167,7 @@ The average ratio of runtime using the modular design over the runtime using the
 \end{figure}
 
 The runtime using different designs with a varying number of \emph{EventManagers} is shown in figure \ref{fig:results_runtime_eventmanager}.
-As expected there is no obvious dependency of the required runtime, given a fixed simulation time, to the number of included \emph{EventManagers}.
+As expected there is no obvious dependency of the resulting runtime to the number of included \emph{EventManagers}.
 Due to the fixed simulation time the number of created event stays the same.
 The only difference introduced by the increasing number of \emph{EventManagers} is the destination of the event typed data.
 The required time for transporting the messages and processing the data is untouched.
@@ -200,7 +201,7 @@ The average of this ratio is $3.342$.
     \label{fig:results_runtime_eventmanager}
 \end{figure}
 
-The runtime using different designs with a varying polling interval of \emph{HistoryManager} is shown in figure \ref{fig:results_runtime_polling}.
+The runtime using different designs with a varying polling interval by the \emph{HistoryManager} is shown in figure \ref{fig:results_runtime_polling}.
 These results are again shown in a double logarithmic plot for easier recognition of both plots following a potential characteristic, which is visible as linear plots.
 As expected the required runtime is sinking with increasing polling interval.
 This behavior can be explained by the sinking frequency of polling operations and thus a decreasing communication.
@@ -228,11 +229,11 @@ The average ratio of runtime using the modular design over the runtime using the
     \addplot table {results/time/simtimePollingResults.Monolithic.txt};
     \end{axis}
     \end{tikzpicture}    
-    \caption{Runtime using different designs over varying polling interval by \emph{HistoryManager}.}
+    \caption{Runtime using different designs over varying polling interval by the \emph{HistoryManager}.}
     \label{fig:results_runtime_polling}
 \end{figure}
 
-The runtime using different designs with a varying generation interval of \emph{Generator} is shown in figure \ref{fig:results_runtime_generation}.
+The runtime using different designs with a varying generation interval by the \emph{Generator} is shown in figure \ref{fig:results_runtime_generation}.
 Similar to the previous figure these results are also shown in a double logarithmic plot showing the potential characteristic of sinking required runtime with increasing generation interval.
 Again the noticeable offset in between the plots is due to a ratio of resulting runtimes.
 The average ratio of runtime using the modular design over the runtime using the monolithic design is $1.588$.
@@ -259,7 +260,7 @@ The average ratio of runtime using the modular design over the runtime using the
     \addplot table {results/time/simtimeGenerationResults.Monolithic.txt};
     \end{axis}
     \end{tikzpicture}    
-    \caption{Runtime using different designs over varying generation interval by \emph{Generator}.}
+    \caption{Runtime using different designs over varying generation interval by the \emph{Generator}.}
     \label{fig:results_runtime_generation}
 \end{figure}
 
@@ -308,10 +309,11 @@ For comparison to the previous and following test method the reciprocal value is
 
 The number of created events using different designs and a varying number of \emph{EventManagers} is showed in figure \ref{fig:results_event_eventmanager}.
 As expected and similar to the results of the runtime with a varying number of \emph{EventManagers} there is no noticeable dependency of the created events to the number of \emph{EventManagers}.
+This presumption was done because by changing the number of instantiated \emph{EventManagers} only the destination of the transmitted events is affected but not the number of events.
 Using the double logarithmic visible as offset the ratio in between the different designs is showed in figure \ref{fig:results_event_eventmanager}.
 This ratio is defined by the number of created events using a modular design over the number of created events using a monolithic design.
-The average of this ratio is $0.273$. %TODO refresh
-For comparison to the previous and following test method the reciprocal value is calculated and equals $3.663$.
+The average of this ratio is $0.273$.
+For comparison to the previous and following test method the reciprocal value is calculated which equals $3.663$.
 \\
 
 %%% events over Event managers %%%
@@ -339,7 +341,7 @@ For comparison to the previous and following test method the reciprocal value is
     \label{fig:results_event_eventmanager}
 \end{figure}
 
-The number of created events using different designs and a varying polling interval of \emph{HistoryManager} is shown in figure \ref{fig:results_event_polling}.
+The number of created events using different designs and a varying polling interval by the \emph{HistoryManager} is shown in figure \ref{fig:results_event_polling}.
 This result is leading to the assumption of no definable dependency of the number of created events to the polling interval of \emph{HistoryManager}.
 The offset in between the plots using different designs is although indicating a ratio representing the performance difference of the used designs.
 This ratio is defined by the number of created events using a modular design over the number of created events using a monolithic design.
@@ -368,11 +370,11 @@ For comparison to the previous and following test method the reciprocal value is
     \addplot table {results/event/cputimePollingResults.Monolithic.txt};
     \end{axis}
     \end{tikzpicture}    
-    \caption{Created events using different designs over variing polling interval by \emph{HistoryManager}.}
+    \caption{Created events using different designs over variing polling interval by the \emph{HistoryManager}.}
     \label{fig:results_event_polling}
 \end{figure}
 
-The number of created events using different designs and a varying generation interval of \emph{Generator} is shown in figure \ref{fig:results_event_generation}.
+The number of created events using different designs and a varying generation interval by the \emph{Generator} is shown in figure \ref{fig:results_event_generation}.
 Similar to the polling interval of \emph{HistoryManager} shown in \ref{fig:results_event_polling} there is no dependency identifiable.
 The offset is related to the ratio in between the designs and the average ratio is $0.436$.
 For comparison to the previous and following test method the reciprocal value is calculated and equals $2.294$.
@@ -399,7 +401,7 @@ For comparison to the previous and following test method the reciprocal value is
     \addplot table {results/event/cputimeGenerationResults.Monolithic.txt};
     \end{axis}
     \end{tikzpicture}    
-    \caption{Created events using different designs over variing generation interval by \emph{Generator}.}
+    \caption{Created events using different designs over variing generation interval by the \emph{Generator}.}
     \label{fig:results_event_generation}
 \end{figure}
 
@@ -411,7 +413,7 @@ The simulation time limit defines the runtime of a real-time simulation, but doe
 Therefore the result shows as expected no recognizable dependency of the achievable generation interval to the simulation time.
 Although an offset in between the different designs is visible.
 This offset represents the ratio of achievable generation interval using a modular design over the achievable generation interval using a monolithic design.
-The average of this ratio is $1.293$.\\
+The average of this ratio is $1.717$.\\
 
 % realtime over sim time
 \begin{figure}
@@ -427,7 +429,7 @@ The average of this ratio is $1.293$.\\
         xlabel={Simulation time [s]},
         grid=major,
         legend entries={Modular,Monolithic},
-        legend style={at={(0.97,0.5)}, anchor=east}
+        legend style={at={(0.97,0.97)}, anchor=north east}
         ]
         
         \addplot table {results/realTimeResults.Modular.txt};
@@ -439,8 +441,8 @@ The average of this ratio is $1.293$.\\
 \end{figure}
 
 The real-time results for a varying number of \emph{EventManagers} is shown in figure \ref{fig:results_realtime_eventmanager}.
-The resulting characteristics show no recognizable dependency to the number of \emph{EventManagers}.
-This result matches the expectations, because the number of \emph{EventManagers} only affects the required memory and not the simulated executions, this is similar to the insights shown in section \ref{sec:measurements_sequential_runtime}.
+The resulting characteristics show a wide distribution and therefore does not lead to a clear assumption about a to the number of \emph{EventManagers}.
+The impact of the different designs is still noticeable.
 The average ratio of the achievable generation interval using different designs is $1.488$.
 \\
 
@@ -470,7 +472,10 @@ The average ratio of the achievable generation interval using different designs 
 \end{figure}
 
 The real-time results for a varying polling interval of \emph{HistoryManager} is shown in figure \ref{fig:results_realtime_polling}.
-Similar to the previous results there is no dependency of the achievable generation interval to the used polling interval noticeable.
+Similar to the previous results there is no noticeable dependency of the achievable generation interval to the used polling interval.
+The performance difference is again shown in the ratio of the achieved intervals.
+The average of this ratio is $99999$.
+%TODO add average
 \\
 
 % realtime over polling interval
@@ -503,6 +508,13 @@ Therefore the scenario with varying generation intervals cannot be analyzed usin
 
 \subsection{Conclusion of sequential design tests}
 \label{sec:measurements_sequential_conclusion}
+
+The analyzed methods were also executed on two additional host machines:
+
+\begin{description}
+    \item[Workstation] including an Intel  running Windows 7.
+    \item[Build Server] running Linux Mint 17. %TODO????
+\end{description}}
 
 Analyzing the results displayed in section \ref{sec:measurements_sequential_runtime}, \ref{sec:measurements_methods_event} and \ref{sec:measurements_methods_realtime} the following insights were made:
 
