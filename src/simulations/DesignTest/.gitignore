@@ -6,3 +6,4 @@ Makefile*
 DesignTest
 results/
 comm/
+parameter.ini

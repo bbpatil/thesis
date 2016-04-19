@@ -36,6 +36,7 @@ execute_if_not_yet "ln -s $PRJ_HOME/src/analyze/sweepRealTimeSimtime.sh $ANALYZE
 execute_if_not_yet "ln -s $PRJ_HOME/src/analyze/testRuns.sh $ANALYZE_BIN/truns"
 execute_if_not_yet "ln -s $PRJ_HOME/src/analyze/testConfigurations.sh $ANALYZE_BIN/tconf"
 execute_if_not_yet "ln -s $PRJ_HOME/src/analyze/parseResults.py $ANALYZE_BIN/parseRes"
+execute_if_not_yet "ln -s $PRJ_HOME/src/analyze/analyzeResults.sh $ANALYZE_BIN/analyzeRes"
 
 echo "add analyze bin directory to PATH"
 export PATH=$PATH:$ANALYZE_BIN/
