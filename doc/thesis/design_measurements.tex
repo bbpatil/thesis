@@ -437,7 +437,7 @@ The average of this ratio is $1.717$.\\
 \end{figure}
 
 The real-time results for a varying number of \emph{EventManagers} is shown in figure \ref{fig:results_realtime_eventmanager}.
-The resulting characteristics show a wide distribution and therefore does not lead to a clear assumption about a to the number of \emph{EventManagers}.
+The resulting characteristics show a wide distribution and therefore does not lead to a clear assumption about a dependency to the number of \emph{EventManagers}.
 The impact of the different designs is still noticeable.
 The average ratio of the achievable generation interval using different designs is $1.488$.
 \\
@@ -736,7 +736,7 @@ The average ratio of resulting runtime using different designs is $99999$.
 
 \subsection{Conclusion of parallel tests}
 
-Considering the results shown in the sections \ref{sec:measurements_parallel_runtime}, \ref{sec:measurements_parallel_event} and \ref{sec:measurements_parallel_realtime} the following insights were made:
+Considering the results shown in the sections \ref{sec:measurements_parallel_runtime} and \ref{sec:measurements_parallel_realtime} the following insights were made:
 
 \begin{itemize}
     \item The performance of a parallel simulation is depending strongly on the simulated model and its partitioning capabilities.
@@ -744,6 +744,9 @@ Considering the results shown in the sections \ref{sec:measurements_parallel_run
 \end{itemize}
 
 \section{Conclusion}
-Considering the results of section \ref{sec:measurements_sequential} and \ref{sec:measurements_parallel} the modular design is mostly resulting in a increased number of messages and the caused overhead leads to a debased performance.
+Considering the results of section \ref{sec:measurements_sequential} and \ref{sec:measurements_parallel} the modular design is mostly resulting in a increased number of messages which causes an overhead and leads to a debased performance.
 Analyzing the simulation of the chosen example network the parallel simulation was not able to achieve an improved performance in comparison to the sequential simulation.
-The capabilities of parallel simulation, especially for the usage in the fields of real-time simulation, emulation and \emph{HiL} must be analyzed individually for each simulated model. 
+The capabilities of parallel simulation, especially for the usage in the fields of real-time simulation, emulation and \emph{HiL} must be analyzed individually for each simulated model.
+Based on the results simulating the defined example network the sequential simulation using a monolithic design is recommended for optimal performance and best usage for real-time simulation.
+
+This design decision will be used for the first implementation of the openPOWERLINK simulation described in the following chapters.

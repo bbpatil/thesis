@@ -1,20 +1,486 @@
+% placement settings for following figures
+%\floatplacement{figure}{H}
+
 \chapter{Further design Measurements}
 \label{app:measurements}
+
+This chapter includes all plots of analyzed design measurements executed on the additional host machines.
 
 \section{Workstation measurements}
 \label{app:measurements_workstation}
 
+\subsection{Runtime}
+\label{app:measurements_workstation_runtime}
 
-\subsection{Sequential simulation}
-\label{app:measurements_workstation_sequential}
+% runtime over simtime
+\begin{figure}
+    \centering
+    \pgfplotsset{
+        every axis plot/.append style={very thick}
+    }
+    \begin{tikzpicture}
+    \begin{axis}[
+    xmode=log,
+    ymode=log,
+    ylabel={Runtime [s]},
+    xlabel={Simulation time [s]},
+    grid=major,
+    legend entries={Modular,Monolithic},
+    legend style={at={(0.03,0.97)}, anchor=north west}
+    ]
+    
+    \addplot table {../results/workstation/runtimeResults.Modular.txt};
+    \addplot table {../results/workstation/runtimeResults.Monolithic.txt};
+    \end{axis}
+    \end{tikzpicture}    
+    \caption{Runtime results for different designs over a varying simulation time.}
+    \label{fig:app_workstation_runtime_simtime}
+\end{figure}
 
+%%% runtime over number of event manager %%%
+\begin{figure}
+    \centering
+    \pgfplotsset{
+        every axis plot/.append style={very thick}
+    }
+    \begin{tikzpicture}
+    \begin{axis}[
+    xmode=log,
+    %ymode=log,
+    ylabel={Runtime [s]},
+    xlabel={Number of \emph{EventManager}},
+    grid=major,
+    legend entries={Modular,Monolithic},
+    legend style={at={(0.97,0.5)},anchor=east}
+    ]
+    
+    \addplot table {../results/workstation/runtime/simtimeEventManagerResults.Modular.txt};
+    \addplot table {../results/workstation/runtime/simtimeEventManagerResults.Monolithic.txt};
+    \end{axis}
+    \end{tikzpicture}    
+    \caption{Runtime using different designs over variing number of \emph{EventManager}.}
+    \label{fig:app_workstation_runtime_eventmanagers}
+\end{figure}
+
+
+%%% runtime over polling interval %%%
+\begin{figure}
+    \centering
+    \pgfplotsset{
+        every axis plot/.append style={very thick}
+    }
+    \begin{tikzpicture}
+    \begin{axis}[
+    xmode=log,
+    ymode=log,
+    ylabel={Runtime [s]},
+    xlabel={Polling interval [ns]},
+    grid=major,
+    legend entries={Modular,Monolithic},
+    legend style={at={(0.97,0.97)}, anchor=north east}
+    ]
+    
+    \addplot table {../results/workstation/runtime/simtimePollingResults.Modular.txt};
+    \addplot table {../results/workstation/runtime/simtimePollingResults.Monolithic.txt};
+    \end{axis}
+    \end{tikzpicture}    
+    \caption{Runtime using different designs over varying polling interval by the \emph{HistoryManager}.}
+    \label{fig:app_workstation_runtime_polling}
+\end{figure}
+
+
+%%% runtime over generation interval %%%
+\begin{figure}
+    \centering
+    \pgfplotsset{
+        every axis plot/.append style={very thick}
+    }
+    \begin{tikzpicture}
+    \begin{axis}[
+    xmode=log,
+    ymode=log,
+    ylabel={Runtime [s]},
+    xlabel={Generation interval [ns]},
+    grid=major,
+    legend entries={Modular,Monolithic},
+    legend style={at={(0.97,0.97)}, anchor=north east}
+    ]
+    
+    \addplot table {../results/workstation/runtime/simtimeGenerationResults.Modular.txt};
+    \addplot table {../results/workstation/runtime/simtimeGenerationResults.Monolithic.txt};
+    \end{axis}
+    \end{tikzpicture}    
+    \caption{Runtime using different designs over varying generation interval by the \emph{Generator}.}
+    \label{fig:app_workstation_runtime_generation}
+\end{figure}
+
+\subsection{Event}
+\label{app:measurements_workstation_event}
+
+%%% event number over cpu time %%%
+\begin{figure}
+    \centering
+    \pgfplotsset{
+        every axis plot/.append style={very thick}
+    }
+    \begin{tikzpicture}
+    \begin{axis}[
+    xmode=log,
+    ymode=log,
+    ylabel={Created event},
+    xlabel={Cpu time $[s]$},
+    grid=major,
+    legend entries={Modular,Monolithic},
+    legend style={at={(0.03,0.97)}, anchor=north west}
+    ]
+    
+    \addplot table {../results/workstation/eventResults.Modular.txt};
+    \addplot table {../results/workstation/eventResults.Monolithic.txt};
+    \end{axis}
+    \end{tikzpicture}    
+    \caption{Created events for different designs over different cpu time limits.}
+    \label{fig:app_workstation_event_cputime}
+\end{figure}
+
+%%% events over Event managers %%%
+\begin{figure}
+    \centering
+    \pgfplotsset{
+        every axis plot/.append style={very thick}
+    }
+    \begin{tikzpicture}
+    \begin{axis}[
+    xmode=log,
+    %ymode=log,
+    ylabel={Created events},
+    xlabel={Number of EventManager},
+    grid=major,
+    legend entries={Modular,Monolithic},
+    legend style={at={(0.97,0.5)},anchor=east}
+    ]
+    
+    \addplot table {../results/workstation/event/cputimeEventManagerResults.Modular.txt};
+    \addplot table {../results/workstation/event/cputimeEventManagerResults.Monolithic.txt};
+    \end{axis}
+    \end{tikzpicture}    
+    \caption{Created events using different designs over varying number of \emph{EventManager}.}
+    \label{fig:app_workstation_event_eventmanagers}
+\end{figure}
+
+%%% events over polling interval %%%
+\begin{figure}
+    \centering
+    \pgfplotsset{
+        every axis plot/.append style={very thick}
+    }
+    \begin{tikzpicture}
+    \begin{axis}[
+    xmode=log,
+    ymode=log,
+    ylabel={Created events},
+    xlabel={Polling interval [ns]},
+    grid=major,
+    legend entries={Modular,Monolithic},
+    legend style={at={(0.03,0.5)},anchor=west}
+    ]
+    
+    \addplot table {../results/workstation/event/cputimePollingResults.Modular.txt};
+    \addplot table {../results/workstation/event/cputimePollingResults.Monolithic.txt};
+    \end{axis}
+    \end{tikzpicture}    
+    \caption{Created events using different designs over varying polling interval by the \emph{HistoryManager}.}
+    \label{fig:app_workstation_event_polling}
+\end{figure}
 
 \section{Build server measurements}
 \label{app:measurements_build_server}
 
+\subsection{Runtime}
+\label{app:measurements_build_server_runtime}
 
-\subsection{Sequential simulation}
-\label{app:measurements_build_server_sequential}
+% runtime over simtime
+\begin{figure}
+    \centering
+    \pgfplotsset{
+        every axis plot/.append style={very thick}
+    }
+    \begin{tikzpicture}
+    \begin{axis}[
+    xmode=log,
+    ymode=log,
+    ylabel={Runtime [s]},
+    xlabel={Simulation time [s]},
+    grid=major,
+    legend entries={Modular,Monolithic},
+    legend style={at={(0.03,0.97)}, anchor=north west}
+    ]
+    
+    \addplot table {../results/buildServer/runtimeResults.Modular.txt};
+    \addplot table {../results/buildServer/runtimeResults.Monolithic.txt};
+    \end{axis}
+    \end{tikzpicture}    
+    \caption{Runtime results for different designs over a varying simulation time.}
+    \label{fig:app_build_server_runtime_simtime}
+\end{figure}
 
-\subsection{Parallel simulation}
-\label{app:measurements_build_server_parallel}
+%%% runtime over number of event manager %%%
+\begin{figure}
+    \centering
+    \pgfplotsset{
+        every axis plot/.append style={very thick}
+    }
+    \begin{tikzpicture}
+    \begin{axis}[
+    xmode=log,
+    %ymode=log,
+    ylabel={Runtime [s]},
+    xlabel={Number of \emph{EventManager}},
+    grid=major,
+    legend entries={Modular,Monolithic},
+    legend style={at={(0.97,0.5)},anchor=east}
+    ]
+    
+    \addplot table {../results/buildServer/runtime/simtimeEventManagerResults.Modular.txt};
+    \addplot table {../results/buildServer/runtime/simtimeEventManagerResults.Monolithic.txt};
+    \end{axis}
+    \end{tikzpicture}    
+    \caption{Runtime using different designs over variing number of \emph{EventManager}.}
+    \label{fig:app_build_server_runtime_eventmanagers}
+\end{figure}
+
+
+%%% runtime over polling interval %%%
+\begin{figure}
+    \centering
+    \pgfplotsset{
+        every axis plot/.append style={very thick}
+    }
+    \begin{tikzpicture}
+    \begin{axis}[
+    xmode=log,
+    ymode=log,
+    ylabel={Runtime [s]},
+    xlabel={Polling interval [ns]},
+    grid=major,
+    legend entries={Modular,Monolithic},
+    legend style={at={(0.97,0.97)}, anchor=north east}
+    ]
+    
+    \addplot table {../results/buildServer/runtime/simtimePollingResults.Modular.txt};
+    \addplot table {../results/buildServer/runtime/simtimePollingResults.Monolithic.txt};
+    \end{axis}
+    \end{tikzpicture}    
+    \caption{Runtime using different designs over varying polling interval by the \emph{HistoryManager}.}
+    \label{fig:app_build_server_runtime_polling}
+\end{figure}
+
+
+%%% runtime over generation interval %%%
+\begin{figure}
+    \centering
+    \pgfplotsset{
+        every axis plot/.append style={very thick}
+    }
+    \begin{tikzpicture}
+    \begin{axis}[
+    xmode=log,
+    ymode=log,
+    ylabel={Runtime [s]},
+    xlabel={Generation interval [ns]},
+    grid=major,
+    legend entries={Modular,Monolithic},
+    legend style={at={(0.97,0.97)}, anchor=north east}
+    ]
+    
+    \addplot table {../results/buildServer/runtime/simtimeGenerationResults.Modular.txt};
+    \addplot table {../results/buildServer/runtime/simtimeGenerationResults.Monolithic.txt};
+    \end{axis}
+    \end{tikzpicture}    
+    \caption{Runtime using different designs over varying generation interval by the \emph{Generator}.}
+    \label{fig:app_build_server_runtime_generation}
+\end{figure}
+
+
+\subsection{Event}
+\label{app:measurements_build_server_event}
+
+%%% event number over cpu time %%%
+\begin{figure}
+    \centering
+    \pgfplotsset{
+        every axis plot/.append style={very thick}
+    }
+    \begin{tikzpicture}
+    \begin{axis}[
+    xmode=log,
+    ymode=log,
+    ylabel={Created event},
+    xlabel={Cpu time $[s]$},
+    grid=major,
+    legend entries={Modular,Monolithic},
+    legend style={at={(0.03,0.97)}, anchor=north west}
+    ]
+    
+    \addplot table {../results/buildServer/eventResults.Modular.txt};
+    \addplot table {../results/buildServer/eventResults.Monolithic.txt};
+    \end{axis}
+    \end{tikzpicture}    
+    \caption{Created events for different designs over different cpu time limits.}
+    \label{fig:app_build_server_event_cputime}
+\end{figure}
+
+%%% events over Event managers %%%
+\begin{figure}
+    \centering
+    \pgfplotsset{
+        every axis plot/.append style={very thick}
+    }
+    \begin{tikzpicture}
+    \begin{axis}[
+    xmode=log,
+    %ymode=log,
+    ylabel={Created events},
+    xlabel={Number of EventManager},
+    grid=major,
+    legend entries={Modular,Monolithic},
+    legend style={at={(0.97,0.5)},anchor=east}
+    ]
+    
+    \addplot table {../results/buildServer/event/cputimeEventManagerResults.Modular.txt};
+    \addplot table {../results/buildServer/event/cputimeEventManagerResults.Monolithic.txt};
+    \end{axis}
+    \end{tikzpicture}    
+    \caption{Created events using different designs over varying number of \emph{EventManager}.}
+    \label{fig:app_build_server_event_eventmanagers}
+\end{figure}
+
+%%% events over polling interval %%%
+\begin{figure}
+    \centering
+    \pgfplotsset{
+        every axis plot/.append style={very thick}
+    }
+    \begin{tikzpicture}
+    \begin{axis}[
+    xmode=log,
+    ymode=log,
+    ylabel={Created events},
+    xlabel={Polling interval [ns]},
+    grid=major,
+    legend entries={Modular,Monolithic},
+    legend style={at={(0.97,0.5)},anchor=east}
+    ]
+    
+    \addplot table {../results/buildServer/event/cputimePollingResults.Modular.txt};
+    \addplot table {../results/buildServer/event/cputimePollingResults.Monolithic.txt};
+    \end{axis}
+    \end{tikzpicture}    
+    \caption{Created events using different designs over varying polling interval by the \emph{HistoryManager}.}
+    \label{fig:app_build_server_event_polling}
+\end{figure}
+
+%%% events over generation interval %%%
+\begin{figure}
+    \centering
+    \pgfplotsset{
+        every axis plot/.append style={very thick}
+    }
+    \begin{tikzpicture}
+    \begin{axis}[
+    xmode=log,
+    ymode=log,
+    ylabel={Created events},
+    xlabel={Generation interval [ns]},
+    grid=major,
+    legend entries={Modular,Monolithic},
+    legend style={at={(0.97,0.5)},anchor=east}
+    ]
+    
+    \addplot table {../results/buildServer/event/cputimeGenerationResults.Modular.txt};
+    \addplot table {../results/buildServer/event/cputimeGenerationResults.Monolithic.txt};
+    \end{axis}
+    \end{tikzpicture}    
+    \caption{Created events using different designs over varying generation interval by the \emph{Generator}.}
+    \label{fig:app_build_server_event_generation}
+\end{figure}
+
+\subsection{Real-time}
+\label{app:measurements_build_server_realtime}
+
+
+% realtime over sim time
+\begin{figure}
+    \centering
+    \pgfplotsset{
+        every axis plot/.append style={very thick}
+    }
+    \begin{tikzpicture}
+    \begin{axis}[
+    xmode=log,
+    ymode=log,
+    ylabel={Achievable real time generation interval [ns]},
+    xlabel={Simulation time [s]},
+    grid=major,
+    legend entries={Modular,Monolithic},
+    legend style={at={(0.97,0.5)}, anchor=east}
+    ]
+    
+    \addplot table {../results/buildServer/realTimeResults.Modular.txt};
+    \addplot table {../results/buildServer/realTimeResults.Monolithic.txt};
+    \end{axis}
+    \end{tikzpicture}    
+    \caption{Real-time results for different designs over different simulation time limits.}
+    \label{fig:app_build_server_realtime_simtime}
+\end{figure}
+
+
+% realtime over event managers
+\begin{figure}
+    \centering
+    \pgfplotsset{
+        every axis plot/.append style={very thick}
+    }
+    \begin{tikzpicture}
+    \begin{axis}[
+    xmode=log,
+    ymode=log,
+    ylabel={Achievable real time generation interval [ns]},
+    xlabel={Number of \emph{Eventmanagers}},
+    grid=major,
+    legend entries={Modular,Monolithic},
+    legend style={at={(0.97,0.5)}, anchor=east}
+    ]
+    
+    \addplot table {../results/buildServer/realtime/rtEventManagerResults.Modular.txt};
+    \addplot table {../results/buildServer/realtime/rtEventManagerResults.Monolithic.txt};
+    \end{axis}
+    \end{tikzpicture}    
+    \caption{Real-time results for different designs over a varying number of \emph{EventManagers}.}
+    \label{fig:app_build_server_realtime_eventmanager}
+\end{figure}
+
+
+% realtime over polling interval
+\begin{figure}
+    \centering
+    \pgfplotsset{
+        every axis plot/.append style={very thick}
+    }
+    \begin{tikzpicture}
+    \begin{axis}[
+    xmode=log,
+    ymode=log,
+    ylabel={Achievable real time generation interval [ns]},
+    xlabel={Polling interval of \emph{HistoryManager} [ns]},
+    grid=major,
+    legend entries={Modular,Monolithic},
+    legend style={at={(0.97,0.5)}, anchor=east}
+    ]
+    
+    \addplot table {../results/buildServer/realtime/rtPollingResults.Modular.txt};
+    \addplot table {../results/buildServer/realtime/rtPollingResults.Monolithic.txt};
+    \end{axis}
+    \end{tikzpicture}    
+    \caption{Real-time results for different designs over a varying polling interval of \emph{HistoryManager}.}
+    \label{fig:app_build_server_realtime_polling}
+\end{figure}
