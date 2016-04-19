@@ -1,8 +1,95 @@
 \chapter{openPOWERLINK}
 \label{cha:oplk}
+%TODO general description
+
+\section{Functionalities}
+\label{sec:oplk_functionalities}
+%TODO introduction in functionality
+
+\subsection{Definitions}
+\label{sec:oplk_functionalities_defs}
+%TODO definitions like MN, CN, OD, ...
+
+\subsection{Architecture}
+\label{sec:oplk_functionalities_arch}
+%TODO explain architecture including user, kernel, CAL, AMI, HAL, ...
 
 \section{Structure}
 \label{sec:oplk_structure}
+%TODO introduction in structure
 
-\section{Plattform dependency}
+\subsection{Configuration and build}
+\label{sec:oplk_structure_build}
+
+The build tool \emph{CMAKE} is used for dynamic creation of according makefiles using definitions and special sources for platform dependency.
+
+Within the openPOWERLINK folder structure the main \emph{CMAKE} file \emph{CMakeLists.txt} checks the current \emph{CMAKE\_SYSTEM\_NAME} variable and creates the according makefile.
+The subfolder cmake the general and platform specific cmake-files are located.
+The general files \emph{directories.cmake} and \emph{stackfiles.cmake} are always included in the generation process.
+
+Within \emph{directories.cmake} the location of the source, include, user-, kernel-space, architecture files are defined.
+The \emph{stackfiles.cmake} file contains the definitions for specific source files grouped in categories like \emph{event}, \emph{cal} and many more.
+The platform specific source files are also defined within this file with the according names.
+
+The global \emph{CMAKE} file loads according to the \emph{CMAKE\_SYSTEM\_NAME} variable the correct system specific options file.
+This option file includes options for enabling and disabling part of the openPOWERLINK stack.
+For example the generation of the \emph{CN} or \emph{MN} library can be en- or disabled.
+Further options are platform specific and provide configuration possibilities for specific usages.
+
+Checking the defined options the according projects are included in the generation and later on the build process.
+These projects are located in the \emph{proj} folder.
+
+
+\subsection{\emph{Proj} folder}
+\label{sec:oplk_structure_proj}
+The \emph{proj} folder contains different directories for three target systems:
+
+\begin{description}
+    \item[generic] contains projects for embedded targets without underlying operating systems.
+    Providing implementations of \emph{MN} and \emph{CN} for different targets.
+    \item[linux] contains projects for linux operating systems using different technologies (Kernel Module, dirver, ...).
+    \item[windows] contains projects for windows operating systems using different technologies (Kernel Module, dirver, ...).
+\end{description}
+
+Within a specific target folder the different projects are located.
+For example the projects \emph{liboplkmn} and \emph{liboplkcn} exist for windows and linux systems.
+The different projects represent either different functionalities or different targets and included technologies.
+
+Specific files for each project are located in each folder, including a \emph{CMakeListst.txt} file.
+This is included by the according option files.
+Within these \emph{CMakeListst.txt} file the specific source files are gathered and set within variables like \emph{LIB\_SOURCES}.
+These variables are used for defining the build targets.
+The type, location and additional libraries are also either defined within the project files or the option files.
+
+The build targets mostly are libraries which can be linked to the resulting application.
+
+\section{Platform dependency}
 \label{sec:oplk_platform}
+
+As described in section \ref{sec:oplk_structure} the configuration and build process defines the according platform specific implementations and libraries.
+
+For platform specific functionalities the implementation of the openPOWERLINK stack uses common header files with specific implementations.
+
+For defining which implementations are platform specific the \emph{CMAKE} file \emph{stackfile.cmake} is analyzed.
+
+The following modules are implemented platform dependent:
+
+\begin{description}
+    \item[oplkinc.h] provides macros for target specific functions like memset, memcopy and so on.
+    This header file is located in each project folder.
+    \item[Trace] module providing a function for tracing the execution.
+    \item[\emph{OBD} configuration] containing specific for functions for storing and restoring of the \emph{OD}.
+    The implementation is split in functions regarding file operations and a generic cyclic redundancy check (\emph{CRC}) calculation.
+    \item[\emph{SDO} via \emph{UDP}] this implementation contains the transmission of \emph{SDO}s via user datagram protocol (\emph{UDP}).
+    The specific implementations provide usage of operating system calls of linux and windows or the usage of a generic header \emph{socketwrapper.h} which allows the implementation for other targets.
+    \item[\emph{CAL}] includes different interfaces for the user and kernel space for each containing module (control, \emph{DLL}, \emph{PDO}, error handler, event).
+    \item[Timer] providing functions for setting timer.
+    \item[Circular buffer] providing the system specific functionalities used within the \emph{circular\_buffer} as creation, allocation, deallocation, locking, connecting and disconnecting.
+    \item[Memmap] providing an interface for the memory mapping library used for memory mapped communication in between kernel and user space.
+    \item[Target] providing an interface for target specific functions as sleep, interrupt control, tick and implementations of locks and mutexes.
+    \item[\emph{AMI}] providing an interface for architecture specific memory functions.
+\end{description}
+
+The porting of the openPOWERLINK stack requires the handling and according implementation of the above mentioned modules and functions.
+For simulating the openPOWERLINK stack within OMNeT++ the stack must be ported on an OMNeT++ target.
+This porting is described in the following chapter \ref{cha:porting}.
