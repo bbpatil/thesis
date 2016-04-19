@@ -136,7 +136,7 @@ In the following section the measurement result of the evaluation test (sweep of
 The runtime results of the sequential simulations using both designs and given different simulation time limits are displayed in figure \ref{fig:results_runtime_sim_time}.
 The double logarithmic axis shows two linear characteristics for modular and monolithic design.
 These nearly parallel linear characteristics show a constant factor in between the runtimes using the two different designs.
-The average ratio of runtime using the modular design over the runtime using the monolithic design is $3.393$. %TODO refresh
+The average ratio of runtime using the modular design over the runtime using the monolithic design is $3.393$.
 \\
 
 %%% runtime over simulation time %%%
@@ -337,12 +337,14 @@ For comparison to the previous and following test method the reciprocal value is
 \end{figure}
 
 The number of created events using different designs and a varying polling interval by the \emph{HistoryManager} is shown in figure \ref{fig:results_event_polling}.
-As expected the number of created events is sinking with increased polling interval by the \emph{HistoryManager}.
-This behavior is introduced by the increased frequency of polling messages or self messages for timer implementations and therefore an increased number of created messages.
+The expected behavior would be a sinking the number of created events with increased polling interval by the \emph{HistoryManager}.
+This behavior should introduced by the increased frequency of polling messages or self messages for timer implementations and therefore an increased number of created messages.
+Analyzing the characteristics shown in \ref{fig:results_event_polling} displays this behavior only using the monolithic design.
+Due to this mismatch of both behavior no assumption about the dependency is made.
 The offset in between the plots using different designs is although indicating a ratio representing the performance difference of the used designs.
 This ratio is defined by the number of created events using a modular design over the number of created events using a monolithic design.
-The average of this ratio results for this test in $0.118$.
-For comparison to the previous and following test method the reciprocal value is calculated and equals $8.475$.
+The average of this ratio results for this test in $0.170$.
+For comparison to the previous and following test method the reciprocal value is calculated and equals $5.882$.
 \\
 
 %%% events over polling interval %%%
@@ -371,7 +373,8 @@ For comparison to the previous and following test method the reciprocal value is
 \end{figure}
 
 The number of created events using different designs and a varying generation interval by the \emph{Generator} is shown in figure \ref{fig:results_event_generation}.
-Similar to the polling interval of \emph{HistoryManager} shown in \ref{fig:results_event_polling} number of created events is sinking with increased generation interval.
+Similar to the polling interval of \emph{HistoryManager} shown in \ref{fig:results_event_polling} number of created events should be sinking with increased generation interval.
+In this scenario only the usage of the modular design shows this characteristic and thus no assumption about the dependency is made.
 The offset is related to the ratio in between the designs and the average ratio is $0.414$.
 For comparison to the previous and following test method the reciprocal value is calculated and equals $2.415$.
 \\
@@ -439,7 +442,7 @@ The average of this ratio is $1.717$.\\
 The real-time results for a varying number of \emph{EventManagers} is shown in figure \ref{fig:results_realtime_eventmanager}.
 The resulting characteristics show a wide distribution and therefore does not lead to a clear assumption about a dependency to the number of \emph{EventManagers}.
 The impact of the different designs is still noticeable.
-The average ratio of the achievable generation interval using different designs is $1.488$.
+The average ratio of the achievable generation interval using different designs is $1.533$.
 \\
 
 % realtime over event managers
@@ -507,8 +510,8 @@ Therefore the scenario with varying generation intervals cannot be analyzed usin
 The analyzed methods were also executed on two additional host machines:
 
 \begin{description}
-    \item[Workstation] including an Intel® Core™ i3-2100 CPU @ 3.10GHz with 4GB \emph{RAM} running Windows 7.
-    \item[Build Server] including an Intel® Core™ i7-4770 CPU @ 3.40GHz with 16GB running Linux Mint 17. %TODO????
+    \item[Workstation] including an Intel® Core™ i3-2100 CPU @ 3.10GHz with 4GB \emph{RAM} running Windows 7 Enterprise.
+    \item[Build Server] including an Intel® Core™ i7-4770 CPU @ 3.40GHz with 16GB running Linux Mint 17.
 \end{description}
 
 These further measurements amount to similar results and are shown in appendix chapter \ref{app:measurements}.
@@ -516,12 +519,17 @@ These further measurements amount to similar results and are shown in appendix c
 Analyzing the results displayed in section \ref{sec:measurements_sequential_runtime}, \ref{sec:measurements_methods_event} and \ref{sec:measurements_methods_realtime} the following insights were made:
 
 \begin{itemize}
-    \item Using a modular design the number of events created is bigger, for example the simulated test network resulted in a ratio of created events for a modular design over a monolithic of $9999$. %TODO insert event avg
+    \item Using a modular design results in an increased number of created events.
+    The average of number of created events using the modular design over the number of created events using the monolithic design is $0.285$.
+    For comparison to the other ratios the reciprocal value is calculated $3.506$.
     \item The increased number of events and the included overhead results in an decreased performance noticeable in each of the three used measurement methods.
-    \item The average performance ratio analyzing the runtime is $9999$. %TODO insert runtime avg
-    \item The average performance ratio analyzing the real time behavior is $9999$. %TODO insert realtime avg
-    \item Varying load simulated by decreased polling interval or generation interval shows a bigger impact on the performance of the modular design network.
+    \item The average performance ratio of required runtime using the modular design over the required runtime using the monolithic design is $4.033$.
+    \item The average performance ratio of achieved real-time generation interval using the modular design over the achieved real-time generation interval using the monolithic design is $1.592$.
+    \item The resulting average ratio of combined performance using the modular design over the monolithic design is $3.044$.
 \end{itemize}
+
+The overall average ratio of $3.044$ represents the improved performance of the monolithic design over the modular design.
+Which can be applied to an decreased required runtime, decreased achieved real-time interval or an increased number of created events.
 
 Using the sequential simulation the resulting recommendation for achieving the best performance e.g. for real-time simulations is using a monolithic design.
 
