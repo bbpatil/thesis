@@ -1,0 +1,38 @@
+Loading NED files from /home/profeltf/thesis/src/simulations/DesignTest/src: 12
+
+Preparing for running configuration Modular, run #10...
+Scenario: $generationInterval=3500, $repetition=0
+Assigned runID=Modular-10-20160418-16:30:11-9373
+Setting up network `designtest.DataGeneration'...
+Initializing...
+
+Running simulation...
+** Event #1   T=0   Elapsed: 0.000s (0m 00s)  0% completed
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 2   present: 2   in FES: 2
+** Event #8838912   T=9.9633415   Elapsed: 2.000s (0m 02s)  16% completed
+     Speed:     ev/sec=4.41946e+06   simsec/sec=4.98167   ev/simsec=887143
+     Messages:  created: 8739279   present: 3   in FES: 3
+** Event #17648896   T=19.894077   Elapsed: 4.000s (0m 04s)  33% completed
+     Speed:     ev/sec=4.40499e+06   simsec/sec=4.96537   ev/simsec=887143
+     Messages:  created: 17449955   present: 3   in FES: 3
+** Event #26484480   T=29.85367   Elapsed: 6.000s (0m 06s)  49% completed
+     Speed:     ev/sec=4.41779e+06   simsec/sec=4.9798   ev/simsec=887143
+     Messages:  created: 26185942   present: 3   in FES: 3
+** Event #35369472   T=39.868955   Elapsed: 8.000s (0m 08s)  66% completed
+     Speed:     ev/sec=4.4425e+06   simsec/sec=5.00764   ev/simsec=887143
+     Messages:  created: 34970780   present: 3   in FES: 3
+** Event #44241152   T=49.8692355   Elapsed: 10.000s (0m 10s)  83% completed
+     Speed:     ev/sec=4.43584e+06   simsec/sec=5.00014   ev/simsec=887143
+     Messages:  created: 43742455   present: 2   in FES: 2
+** Event #53088256   T=59.84181   Elapsed: 12.000s (0m 12s)  99% completed
+     Speed:     ev/sec=4.42355e+06   simsec/sec=4.98629   ev/simsec=887143
+     Messages:  created: 52489833   present: 3   in FES: 3
+** Event #53228595   T=60.000003   Elapsed: 12.031s (0m 12s)  100% completed
+     Speed:     ev/sec=4.52703e+06   simsec/sec=5.103   ev/simsec=887132
+     Messages:  created: 52628590   present: 3   in FES: 3
+
+<!> Simulation time limit reached -- simulation stopped at event #53228595, t=60.000003.
+
+
+Calling finish() at end of Run #10...

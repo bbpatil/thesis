@@ -1,0 +1,35 @@
+Loading NED files from /home/profeltf/thesis/src/simulations/DesignTest/src: 12
+
+Preparing for running configuration Monolithic, run #7...
+Scenario: $generationInterval=2000, $repetition=0
+Assigned runID=Monolithic-7-20160418-16:33:02-9457
+Setting up network `designtest.DataGeneration'...
+Initializing...
+
+Running simulation...
+** Event #1   T=0   Elapsed: 0.000s (0m 00s)  0% completed
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 2   present: 2   in FES: 2
+** Event #10585856   T=10.481044   Elapsed: 2.000s (0m 02s)  17% completed
+     Speed:     ev/sec=5.29293e+06   simsec/sec=5.24052   ev/simsec=1.01e+06
+     Messages:  created: 10585857   present: 2   in FES: 2
+** Event #21198592   T=20.988702   Elapsed: 4.000s (0m 04s)  34% completed
+     Speed:     ev/sec=5.30637e+06   simsec/sec=5.25383   ev/simsec=1.01e+06
+     Messages:  created: 21198593   present: 2   in FES: 2
+** Event #31920128   T=31.604083956   Elapsed: 6.000s (0m 06s)  52% completed
+     Speed:     ev/sec=5.36077e+06   simsec/sec=5.30769   ev/simsec=1.01e+06
+     Messages:  created: 31920129   present: 2   in FES: 2
+** Event #42637312   T=42.215156   Elapsed: 8.000s (0m 08s)  70% completed
+     Speed:     ev/sec=5.35859e+06   simsec/sec=5.30554   ev/simsec=1.01e+06
+     Messages:  created: 42637313   present: 2   in FES: 2
+** Event #53353728   T=52.825468   Elapsed: 10.000s (0m 10s)  88% completed
+     Speed:     ev/sec=5.35821e+06   simsec/sec=5.30516   ev/simsec=1.01e+06
+     Messages:  created: 53353729   present: 2   in FES: 2
+** Event #60600008   T=60   Elapsed: 11.351s (0m 11s)  100% completed
+     Speed:     ev/sec=5.36761e+06   simsec/sec=5.31447   ev/simsec=1.01e+06
+     Messages:  created: 60600010   present: 3   in FES: 3
+
+<!> Simulation time limit reached -- simulation stopped at event #60600008, t=60.
+
+
+Calling finish() at end of Run #7...

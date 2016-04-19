@@ -1,0 +1,38 @@
+Loading NED files from /home/profeltf/thesis/src/simulations/DesignTest/src: 12
+
+Preparing for running configuration Modular, run #9...
+Scenario: $generationInterval=3000, $repetition=0
+Assigned runID=Modular-9-20160418-16:29:57-9366
+Setting up network `designtest.DataGeneration'...
+Initializing...
+
+Running simulation...
+** Event #1   T=0   Elapsed: 0.000s (0m 00s)  0% completed
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 2   present: 2   in FES: 2
+** Event #9231360   T=8.962482   Elapsed: 2.000s (0m 02s)  14% completed
+     Speed:     ev/sec=4.61568e+06   simsec/sec=4.48124   ev/simsec=1.03e+06
+     Messages:  created: 9141736   present: 3   in FES: 3
+** Event #18490880   T=17.952306   Elapsed: 4.000s (0m 04s)  29% completed
+     Speed:     ev/sec=4.62976e+06   simsec/sec=4.49491   ev/simsec=1.03e+06
+     Messages:  created: 18311356   present: 2   in FES: 2
+** Event #27783680   T=26.974437   Elapsed: 6.000s (0m 06s)  44% completed
+     Speed:     ev/sec=4.6464e+06   simsec/sec=4.51107   ev/simsec=1.03e+06
+     Messages:  created: 27513933   present: 2   in FES: 2
+** Event #37047808   T=35.968734   Elapsed: 8.000s (0m 08s)  59% completed
+     Speed:     ev/sec=4.63206e+06   simsec/sec=4.49715   ev/simsec=1.03e+06
+     Messages:  created: 36688119   present: 3   in FES: 3
+** Event #46315264   T=44.966259   Elapsed: 10.000s (0m 10s)  74% completed
+     Speed:     ev/sec=4.63373e+06   simsec/sec=4.49876   ev/simsec=1.03e+06
+     Messages:  created: 45865598   present: 3   in FES: 3
+** Event #55613696   T=53.993862   Elapsed: 12.000s (0m 12s)  89% completed
+     Speed:     ev/sec=4.64922e+06   simsec/sec=4.5138   ev/simsec=1.03e+06
+     Messages:  created: 55073752   present: 2   in FES: 2
+** Event #61800021   T=60   Elapsed: 13.330s (0m 13s)  100% completed
+     Speed:     ev/sec=4.65137e+06   simsec/sec=4.51589   ev/simsec=1.03e+06
+     Messages:  created: 61200016   present: 3   in FES: 3
+
+<!> Simulation time limit reached -- simulation stopped at event #61800021, t=60.
+
+
+Calling finish() at end of Run #9...

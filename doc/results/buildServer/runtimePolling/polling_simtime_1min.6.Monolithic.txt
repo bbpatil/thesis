@@ -1,0 +1,26 @@
+Loading NED files from /home/profeltf/thesis/src/simulations/DesignTest/src: 12
+
+Preparing for running configuration Monolithic, run #6...
+Scenario: $pollingInterval=1500, $repetition=0
+Assigned runID=Monolithic-6-20160418-16:25:28-9230
+Setting up network `designtest.DataGeneration'...
+Initializing...
+
+Running simulation...
+** Event #1   T=0   Elapsed: 0.000s (0m 00s)  0% completed
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 2   present: 2   in FES: 2
+** Event #16076032   T=23.411688   Elapsed: 2.000s (0m 02s)  39% completed
+     Speed:     ev/sec=8.03802e+06   simsec/sec=11.7058   ev/simsec=686667
+     Messages:  created: 16076033   present: 2   in FES: 2
+** Event #32158464   T=46.8327   Elapsed: 4.000s (0m 04s)  78% completed
+     Speed:     ev/sec=8.04122e+06   simsec/sec=11.7105   ev/simsec=686667
+     Messages:  created: 32158465   present: 2   in FES: 2
+** Event #41200015   T=60   Elapsed: 5.124s (0m 05s)  100% completed
+     Speed:     ev/sec=8.04408e+06   simsec/sec=11.7147   ev/simsec=686667
+     Messages:  created: 41200016   present: 2   in FES: 2
+
+<!> Simulation time limit reached -- simulation stopped at event #41200015, t=60.
+
+
+Calling finish() at end of Run #6...

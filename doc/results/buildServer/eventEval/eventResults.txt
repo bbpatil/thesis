@@ -1,0 +1,14 @@
+1s Modular 419584
+1s Monolithic 5641216
+2s Modular 4009472
+2s Monolithic 11312384
+3s Modular 6121728
+3s Monolithic 17052160
+4s Modular 8238336
+4s Monolithic 22861824
+5s Modular 10278144
+5s Monolithic 28644352
+7s Modular 14394624
+7s Monolithic 38862336
+10s Modular 20769024
+10s Monolithic 54552320

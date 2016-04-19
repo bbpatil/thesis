@@ -1,0 +1,107 @@
+Loading NED files from /home/profeltf/thesis/src/simulations/DesignTest/src: 12
+
+Preparing for running configuration Modular, run #7...
+Scenario: $pollingInterval=2000, $repetition=0
+Assigned runID=Modular-7-20160418-17:34:53-10047
+Setting up network `designtest.DataGeneration'...
+Initializing...
+
+Running simulation...
+** Event #1   T=0   Elapsed: 0.000s (0m 00s)  0% completed
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 2   present: 2   in FES: 2
+** Event #2781696   T=1.8181   Elapsed: 2.000s (0m 02s)  3% completed
+     Speed:     ev/sec=1.39085e+06   simsec/sec=0.90905   ev/simsec=1.53e+06
+     Messages:  created: 1872647   present: 3   in FES: 2
+** Event #5566976   T=3.638546   Elapsed: 4.000s (0m 04s)  6% completed
+     Speed:     ev/sec=1.39264e+06   simsec/sec=0.910223   ev/simsec=1.53e+06
+     Messages:  created: 3747704   present: 2   in FES: 2
+** Event #8343808   T=5.453466   Elapsed: 6.000s (0m 06s)  10% completed
+     Speed:     ev/sec=1.38842e+06   simsec/sec=0.90746   ev/simsec=1.53e+06
+     Messages:  created: 5617076   present: 3   in FES: 2
+** Event #11119872   T=7.267888   Elapsed: 8.000s (0m 08s)  13% completed
+     Speed:     ev/sec=1.38803e+06   simsec/sec=0.907211   ev/simsec=1.53e+06
+     Messages:  created: 7485929   present: 3   in FES: 2
+** Event #13891840   T=9.07963   Elapsed: 10.000s (0m 10s)  16% completed
+     Speed:     ev/sec=1.38598e+06   simsec/sec=0.905871   ev/simsec=1.53e+06
+     Messages:  created: 9352026   present: 3   in FES: 2
+** Event #16666112   T=10.892882   Elapsed: 12.000s (0m 12s)  20% completed
+     Speed:     ev/sec=1.38714e+06   simsec/sec=0.906626   ev/simsec=1.53e+06
+     Messages:  created: 11219672   present: 2   in FES: 2
+** Event #19437568   T=12.704288   Elapsed: 14.000s (0m 14s)  23% completed
+     Speed:     ev/sec=1.38573e+06   simsec/sec=0.905703   ev/simsec=1.53e+06
+     Messages:  created: 13085425   present: 3   in FES: 2
+** Event #22213120   T=14.518374   Elapsed: 16.000s (0m 16s)  26% completed
+     Speed:     ev/sec=1.38778e+06   simsec/sec=0.907043   ev/simsec=1.53e+06
+     Messages:  created: 14953934   present: 3   in FES: 2
+** Event #24989440   T=16.332962   Elapsed: 18.000s (0m 18s)  30% completed
+     Speed:     ev/sec=1.38816e+06   simsec/sec=0.907294   ev/simsec=1.53e+06
+     Messages:  created: 16822960   present: 3   in FES: 2
+** Event #27762688   T=18.145542   Elapsed: 20.000s (0m 20s)  33% completed
+     Speed:     ev/sec=1.38662e+06   simsec/sec=0.90629   ev/simsec=1.53e+06
+     Messages:  created: 18689918   present: 3   in FES: 2
+** Event #30535424   T=19.95779   Elapsed: 22.000s (0m 22s)  36% completed
+     Speed:     ev/sec=1.38637e+06   simsec/sec=0.906124   ev/simsec=1.53e+06
+     Messages:  created: 20556530   present: 2   in FES: 2
+** Event #33309440   T=21.770872   Elapsed: 24.000s (0m 24s)  40% completed
+     Speed:     ev/sec=1.38701e+06   simsec/sec=0.906541   ev/simsec=1.53e+06
+     Messages:  created: 22424005   present: 2   in FES: 2
+** Event #36082176   T=23.583116   Elapsed: 26.000s (0m 26s)  43% completed
+     Speed:     ev/sec=1.38637e+06   simsec/sec=0.906122   ev/simsec=1.53e+06
+     Messages:  created: 24290619   present: 3   in FES: 2
+** Event #38854144   T=25.394858   Elapsed: 28.001s (0m 28s)  46% completed
+     Speed:     ev/sec=1.38598e+06   simsec/sec=0.905871   ev/simsec=1.53e+06
+     Messages:  created: 26156716   present: 3   in FES: 2
+** Event #41627904   T=27.207774   Elapsed: 30.001s (0m 30s)  50% completed
+     Speed:     ev/sec=1.38688e+06   simsec/sec=0.906458   ev/simsec=1.53e+06
+     Messages:  created: 28024018   present: 3   in FES: 2
+** Event #44401408   T=29.02052   Elapsed: 32.001s (0m 32s)  53% completed
+     Speed:     ev/sec=1.38675e+06   simsec/sec=0.906373   ev/simsec=1.53e+06
+     Messages:  created: 29891149   present: 3   in FES: 2
+** Event #47175424   T=30.833602   Elapsed: 34.001s (0m 34s)  56% completed
+     Speed:     ev/sec=1.38701e+06   simsec/sec=0.906541   ev/simsec=1.53e+06
+     Messages:  created: 31758624   present: 3   in FES: 2
+** Event #49951232   T=32.647858   Elapsed: 36.001s (0m 36s)  60% completed
+     Speed:     ev/sec=1.3879e+06   simsec/sec=0.907128   ev/simsec=1.53e+06
+     Messages:  created: 33627304   present: 2   in FES: 2
+** Event #52724736   T=34.460604   Elapsed: 38.001s (0m 38s)  63% completed
+     Speed:     ev/sec=1.38675e+06   simsec/sec=0.906373   ev/simsec=1.53e+06
+     Messages:  created: 35494435   present: 3   in FES: 2
+** Event #55499776   T=36.274354   Elapsed: 40.001s (0m 40s)  66% completed
+     Speed:     ev/sec=1.38752e+06   simsec/sec=0.906875   ev/simsec=1.53e+06
+     Messages:  created: 37362600   present: 3   in FES: 2
+** Event #58276352   T=38.089112   Elapsed: 42.001s (0m 42s)  70% completed
+     Speed:     ev/sec=1.38829e+06   simsec/sec=0.907379   ev/simsec=1.53e+06
+     Messages:  created: 39231797   present: 2   in FES: 2
+** Event #61052416   T=39.90353   Elapsed: 44.001s (0m 44s)  73% completed
+     Speed:     ev/sec=1.38803e+06   simsec/sec=0.907209   ev/simsec=1.53e+06
+     Messages:  created: 41100652   present: 3   in FES: 2
+** Event #63827200   T=41.717114   Elapsed: 46.002s (0m 46s)  76% completed
+     Speed:     ev/sec=1.38739e+06   simsec/sec=0.906792   ev/simsec=1.53e+06
+     Messages:  created: 42968644   present: 3   in FES: 2
+** Event #66599424   T=43.529026   Elapsed: 48.002s (0m 48s)  80% completed
+     Speed:     ev/sec=1.38611e+06   simsec/sec=0.905956   ev/simsec=1.53e+06
+     Messages:  created: 44834912   present: 3   in FES: 2
+** Event #69374976   T=45.343112   Elapsed: 50.002s (0m 50s)  83% completed
+     Speed:     ev/sec=1.38778e+06   simsec/sec=0.907043   ev/simsec=1.53e+06
+     Messages:  created: 46703421   present: 3   in FES: 2
+** Event #72150272   T=47.15703   Elapsed: 52.002s (0m 52s)  86% completed
+     Speed:     ev/sec=1.38765e+06   simsec/sec=0.906959   ev/simsec=1.53e+06
+     Messages:  created: 48571758   present: 2   in FES: 2
+** Event #74924544   T=48.97028   Elapsed: 54.002s (0m 54s)  90% completed
+     Speed:     ev/sec=1.38714e+06   simsec/sec=0.906625   ev/simsec=1.53e+06
+     Messages:  created: 50439405   present: 3   in FES: 2
+** Event #77700608   T=50.7847   Elapsed: 56.002s (0m 56s)  93% completed
+     Speed:     ev/sec=1.38803e+06   simsec/sec=0.90721   ev/simsec=1.53e+06
+     Messages:  created: 52308259   present: 2   in FES: 2
+** Event #80475904   T=52.598618   Elapsed: 58.002s (0m 58s)  96% completed
+     Speed:     ev/sec=1.38765e+06   simsec/sec=0.906959   ev/simsec=1.53e+06
+     Messages:  created: 54176596   present: 3   in FES: 2
+** Event #83212032   T=54.386938   Elapsed: 59.974s (0m 59s)  100% completed
+     Speed:     ev/sec=1.38819e+06   simsec/sec=0.907316   ev/simsec=1.53e+06
+     Messages:  created: 56018564   present: 3   in FES: 2
+
+<!> CPU time limit reached -- simulation stopped at event #83212032, t=54.386938.
+
+
+Calling finish() at end of Run #7...
