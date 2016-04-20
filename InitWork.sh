@@ -41,12 +41,12 @@ execute_if_not_yet "ln -s $PRJ_HOME/src/analyze/analyzeResults.sh $ANALYZE_BIN/a
 echo "add analyze bin directory to PATH"
 export PATH=$PATH:$ANALYZE_BIN/
 
-echo "start omnet++ ide"
-omnetpp &
-
-# prepare documentation if parameter is passed
+# start enironment applications if parameter is passed
 if [ $# -ge 1 ]; then
 
+    echo "start omnet++ ide"
+    omnetpp &
+    
     echo "open omnet++ documentation"
     google-chrome https://omnetpp.org/documentation &
 
