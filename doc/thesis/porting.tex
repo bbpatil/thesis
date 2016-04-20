@@ -2,5 +2,22 @@
 \label{cha:porting}
 
 As described in section \ref{sec:oplk_platform} multiple modules contain platform specific functionalities.
+The openPOWERLINK stack can be built with various configurations, depending on the settings and the compositions configured individually more or less platform specific modules are used.re re
+These configurations are defined within the different projects in the \emph{proj} folder, as explained in section \ref{sec:oplk_structure_proj}.
 
-Depending on the configuration more or less platform specific modules are required.
+\subsection{liboplkmn}
+\label{cha:porting_liboplkmn}
+
+The \emph{liboplkmn} represents a \emph{MN} library consisting of a single library including the user and kernel space.
+Analyzing the \emph{liboplkmn} for linux results in following modules which must be ported:
+
+\begin{itemize}
+    \item Target
+    \item \emph{SDO} via \emph{UDP}
+    \item Trace
+    \item Timer
+    \item CircularBuffer
+\end{itemize}
+
+The first step for the implementation of the \emph{MN} library for OMNeT++ is the integration in the configuration and build process within the openPOWERLINK stack.
+Therefore an according options file and toolchain file for integration in the \emph{CMAKE} process are created.

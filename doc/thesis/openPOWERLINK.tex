@@ -31,7 +31,7 @@ Within \emph{directories.cmake} the location of the source, include, user-, kern
 The \emph{stackfiles.cmake} file contains the definitions for specific source files grouped in categories like \emph{event}, \emph{cal} and many more.
 The platform specific source files are also defined within this file with the according names.
 
-The global \emph{CMAKE} file loads according to the \emph{CMAKE\_SYSTEM\_NAME} variable the correct system specific options file.
+The global \emph{CMAKE} file loads according to the \emph{CMAKE\_SYSTEM\_NAME} and \emph{CMAKE\_SYSTEM\_PROCESSOR} variable the correct system specific options file.
 This option file includes options for enabling and disabling part of the openPOWERLINK stack.
 For example the generation of the \emph{CN} or \emph{MN} library can be en- or disabled.
 Further options are platform specific and provide configuration possibilities for specific usages.
