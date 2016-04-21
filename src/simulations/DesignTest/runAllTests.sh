@@ -64,9 +64,9 @@ elif [ $1 = "parallel" ];then
 
     ######### load measurements for real time testing ####################
 
-    OUTPUTFOLDER=output/rtEventManagersParallel RESULTFILE=rtEventManagerResultsParallel.txt OUTPUTPREFIX=eventManager_realtime srte ./DesignTest -f simulations/realtime.ini -f simulations/intervalstudy-data-realtime-boundaries.ini
+    OUTPUTFOLDER=output/rtEventManagersParallel RESULTFILE=rtEventManagerResultsParallel.txt OUTPUTPREFIX=mpi_nma_channeldelay_100ms srte mpirun ./DesignTest -f simulations/realtime-parallel.ini -f simulations/intervalstudy-data-realtime-boundaries.ini
 
-    OUTPUTFOLDER=output/rtPollingParallel RESULTFILE=rtPollingResultsParallel.txt OUTPUTPREFIX=polling_realtime srtp ./DesignTest -f simulations/realtime.ini -f simulations/intervalstudy-data-realtime-boundaries.ini
+    OUTPUTFOLDER=output/rtPollingParallel RESULTFILE=rtPollingResultsParallel.txt OUTPUTPREFIX=mpi_nma_channeldelay_100ms srtp mpirun ./DesignTest -f simulations/realtime-parallel.ini -f simulations/intervalstudy-data-realtime-boundaries.ini
 
 else
     echo "ERROR: invalid set of tests"
