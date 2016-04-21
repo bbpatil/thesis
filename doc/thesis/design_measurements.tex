@@ -544,20 +544,16 @@ The example network includes two autonomous modules which are scheduling their b
 This number of autonomous modules leads to the conclusion for two parallel partitions for parallel simulation.
 
 As described in chapter \ref{cha:parallel_sim} running a simulation distributed on parallel devices requires the mapping of the simulated modules to different parallel partitions.
-The example network was tested using two different mappings.
-The first mapping can be applied to both designs and assigns the \emph{Generator} to the partition zero and all modules within the \emph{Sink} to the partition one.
-The second tested mapping assigns all modules to the partition zero excepting the \emph{HistoryManager}, which is assigned to the partition one.
-
-As the ratio in between the number of created events by a modular or a monolithic design running a parallel simulation also requires a correction factor due to the varying number of created events by different partitioning.
-This dependency is caused by the changing set of transmitted data messages and required synchronization messages.
+The used mapping  fo the design test must allow the application to both designs and assigns the \emph{Generator} to the partition zero and all modules within the \emph{Sink} to the partition one.
 
 \subsection{Runtime}
 \label{sec:measurements_parallel_runtime}
 
 The measured runtime of each partition is accumulated for the comparison of different simulation runs.
 The resulting runtimes over varying simulation times are shown in figure \ref{fig:results_parallel_runtime_eval}.
-Similar to the sequential results the double logarithmic axis leads to a noticeable potential characteristic. %??????
-The average ratio of resulting runtime using different designs is $99999$.
+The accumulated runtime shows rather a constant characteristic in contrast to the potential characteristic of the sequential results.
+This characteristic combined with the highly increased runtime compared to the sequential simulation leads to the conclusion that the impact of the synchronization is hiding the dependency to the simulated time range.
+This conclusion is confirmed by the average ratio of resulting runtime using different designs of $1.074$.
 \\
 
 %%% parallel runtime over simulation time %%%
@@ -574,17 +570,21 @@ The average ratio of resulting runtime using different designs is $99999$.
     xlabel={Simulation time [s]},
     grid=major,
     legend entries={Modular,Monolithic},
-    legend style={at={(0.03,0.97)},anchor=north west}
+    legend style={at={(0.97,0.97)}, anchor=north east}
     ]
     
-    \addplot table {../results/lenovo/runtimeResults.Modular.txt};
-    \addplot table {../results/lenovo/runtimeResults.Monolithic.txt};
+    \addplot table {../results/lenovo/simtimeResultsParallelParsed.Modular.txt};
+    \addplot table {../results/lenovo/simtimeResultsParallelParsed.Monolithic.txt};
     \end{axis}
     \end{tikzpicture}    
     \caption{Accumulated runtime over varying simulation time limits.}
     \label{fig:results_parallel_runtime_eval}
 \end{figure}
 
+The resulting runtimes over a varying number of \emph{EventManagers} are shown in figure \ref{fig:results_parallel_runtime_eventmanagers}.
+In comparison to the sequential results the characteristic of the runtime over the number of \emph{EventManagers} remains constant.
+The average ratio of the achievable generation interval using different designs is $1.237$.
+\\
 
 %%% parallel runtime over event managers %%%
 \begin{figure}
@@ -600,16 +600,22 @@ The average ratio of resulting runtime using different designs is $99999$.
     xlabel={Number of \emph{EventManagers}},
     grid=major,
     legend entries={Modular,Monolithic},
-    legend style={at={(0.03,0.97)},anchor=north west}
+    legend style={at={(0.97,0.97)}, anchor=north east}
     ]
     
-    \addplot table {../results/lenovo/runtimeResults.Modular.txt};
-    \addplot table {../results/lenovo/runtimeResults.Monolithic.txt};
+    \addplot table {../results/lenovo/time/simtimeEventManagerResultsParallelParsed.Modular.txt};
+    \addplot table {../results/lenovo/time/simtimeEventManagerResultsParallelParsed.Monolithic.txt};
     \end{axis}
     \end{tikzpicture}    
     \caption{Accumulated runtime over varying number of \emph{EventManagers}.}
     \label{fig:results_parallel_runtime_eventmanagers}
 \end{figure}
+
+
+The resulting runtimes over a varying polling interval by the \emph{HistoryManager} are shown in figure \ref{fig:results_parallel_runtime_polling}.
+Similar to the sequential simulation the results of the runtime over the interval by the \emph{HistoryManager} shows a potential characteristic with sinking runtime for increasing polling interval.
+The average ratio of the achievable generation interval using different designs is $4.916$.
+\\
 
 %%% parallel runtime polling interval %%%
 \begin{figure}
@@ -625,16 +631,21 @@ The average ratio of resulting runtime using different designs is $99999$.
     xlabel={Polling interval by the \emph{HistoryManager} [ns]},
     grid=major,
     legend entries={Modular,Monolithic},
-    legend style={at={(0.03,0.97)},anchor=north west}
+    legend style={at={(0.97,0.97)}, anchor=north east}
     ]
     
-    \addplot table {../results/lenovo/runtimeResults.Modular.txt};
-    \addplot table {../results/lenovo/runtimeResults.Monolithic.txt};
+    \addplot table {../results/lenovo/time/simtimePollingResultsParallelParsed.Modular.txt};
+    \addplot table {../results/lenovo/time/simtimePollingResultsParallelParsed.Monolithic.txt};
     \end{axis}
     \end{tikzpicture}    
     \caption{Accumulated runtime over varying polling interval by the \emph{HistoryManager}.}
     \label{fig:results_parallel_runtime_polling}
 \end{figure}
+
+The resulting runtimes over a varying generation interval by the \emph{Generator} are shown in figure \ref{fig:results_parallel_runtime_polling}.
+Similar to the previous measurement the results of the runtime over the interval by the \emph{Generator} shows a potential characteristic with sinking runtime for increasing polling interval.
+The average ratio of the achievable generation interval using different designs is $1.043$.
+\\
 
 %%% parallel runtime generation interval %%%
 \begin{figure}
@@ -650,11 +661,11 @@ The average ratio of resulting runtime using different designs is $99999$.
     xlabel={Generation interval by the \emph{Generator} [ns]},
     grid=major,
     legend entries={Modular,Monolithic},
-    legend style={at={(0.03,0.97)},anchor=north west}
+    legend style={at={(0.97,0.97)}, anchor=north east}
     ]
     
-    \addplot table {../results/lenovo/runtimeResults.Modular.txt};
-    \addplot table {../results/lenovo/runtimeResults.Monolithic.txt};
+    \addplot table {../results/lenovo/time/simtimeGenerationResultsParallelParsed.Modular.txt};
+    \addplot table {../results/lenovo/time/simtimeGenerationResultsParallelParsed.Monolithic.txt};
     \end{axis}
     \end{tikzpicture}    
     \caption{Accumulated runtime over varying generation interval by the \emph{Generator}.}
@@ -664,82 +675,87 @@ The average ratio of resulting runtime using different designs is $99999$.
 \subsection{Real-time}
 \label{sec:measurements_parallel_realtime}
 
+Executing the real-time measurements as described and shown in the sections \ref{sec:measurements_methods_realtime} and \ref{sec:measurements_sequential_realtime} for the parallel simulation does not lead to similar results.
+The analyzed performance index shows a strongly increased scatter, which leads to the scenario of only one partition meeting the real-time requirements.
+Therefore no usable results were achieved by the parallel simulation.
+This leads to the assumption of a big impact of the synchronization overhead.
 
-%%% parallel realtime over simulation time %%%
-\begin{figure}
-    \centering
-    \pgfplotsset{
-        every axis plot/.append style={very thick}
-    }
-    \begin{tikzpicture}
-    \begin{axis}[
-    xmode=log,
-    ymode=log,
-    ylabel={Achievable real time generation interval [ns]},
-    xlabel={Simulation time [s]},
-    grid=major,
-    legend entries={Modular,Monolithic},
-    legend style={at={(0.03,0.97)},anchor=north west}
-    ]
-    
-    \addplot table {../results/lenovo/runtimeResults.Modular.txt};
-    \addplot table {../results/lenovo/runtimeResults.Monolithic.txt};
-    \end{axis}
-    \end{tikzpicture}    
-    \caption{Real-time results for different designs over a varying simulation time.}
-    \label{fig:results_parallel_realtime_eval}
-\end{figure}
-
-
-%%% parallel realtime over event managers %%%
-\begin{figure}
-    \centering
-    \pgfplotsset{
-        every axis plot/.append style={very thick}
-    }
-    \begin{tikzpicture}
-    \begin{axis}[
-    xmode=log,
-    ymode=log,
-    ylabel={Achievable real time generation interval [ns]},
-    xlabel={Number of \emph{EventManagers}},
-    grid=major,
-    legend entries={Modular,Monolithic},
-    legend style={at={(0.03,0.97)},anchor=north west}
-    ]
-    
-    \addplot table {../results/lenovo/runtimeResults.Modular.txt};
-    \addplot table {../results/lenovo/runtimeResults.Monolithic.txt};
-    \end{axis}
-    \end{tikzpicture}    
-    \caption{Real-time results for different designs over a varying number of \emph{EventManagers}.}
-    \label{fig:results_parallel_realtime_eventmanagers}
-\end{figure}
-
-%%% parallel realtime polling interval %%%
-\begin{figure}
-    \centering
-    \pgfplotsset{
-        every axis plot/.append style={very thick}
-    }
-    \begin{tikzpicture}
-    \begin{axis}[
-    xmode=log,
-    ymode=log,
-    ylabel={Achievable real time generation interval [ns]},
-    xlabel={Polling interval by the \emph{HistoryManager} [ns]},
-    grid=major,
-    legend entries={Modular,Monolithic},
-    legend style={at={(0.03,0.97)},anchor=north west}
-    ]
-    
-    \addplot table {../results/lenovo/runtimeResults.Modular.txt};
-    \addplot table {../results/lenovo/runtimeResults.Monolithic.txt};
-    \end{axis}
-    \end{tikzpicture}    
-    \caption{Real-time results for different designs over a varying polling interval by the \emph{HistoryManager}.}
-    \label{fig:results_parallel_realtime_polling}
-\end{figure}
+%
+%%%% parallel realtime over simulation time %%%
+%\begin{figure}
+%    \centering
+%    \pgfplotsset{
+%        every axis plot/.append style={very thick}
+%    }
+%    \begin{tikzpicture}
+%    \begin{axis}[
+%    xmode=log,
+%    ymode=log,
+%    ylabel={Achievable real time generation interval [ns]},
+%    xlabel={Simulation time [s]},
+%    grid=major,
+%    legend entries={Modular,Monolithic},
+%    legend style={at={(0.03,0.97)},anchor=north west}
+%    ]
+%    
+%    \addplot table {../results/lenovo/runtimeResults.Modular.txt};
+%    \addplot table {../results/lenovo/runtimeResults.Monolithic.txt};
+%    \end{axis}
+%    \end{tikzpicture}    
+%    \caption{Real-time results for different designs over a varying simulation time.}
+%    \label{fig:results_parallel_realtime_eval}
+%\end{figure}
+%
+%
+%%%% parallel realtime over event managers %%%
+%\begin{figure}
+%    \centering
+%    \pgfplotsset{
+%        every axis plot/.append style={very thick}
+%    }
+%    \begin{tikzpicture}
+%    \begin{axis}[
+%    xmode=log,
+%    ymode=log,
+%    ylabel={Achievable real time generation interval [ns]},
+%    xlabel={Number of \emph{EventManagers}},
+%    grid=major,
+%    legend entries={Modular,Monolithic},
+%    legend style={at={(0.03,0.97)},anchor=north west}
+%    ]
+%    
+%    \addplot table {../results/lenovo/runtimeResults.Modular.txt};
+%    \addplot table {../results/lenovo/runtimeResults.Monolithic.txt};
+%    \end{axis}
+%    \end{tikzpicture}    
+%    \caption{Real-time results for different designs over a varying number of \emph{EventManagers}.}
+%    \label{fig:results_parallel_realtime_eventmanagers}
+%\end{figure}
+%
+%%%% parallel realtime polling interval %%%
+%\begin{figure}
+%    \centering
+%    \pgfplotsset{
+%        every axis plot/.append style={very thick}
+%    }
+%    \begin{tikzpicture}
+%    \begin{axis}[
+%    xmode=log,
+%    ymode=log,
+%    ylabel={Achievable real time generation interval [ns]},
+%    xlabel={Polling interval by the \emph{HistoryManager} [ns]},
+%    grid=major,
+%    legend entries={Modular,Monolithic},
+%    legend style={at={(0.03,0.97)},anchor=north west}
+%    ]
+%    
+%    \addplot table {../results/lenovo/runtimeResults.Modular.txt};
+%    \addplot table {../results/lenovo/runtimeResults.Monolithic.txt};
+%    \end{axis}
+%    \end{tikzpicture}    
+%    \caption{Real-time results for different designs over a varying polling interval by the \emph{HistoryManager}.}
+%    \label{fig:results_parallel_realtime_polling}
+%\end{figure}
 
 
 \subsection{Conclusion of parallel tests}
@@ -749,11 +765,20 @@ Considering the results shown in the sections \ref{sec:measurements_parallel_run
 \begin{itemize}
     \item The performance of a parallel simulation is depending strongly on the simulated model and its partitioning capabilities.
     \item The used synchronization is highly affecting the achievable performance.
+    \item The average performance ratio calculated using the runtime results is $2.067$.
+    This average is strongly influenced by the polling interval measurement.
+    Analyzing the other ratios and comparing them to the according sequential simulation results strengthens the assumption of high synchronization overhead.
 \end{itemize}
+
+The analyzed parallel simulation still shows a performance advantage using the monolithic over the modular design.
+The changed characteristics, ratios and availability compared to the sequential simulation shows a decrease of the simulation performance.
+This can be caused by the lacking opportunities for parallelization of the example network and its rather small simulation effort.
+
+The usage of parallel simulation must be analyzed for real simulation models individually, which can lead to a performance improvement.
 
 \section{Conclusion}
 Considering the results of section \ref{sec:measurements_sequential} and \ref{sec:measurements_parallel} the modular design is mostly resulting in a increased number of messages which causes an overhead and leads to a debased performance.
-Analyzing the simulation of the chosen example network the parallel simulation was not able to achieve an improved performance in comparison to the sequential simulation.
+Analyzing the simulation of the chosen example network the parallel simulation was not able to achieve an improved performance in comparison to the sequential simulation and showed limited results due to increased uncertainty.
 The capabilities of parallel simulation, especially for the usage in the fields of real-time simulation, emulation and \emph{HiL} must be analyzed individually for each simulated model.
 Based on the results simulating the defined example network the sequential simulation using a monolithic design is recommended for optimal performance and best usage for real-time simulation.
 

@@ -1,0 +1,4 @@
+1s Modular 67  33600
+1s Monolithic 1  600
+2s Monolithic 8  4100
+5s Monolithic 75  37600

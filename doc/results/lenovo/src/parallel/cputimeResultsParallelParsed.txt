@@ -1,0 +1,14 @@
+Prefix RunNumber Configuration Runtime CreatedEvents Sec/Simsec StudyParameter
+mpi_nma_channeldelay_100ms 2 Modular 6.579000000000001 3597708.0 26.27514 5 0
+mpi_nma_channeldelay_100ms 3 Modular 6.714 3597708.0 25.773915000000002 10 0
+mpi_nma_channeldelay_100ms 4 Modular 6.57 3597708.0 26.27982 20 0
+mpi_nma_channeldelay_100ms 5 Modular 6.670999999999999 3597708.0 26.02036 50 0
+mpi_nma_channeldelay_100ms 6 Modular 6.769 3597708.0 25.723399999999998 60 0
+mpi_nma_channeldelay_100ms 7 Modular 6.572 3597708.0 26.121245000000002 120 0
+mpi_nma_channeldelay_100ms 1 Monolithic 3.846 1374181.0 35.729749999999996 2 0
+mpi_nma_channeldelay_100ms 2 Monolithic 5.959 1799023.0 28.083915 5 0
+mpi_nma_channeldelay_100ms 3 Monolithic 6.673 1799023.0 25.558885 10 0
+mpi_nma_channeldelay_100ms 4 Monolithic 7.175000000000001 1799023.0 22.444589999999998 20 0
+mpi_nma_channeldelay_100ms 5 Monolithic 5.872 1799023.0 28.333935 50 0
+mpi_nma_channeldelay_100ms 6 Monolithic 7.412 1799023.0 21.81924 60 0
+mpi_nma_channeldelay_100ms 7 Monolithic 5.878 1799023.0 28.390875 120 0
