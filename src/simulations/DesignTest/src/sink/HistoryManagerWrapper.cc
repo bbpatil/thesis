@@ -25,6 +25,8 @@ Define_Module(HistoryManagerWrapper);
         if (ev.isGUI())\
             bubble(msg)
 
+USING_NAMESPACE
+
 
 HistoryManagerWrapper::HistoryManagerWrapper()
     : cSimpleModule(1)

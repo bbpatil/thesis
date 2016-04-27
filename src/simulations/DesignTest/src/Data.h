@@ -27,9 +27,12 @@ struct Data
         Packet data;
 };
 
+NAMESPACE_BEGIN
 // Packing functions
 void doPacking(cCommBuffer *buffer, Data& data);
 
 void doUnpacking(cCommBuffer *buffer, Data& data);
+
+NAMESPACE_END
 
 #endif /* DATA_H_ */

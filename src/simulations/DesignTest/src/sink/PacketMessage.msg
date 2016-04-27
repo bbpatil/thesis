@@ -19,6 +19,10 @@ cplusplus {{
 
 class Packet extends void;
 
+cplusplus {{
+USING_NAMESPACE
+}}
+
 packet PacketMessage {
     Packet pack;
 }

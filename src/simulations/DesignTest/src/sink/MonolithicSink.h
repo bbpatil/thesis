@@ -29,10 +29,7 @@ class EventManager;
 class HistoricalQueue;
 class HistoryManager;
 
-/**
- * TODO - Generated class
- */
-class MonolithicSink : public cSimpleModule
+class MonolithicSink : public OPP::cSimpleModule
 {
         // Definitions
     private:
@@ -41,7 +38,7 @@ class MonolithicSink : public cSimpleModule
         using Pointer = std::unique_ptr<T>;
         template<typename T>
         using Container = std::vector<T>;
-        using MsgPtr = std::unique_ptr<cMessage>;
+        using MsgPtr = std::unique_ptr<OPP::cMessage>;
 
 
         // Methods
@@ -50,7 +47,7 @@ class MonolithicSink : public cSimpleModule
 
     protected:
         virtual void initialize();
-        virtual void handleMessage(cMessage *msg);
+        virtual void handleMessage(OPP::cMessage *msg);
 
         // Member
     private:

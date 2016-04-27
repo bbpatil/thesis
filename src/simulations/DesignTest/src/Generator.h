@@ -19,20 +19,25 @@
 #include <omnetpp.h>
 #include <memory>
 
+
+NAMESPACE_BEGIN
+
 class Generator : public cSimpleModule
 {
         // Definitions
     private:
-        using MsgPtr = std::unique_ptr<cMessage>;
+        using MsgPtr = std::unique_ptr<OPP::cMessage>;
 
     protected:
         virtual void initialize();
-        virtual void handleMessage(cMessage *msg);
+        virtual void handleMessage(OPP::cMessage *msg);
 
         // Member
     private:
         simtime_t mDataDelay;
         unsigned int mGenerationCounter;
 };
+
+NAMESPACE_END
 
 #endif

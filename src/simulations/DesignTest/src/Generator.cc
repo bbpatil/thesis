@@ -18,6 +18,8 @@
 
 Define_Module(Generator);
 
+NAMESPACE_BEGIN
+
 void Generator::initialize()
 {
     // resolve parameter and calc delay
@@ -55,3 +57,5 @@ void Generator::handleMessage(cMessage *rawMsg)
         scheduleAt(simTime() + mDataDelay, new cMessage());
     }
 }
+
+NAMESPACE_END

@@ -7,7 +7,7 @@
 
 #include "Data.h"
 
-
+NAMESPACE_BEGIN
 
 // Packing functions
 void doPacking(cCommBuffer *buffer, Data& data)
@@ -23,3 +23,5 @@ void doUnpacking(cCommBuffer *buffer, Data& data)
     data.type = static_cast<DataType>(typeVal);
     buffer->unpack(&(data.data[0]), data.data.size());
 }
+
+NAMESPACE_END

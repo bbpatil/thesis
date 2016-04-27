@@ -21,7 +21,7 @@
 
 #include "Dispatcher.h"
 
-class DispatcherWrapper : public cSimpleModule
+class DispatcherWrapper : public OPP::cSimpleModule
 {
         // Definitions
     private:
@@ -32,7 +32,7 @@ class DispatcherWrapper : public cSimpleModule
         // Methods
     protected:
         virtual void initialize();
-        virtual void handleMessage(cMessage *msg);
+        virtual void handleMessage(OPP::cMessage *msg);
 
     private:
         void sendEvent(Packet const & event, CounterType idx);

@@ -22,6 +22,7 @@
 Define_Module(DispatcherWrapper);
 
 using namespace std;
+USING_NAMESPACE
 
 void DispatcherWrapper::initialize()
 {

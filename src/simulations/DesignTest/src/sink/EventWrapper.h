@@ -21,16 +21,16 @@
 
 #include "EventManager.h"
 
-class EventWrapper : public cSimpleModule
+class EventWrapper : public OPP::cSimpleModule
 {
         // Definitions
     private:
-        using MsgPtr = std::unique_ptr<cMessage>;
+        using MsgPtr = std::unique_ptr<OPP::cMessage>;
 
         // Methods
     protected:
         virtual void initialize();
-        virtual void handleMessage(cMessage *msg);
+        virtual void handleMessage(OPP::cMessage *msg);
 
         // Member
     private:

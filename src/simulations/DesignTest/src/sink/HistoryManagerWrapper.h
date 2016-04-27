@@ -22,11 +22,11 @@
 #include "HistoryManager.h"
 #include "Data.h"
 
-class HistoryManagerWrapper : public cSimpleModule
+class HistoryManagerWrapper : public OPP::cSimpleModule
 {
         // Definitions
     private:
-        using MsgPtr = std::unique_ptr<cMessage>;
+        using MsgPtr = std::unique_ptr<OPP::cMessage>;
 
     public:
         HistoryManagerWrapper();

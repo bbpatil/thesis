@@ -22,25 +22,22 @@
 #include "Data.h"
 #include "HistoricalQueue.h"
 
-/**
- * TODO - Generated class
- */
-class HistoricalQueueWrapper : public cSimpleModule
+class HistoricalQueueWrapper : public OPP::cSimpleModule
 {
         // Definitions
     private:
-        using MsgPtr = std::unique_ptr<cMessage>;
+        using MsgPtr = std::unique_ptr<OPP::cMessage>;
 
         // Methods
     protected:
         virtual void initialize();
-        virtual void handleMessage(cMessage *msg);
+        virtual void handleMessage(OPP::cMessage *msg);
 
         // Member
     private:
         std::unique_ptr<HistoricalQueue> mQueue;
-        cGate* mDataGate;
-        cGate* mCmdGate;
+        OPP::cGate* mDataGate;
+        OPP::cGate* mCmdGate;
 };
 
 #endif

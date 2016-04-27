@@ -21,16 +21,16 @@
 
 #include "ConfigurationManager.h"
 
-class ConfigWrapper : public cSimpleModule
+class ConfigWrapper : public OPP::cSimpleModule
 {
         // Definitions
     private:
-        using MsgPtr = std::unique_ptr<cMessage>;
+        using MsgPtr = std::unique_ptr<OPP::cMessage>;
 
         // Methods
     protected:
         virtual void initialize();
-        virtual void handleMessage(cMessage *msg);
+        virtual void handleMessage(OPP::cMessage *msg);
 
         // Member
     private:
