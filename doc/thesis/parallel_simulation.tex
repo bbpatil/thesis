@@ -75,3 +75,9 @@ Is this requirement not met and communication between modules was achieved by a 
 Running the simulation parallelized can achieve better timings and improve the performance of real time simulations
 This improvement could be possible due to shortened execution times and also the extended possibility for emulation and the field of \emph{HiL}.
 For this usage a module can be assigned to a logical processor and handle all messages which interfere with connected real systems.
+
+% imported from design chapter (paper)
+%A key requirement for parallelization of an OMNeT++ simulation is the modularization and the communication with messages and channels.
+%Different modules communicating with each other via messages sent over channels, as recommended in the User Guide \cite{omnet_manual}, can be executed on different logical processors.
+%The transmitted messages will be transmitted by a definable method, for example pipes, or an MPI (message passing interface).
+%Strongly depending on the simulated system this parallelization can result in an improvement of the execution speed and therefore improve the capabilities of real time simulation.

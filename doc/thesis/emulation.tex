@@ -14,25 +14,29 @@ I.e. the part of the simulation which is communicating with the real world and c
 
 \section{Emulation with OMneT++}
 \label{sec:emulation_omnet}
-For the fields of emulation and \emph{HiL} OMNeT++ provides the sample simulation \emph{sockets} for showing the possibilities and methods for developing an emulation.
-This emulation uses a custom scheduler \emph{SocketRTScheduler}, which is implemented similar to \emph{cRealTimeScheduler} and derived from \emph{cScheduler}.
-The custom scheduler holds a TCP socket for communication with the real world.
+For the fields of emulation and \emph{HiL} OMNeT++ provides customizable components within the simulation core and thereby allows different strategies for implementing the required behavior.
 
 \subsection{Existing functionality}
 \label{sec:emulation_omnet_existing}
-As mentioned above the OMNeT++ sample \emph{sockets} demonstrates a possibility for the implementation of a communication interface to the real world.
-The used custom scheduler \emph{SocketRTScheduler} listens to the network interface during wait times.
-This behavior is usable for this demographic usage, but if the timings of the simulated systems sharpen this scheduler would no allow sufficient communication.
 
+The sample simulation \emph{sockets} shows the possibilities and methods for developing an emulation.
+This emulation uses a custom scheduler \emph{SocketRTScheduler}, which is implemented similar to \emph{cRealTimeScheduler} and derived from \emph{cScheduler}.
+The custom scheduler holds a TCP socket for communication with the real world.
+During wait times the schedule listens to the network interface and converts receiving data to simulation events.
+The implementation can be found within the \emph{sockets} sample included in the OMNeT++ framework and \emph{IDE}.
+This behavior is usable for this demographic usage, but if the timings of the simulated systems sharpen this scheduler would not allow sufficient communication.
+Analyzing the implementation and the achievable timings lead to different possibilities for optimizations as described in \cite{scussel_improvements_2015}
 
 \section{Communication with the real world}
-The communication module can be represented by two separate simple modules which implement the whole connection to the real world separated to receiving and sending.
+For the fields of emulation and \emph{HiL} the communication with the real world is very important and affects the achievable performance.
+By encapsulation of all used communication functionalities in specific modules the simulated model can be clearly separated.
+These communication modules can be represented by two separate simple modules which implement the whole connection to the real world separated in receiving and sending.
 
 \begin{description}
     \item[Receiving] The receiving module can be implemented using the \emph{process style} strategy described in section \ref{sec:omnet_components_modules}.
     By using this strategy the module can listen to the communication interface and create simulation events for external occasions.
     Executing the simulation sequentially does not allow constant listening by such a receiver module, therefore this must be interrupted to allow the execution of the remaining simulation.
-    For this execution method the scheduler \emph{SocketRTScheduler} used in the \emph{sockets} sample provides a more optimized implementation strategy.
+    For this execution method the scheduler \emph{SocketRTScheduler} used in the \emph{sockets} sample provides a more optimized implementation strategy than the built in \emph{cRealTimeScheduler}.
     
     Using parallel simulation described in chapter \ref{cha:parallel_sim} the receiving module can be implemented blocking.
     Assigning just the receiving module to a single processor allows a constant listening to the communication interface.
