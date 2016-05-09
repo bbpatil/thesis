@@ -48,7 +48,7 @@ if [ $# -ge 1 ]; then
     omnetpp &
     
     echo "open omnet++ documentation"
-    google-chrome https://omnetpp.org/documentation &
+    google-chrome $OMNETPP_ROOT/doc/manual/usman.html &
 
     echo "open masterthesis"
     texstudio doc/thesis/masterthesis.tex --master &
