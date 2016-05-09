@@ -1,18 +1,22 @@
 \chapter{Emulation and Hardware in the loop}
 \label{cha:emulation}
 
-The field of emulation and \emph{HiL} is strongly connected to the field of simulation.
-Emulation and \emph{HiL} includes the connection of an simulated system to the real world.
-Such real world systems can either be a software (software in the loop \emph{SiL}) or real hardware components (\emph{HiL}).
-This connection of simulated systems with real systems can be used for testing of those systems.
+The fields of emulation and \emph{HiL} are based on real-time simulations combined with a connection to the real world.
+Such real world systems can either be a software application (\emph{SiL} - software in the loop) or hardware components (\emph{HiL}).
+This connection of simulated systems with real systems can be used for testing and verification of systems under development.
 Such a test method can test various different scenarios due to the flexibility of the simulated system.
+\cite[section I]{lu_low-cost_2007}
 
-The most essential part for the field of emulation and \emph{HiL} is the connection possibilities of the simulation.
-I.e. the part of the simulation which is communicating with the real world and creates simulation events for occasions from the real world.
+The used simulation can be realized with any simulation technology and existing simulation frameworks, as long as the execution as real-time simulation, as described in section \ref{sec:simulation_real_time}, is possible.
+In the section \ref{sec:emulation_omnet} the capabilities regarding emulation and \emph{HiL} provided by the OMNeT++ framework are discussed and analyzed.
+
+The combination of a real-time simulation and a real world system requires a connection in between them.
+Such a connection can be established using various functionalities, but must always fulfill the functionality of converting occasions form the real world to simulation events and vice versa.
+This connection affects the achievable performance and the temporal behavior of the simulated components respectively to the real world component.
 %TODO reference
 
 
-\section{Emulation with OMneT++}
+\section{Emulation and \emph{HiL} using OMNeT++}
 \label{sec:emulation_omnet}
 For the fields of emulation and \emph{HiL} OMNeT++ provides customizable components within the simulation core and thereby allows different strategies for implementing the required behavior.
 
@@ -20,14 +24,15 @@ For the fields of emulation and \emph{HiL} OMNeT++ provides customizable compone
 \label{sec:emulation_omnet_existing}
 
 The sample simulation \emph{sockets} shows the possibilities and methods for developing an emulation.
-This emulation uses a custom scheduler \emph{SocketRTScheduler}, which is implemented similar to \emph{cRealTimeScheduler} and derived from \emph{cScheduler}.
+This emulation uses the custom scheduler \emph{SocketRTScheduler}, which is implemented similar to \emph{cRealTimeScheduler} and derived from \emph{cScheduler}.
 The custom scheduler holds a TCP socket for communication with the real world.
 During wait times the schedule listens to the network interface and converts receiving data to simulation events.
 The implementation can be found within the \emph{sockets} sample included in the OMNeT++ framework and \emph{IDE}.
 This behavior is usable for this demographic usage, but if the timings of the simulated systems sharpen this scheduler would not allow sufficient communication.
-Analyzing the implementation and the achievable timings lead to different possibilities for optimizations as described in \cite{scussel_improvements_2015}
+Analyzing the implementation and the achievable timings lead to different possibilities for optimizations as described in \cite{scussel_improvements_2015}.
 
 \section{Communication with the real world}
+\label{sec:emulation_communication}
 For the fields of emulation and \emph{HiL} the communication with the real world is very important and affects the achievable performance.
 By encapsulation of all used communication functionalities in specific modules the simulated model can be clearly separated.
 These communication modules can be represented by two separate simple modules which implement the whole connection to the real world separated in receiving and sending.

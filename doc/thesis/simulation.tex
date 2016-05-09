@@ -17,7 +17,7 @@ This behavior may be determined by equations describing the system.
 For correct simulation of a continuous system the model must be executed for the whole simulated time range.
 These simulations are usable for scenarios when the temporal behavior of the simulated models is of interest. \cite[section 1.2.1]{mchaney2009understanding}
 
-Simulations in the field of real-time communication is based on discrete events at specific points in time, e.g. the reception of data.
+Simulations and testing scenarios in the field of real-time communication are based on discrete events at specific points in time, e.g. the reception of data.
 The continuous processing of occasions in between events is often not necessary, therefore a discrete event simulation (\emph{DES}) is more applicable.
 
 \section{Discrete event simulation}
@@ -25,7 +25,7 @@ The continuous processing of occasions in between events is often not necessary,
 This type of simulation is based on processing discrete events.
 During the processing of events the simulation time does not advance and the required processing time is not considered in simulation time.
 The simulation time is advancing with multiple processed events and their defined point in simulation time.
-In between two consecutive events neither any processing is done nor changes of the system state are happening. \cite[chapter 1]{matloff_introduction_2008}
+In between two consecutive events neither any processing is done nor changes of the system state are occurring. \cite[chapter 1]{matloff_introduction_2008}
 
 The assumption is that no, for the simulation relevant, events are happening in between two consecutive events.
 This exclusion is done by the implementation of the simulated model and must be concluded with care to the intention of simulation.
@@ -41,7 +41,7 @@ Using OMNeT++ the \emph{Event-Oriented Paradigm} and the \emph{Process-Oriented 
 \end{itemize}
 
 The \emph{Activity-Oriented Paradigm} could also be implemented within OMNeT++ by using either the \emph{activity} or the \emph{handleMessage} method.
-This paradigm would require the implementation of an own polling module which checks regularly for new events or activity of other modules.
+This paradigm would require the implementation of a custom polling module which checks regularly for new events or monitors the activity of other modules.
 This implementation would replace and bypass the handling and scheduling of messages in OMNeT++ and is not recommended. \cite[chapter 2.1]{matloff_introduction_2008}
 \\
 
@@ -68,9 +68,13 @@ The achieved execution speeds are strongly depending on the following factors:
 If the execution of the models behavior for reacting to an event takes more processing time than the simulated duration (timespan to next event), the simulation lags behind the real world behavior.
 Such a erroneous behavior must be corrected by the simulation core by speeding up the simulation, for example by decreasing idle times in between events.
 The correction of such behavior results in an increased jitter (variance of event execution time).
- \cite[section III.B]{belanger_what_2010}
- %TODO: find connection
+\cite[section III.B]{belanger_what_2010}
 
+The quality of the real-time simulation is strongly depending on the simulated system and its composition.
+Therefore the ideal results can be achieved by analyzing the simulated system regarding the real-time requirements and processed events.
+An example of such a analysis and the modifications of an OMNeT++ simulation for timing improvements are shown in \cite{scussel_improvements_2015}.
+
+The existing functionalities and properties of an simulation using the OMNeT++ framework is shown in the next section.
 
 \section{Simulation with OMNeT++}
 \label{sec:simulation_omnet}
@@ -106,10 +110,6 @@ Handling a simulation which is faster than the real world system can be done in 
 If the simulation is lagging behind the real-time, the scheduler must try to speed up the simulation and catch up to the real time.
 The task of catching up to the real-time is very difficult for complex simulations with tight timings.
 If the simulation lags constantly behind the real world using the \emph{cRealTimeScheduler} it becomes a discrete event based simulation and no real-time simulation is possible.
-
-The quality of the real-time simulation is strongly depending on the simulated system and its composition.
-Therefore the ideal results can be achieved by analyzing the simulated system regarding the real-time requirements and processed events.
-An example of such a analysis and modifications for timing improvements are shown in \cite{scussel_improvements_2015}.
 
 The sample scheduler provided by \emph{cRealTimeScheduler} and \emph{SocketRTScheduler} can lead to the correct strategy of implementing an optimized scheduler.
 
