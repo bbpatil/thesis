@@ -19,8 +19,6 @@ cplusplus {{
 
 class Data extends void;
 
-// namespace OPP;
-
 cplusplus {{
 USING_NAMESPACE
 }}

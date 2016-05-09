@@ -16,9 +16,9 @@
 #include "Generator.h"
 #include "DataMessage_m.h"
 
-Define_Module(Generator);
+USING_NAMESPACE
 
-NAMESPACE_BEGIN
+Define_Module(Generator);
 
 void Generator::initialize()
 {
@@ -57,5 +57,3 @@ void Generator::handleMessage(cMessage *rawMsg)
         scheduleAt(simTime() + mDataDelay, new cMessage());
     }
 }
-
-NAMESPACE_END

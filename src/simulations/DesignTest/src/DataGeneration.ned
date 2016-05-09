@@ -15,7 +15,7 @@
 
 package designtest;
 
-import designtest.sink.*;
+import designtest.sink.ISink;
 import designtest.ParallelChannel;
 
 

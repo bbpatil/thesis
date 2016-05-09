@@ -20,9 +20,7 @@
 #include <memory>
 
 
-NAMESPACE_BEGIN
-
-class Generator : public cSimpleModule
+class Generator : public OPP::cSimpleModule
 {
         // Definitions
     private:
@@ -37,7 +35,5 @@ class Generator : public cSimpleModule
         simtime_t mDataDelay;
         unsigned int mGenerationCounter;
 };
-
-NAMESPACE_END
 
 #endif
