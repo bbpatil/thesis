@@ -10,42 +10,46 @@ Such a test method can test various different scenarios due to the flexibility o
 The used simulation can be realized with any simulation technology and existing simulation frameworks, as long as the execution as real-time simulation, as described in section \ref{sec:simulation_real_time}, is possible.
 In the section \ref{sec:emulation_omnet} the capabilities regarding emulation and \emph{HiL} provided by the OMNeT++ framework are discussed and analyzed.
 
-The combination of a real-time simulation and a real world system requires a connection in between them.
-Such a connection can be established using various functionalities, but must always fulfill the functionality of converting occasions form the real world to simulation events and vice versa.
-This connection affects the achievable performance and the temporal behavior of the simulated components respectively to the real world component.
-%TODO reference
-
-
 \section{Emulation and \emph{HiL} using OMNeT++}
 \label{sec:emulation_omnet}
 For the fields of emulation and \emph{HiL} OMNeT++ provides customizable components within the simulation core and thereby allows different strategies for implementing the required behavior.
+The built in functionalities and their usage shown in provided examples are shown in the following section.
 
 \subsection{Existing functionality}
 \label{sec:emulation_omnet_existing}
 
 The sample simulation \emph{sockets} shows the possibilities and methods for developing an emulation.
-This emulation uses the custom scheduler \emph{SocketRTScheduler}, which is implemented similar to \emph{cRealTimeScheduler} and derived from \emph{cScheduler}.
+This example simulates a web server with a dynamic number of clients.
+For demographic usage as emulation an external client can also be used, which represents the connection to the real world and communicates with real requests by the user.
+These interaction is established via the connection to a local address and the hyper text transfer protocol (\emph{HTTP}) GET request by a web browser.
+This emulation uses the custom scheduler \emph{SocketRTScheduler}, which is implemented similar to \emph{cRealTimeScheduler} and derived from \emph{cScheduler}. \cite{omnet_api}
 The custom scheduler holds a TCP socket for communication with the real world.
 During wait times the schedule listens to the network interface and converts receiving data to simulation events.
 The implementation can be found within the \emph{sockets} sample included in the OMNeT++ framework and \emph{IDE}.
 This behavior is usable for this demographic usage, but if the timings of the simulated systems sharpen this scheduler would not allow sufficient communication.
 Analyzing the implementation and the achievable timings lead to different possibilities for optimizations as described in \cite{scussel_improvements_2015}.
 
+The combination of a real-time simulation and a real world system requires a connection in between them.
+Such a connection can be established using various functionalities, but must always fulfill the functionality of converting occasions form the real world to simulation events and vice versa.
+This connection affects the achievable performance and the temporal behavior of the simulated components respectively to the real world component.
+%TODO reference
+
 \section{Communication with the real world}
 \label{sec:emulation_communication}
 For the fields of emulation and \emph{HiL} the communication with the real world is very important and affects the achievable performance.
 By encapsulation of all used communication functionalities in specific modules the simulated model can be clearly separated.
-These communication modules can be represented by two separate simple modules which implement the whole connection to the real world separated in receiving and sending.
+Using OMNeT++ the separated communication components can be realized with modules implementing the connection functionalities for sending and receiving data to, or from the real world.
+The recommended implementation strategies, as described in section \ref{sec:omnet_components_modules}, for each communication functionality and their properties are shown in the following listing.
 
 \begin{description}
-    \item[Receiving] The receiving module can be implemented using the \emph{process style} strategy described in section \ref{sec:omnet_components_modules}.
-    By using this strategy the module can listen to the communication interface and create simulation events for external occasions.
+    \item[Receiving] The receiving module can be implemented using the \emph{process style} strategy.
+    This strategy allows an intuitive implementation of the observation of the interface, then creating messages with the received data and sending them to the simulated system.
     Executing the simulation sequentially does not allow constant listening by such a receiver module, therefore this must be interrupted to allow the execution of the remaining simulation.
     For this execution method the scheduler \emph{SocketRTScheduler} used in the \emph{sockets} sample provides a more optimized implementation strategy than the built in \emph{cRealTimeScheduler}.
     
     Using parallel simulation described in chapter \ref{cha:parallel_sim} the receiving module can be implemented blocking.
     Assigning just the receiving module to a single processor allows a constant listening to the communication interface.
-    This represents an improved behavior and extended possibility for handling real time occasions.
+    This represents an improved behavior and extended possibility for handling real time occasions and provides a potential lowered delay for the event conversion conversion.
     
     \item[Sending] The sending module can be implemented independently of the used execution method, except the sending to the communication interface is implemented blocking.
     If the blocking is inevitable this module either should be implemented using the \emph{process style} strategy and be executed on a separate processor or the sending must be executed with care to non blocking behavior.
