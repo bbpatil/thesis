@@ -2,11 +2,14 @@
 \label{cha:porting}
 
 As described in section \ref{sec:oplk_platform} multiple modules contain platform specific functionalities.
-The openPOWERLINK stack can be built with various configurations, depending on the settings and the compositions configured individually more or less platform specific modules are used.re re
+The openPOWERLINK stack can be built with various configurations, depending on the settings and the compositions configured individually more or less platform specific modules are used.
 These configurations are defined within the different projects in the \emph{proj} folder, as explained in section \ref{sec:oplk_structure_proj}.
 
+\section{Analyze of existing projects}
+\label{cha:porting_projects}
+
 \subsection{liboplkmn}
-\label{cha:porting_liboplkmn}
+\label{cha:porting_projects_liboplkmn}
 
 The \emph{liboplkmn} represents a \emph{MN} library consisting of a single library including the user and kernel space.
 Analyzing the \emph{liboplkmn} for linux results in following modules which must be ported:

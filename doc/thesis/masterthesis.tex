@@ -7,6 +7,37 @@
 % packages
 \usepackage{pgfplots}
 \usepackage{tikz}
+\usepackage{color}
+
+% root folder of OMNeT++ installation
+\newcommand{\omnetpproot}{/opt/omnetpp-4.6}
+
+% lstintputlistings style
+\definecolor{xCodeComment}{RGB}{0,143,0}
+\definecolor{xCodeWordStyle}{RGB}{216,33,174}
+\definecolor{xCodeStringStyle}{RGB}{235,0,65}
+\definecolor{xCodePreprocessor}{RGB}{130,71,33}
+\definecolor{LightGray}{RGB}{240,240,240}
+
+\lstset{language=C++,
+    numbers=left,
+    numberstyle=\tiny,
+    basicstyle =\ttfamily\fontsize{8}{10}\selectfont,
+    keywordstyle =\color{xCodeWordStyle},
+    commentstyle = \color{xCodeComment},
+    stringstyle = \color{xCodeStringStyle},
+    showstringspaces = true,
+    backgroundcolor=\color{white},
+    framexrightmargin=2mm,
+    breaklines=true,
+    emph={\#endif},
+    emphstyle={\color{xCodePreprocessor}},
+    caption=\lstname,
+    inputencoding={utf8},
+    extendedchars=false
+}
+
+
 
 \graphicspath{{images/}}    % name of directory containing the images
 \logofile{FHOOeIntl2014}	% name of PDF, remove or use \logofile{} for no logo
@@ -27,7 +58,7 @@
 \author{Franz Profelt}
 \studiengang{Embedded Systems Design}
 \studienort{Hagenberg}
-\abgabedatum{2016}{05}{28}	% {YYYY}{MM}{DD}
+\abgabedatum{2016}{05}{20}	% {YYYY}{MM}{DD}
 
 %%% zusätzlich für eine Bachelorarbeit: ---------------------
 \nummer{XXXXXXXXXX-A}   % XX...X = Stud-ID, z.B. 0310238045-A  
@@ -78,6 +109,7 @@
 %%%----------------------------------------------------------
 %%%Anhang
 \appendix
+\include{appendix_omnetpp_code}
 \include{appendix_measurements}
 
 %%%----------------------------------------------------------

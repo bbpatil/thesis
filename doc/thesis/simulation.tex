@@ -97,16 +97,15 @@ This scheduler executes the events according to their planned arrival time.
 The arrival time of the next event is compared with the current real time.
 When the simulation is ahead of the real time, the simulation is paused for the remaining time.
 The \emph{cRealTimeScheduler} waits in hard-coded 100 ms chunks for allowing a responsive simulation including graphical updates.
-This provided scheduler does not handle a lagging simulation in a special way and simply skips the waiting times within the method \emph{getNextEvent}. \cite[cRealTimeScheduler]{omnet_api}
+This provided scheduler does not handle a lagging simulation in a special way and simply skips the waiting times within the method \emph{getNextEvent}. 
+The definition and implementation of the \emph{cRealTimeScheduler} are shown in the appendix section \ref{app:omnetpp_code_real_time_scheduler} or in the OMNeT++ API \cite[cRealTimeScheduler]{omnet_api}.
 
 For emulations and \emph{HiL} this concept is not applicable, because the communication with real components does rarely contain static sleep times.
 The OMNeT++ sample \emph{sockets} demonstrates this problem and a possible solution with a custom scheduler implementing the \emph{cScheduler} class.
-This custom scheduler named \emph{SocketRTScheduler} listens to the network interface during the times when the simulation has to wait until the next event should be executed.
-This allows the receiving of packets from real clients and the connection of the simulated components with real ones.
-The implementation of \emph{SocketRTScheduler} is not fully optimized and is intended to show the possibility of emulation and \emph{HiL} using OMNeT++.
+The custom scheduler \emph{SocketRTScheduler} and its functionality is further analyzed in section \ref{sec:emulation_omnet_existing}.
 
 % omnet++ real time handling/correction
-Handling a simulation which is faster than the real world system can be done in various ways as demonstrated by \emph{cRealTimeScheduler} or the \emph{SocketRTScheduler} (included in the \emph{sockets} sample of OMNeT++).
+Handling a simulation which is faster than the real world system can be done in various ways as demonstrated by \emph{cRealTimeScheduler} or the \emph{SocketRTScheduler}.
 If the simulation is lagging behind the real-time, the scheduler must try to speed up the simulation and catch up to the real time.
 The task of catching up to the real-time is very difficult for complex simulations with tight timings.
 If the simulation lags constantly behind the real world using the \emph{cRealTimeScheduler} it becomes a discrete event based simulation and no real-time simulation is possible.
@@ -138,3 +137,5 @@ Which is affected by the \emph{CPU} (central processing unit) capabilities and t
 These memories include the \emph{RAM}, every cache and register which is used for holding simulation code and data.
 The evolution of simulations and real-time simulations is coming from analog simulations, over digital simulations running on supercomputers to currently common simulations running on commercial of the shelf (\emph{CTOS}) systems and field programmable gate arrays (\emph{FPGA}).
 This evolution provides more computing capabilities for lower costs. \cite[section IV]{belanger_what_2010}
+
+%TODO: find connection to next chapter
