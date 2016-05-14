@@ -4,7 +4,7 @@
 A Simulation attempts to replicate and forecast the behavior of real world systems.
 Such a replication is used in various fields for testing and verifying theories and systems.
 The field of simulation steadily gains importance, due to the increasing complexity of systems; e.g. embedded systems and real-time systems.
-Especially the development and testing of real-time communication systems can be essentially improved by using simulation and emulation techniques.
+Especially the development and testing of real-time communication systems can essentially be improved by using simulation and emulation techniques.
 
 Different types of simulation are applicable for different types of simulated systems and aimed results.
 Differences are shown in the processing of the simulated systems and in the handling of simulation time.
@@ -12,22 +12,22 @@ Differences are shown in the processing of the simulated systems and in the hand
 
 \section{Continuous simulation}
 \label{sec:simulation_cont}
-Continuous simulations handles uninterrupted values over a simulated time range.
+Continuous simulations handle uninterrupted values over a simulated time range.
 This behavior may be determined by equations describing the system.
 For correct simulation of a continuous system the model must be executed for the whole simulated time range.
 These simulations are usable for scenarios when the temporal behavior of the simulated models is of interest. \cite[section 1.2.1]{mchaney2009understanding}
 
 Simulations and testing scenarios in the field of real-time communication are based on discrete events at specific points in time, e.g. the reception of data.
-The continuous processing of occasions in between events is often not necessary, therefore a discrete event simulation (\emph{DES}) is more applicable.
+The continuous processing of occasions between events is often not necessary, therefore a discrete event simulation (\emph{DES}) is more applicable.
 
 \section{Discrete event simulation}
 \label{sec:simulation_event}
 This type of simulation is based on processing discrete events.
 During the processing of events the simulation time does not advance and the required processing time is not considered in simulation time.
 The simulation time is advancing with multiple processed events and their defined point in simulation time.
-In between two consecutive events neither any processing is done nor changes of the system state are occurring. \cite[chapter 1]{matloff_introduction_2008}
+Between two consecutive events neither any processing is done nor changes of the system state are occurring. \cite[chapter 1]{matloff_introduction_2008}
 
-The assumption is that no, for the simulation relevant, events are happening in between two consecutive events.
+The assumption is that none, for the simulation relevant, events are happening in between two consecutive events.
 This exclusion is done by the implementation of the simulated model and must be concluded with care to the intention of simulation.
 Simulating a real world system therefore requires the filtering of occasions for focusing on the simulation goal. \cite[section 4.1.1]{omnet_manual}
 
@@ -46,7 +46,7 @@ This implementation would replace and bypass the handling and scheduling of mess
 \\
 
 The above discussed types of simulations belong to the group of \emph{offline simulations} i.e. the simulation time is not connected to the processing time.
-Approaching the fields of emulation and \emph{HiL} such a connection is necessary and the behavior of \emph{offline simulations} are unusable.
+Approaching the fields of emulation and \emph{HiL} such a connection is necessary and the behavior of \emph{offline simulations} is unusable.
 These fields demand the type of real-time simulation.  \cite[section III.B]{belanger_what_2010}
 
 \section{Real-time simulation}
@@ -65,16 +65,16 @@ The achieved execution speeds are strongly depending on the following factors:
                        This dependency is described in section \ref{sec:simulation_requirements}.
 \end{description}
 
-If the execution of the models behavior for reacting to an event takes more processing time than the simulated duration (timespan to next event), the simulation lags behind the real world behavior.
-Such a erroneous behavior must be corrected by the simulation core by speeding up the simulation, for example by decreasing idle times in between events.
+If the execution of the model behavior for reacting to an event takes more processing time than the simulated duration (timespan to next event), the simulation lags behind the real world behavior.
+Such a erroneous behavior must be corrected by the simulation core by speeding up the simulation, for example by decreasing idle times between events.
 The correction of such behavior results in an increased jitter (variance of event execution time).
 \cite[section III.B]{belanger_what_2010}
 
 The quality of the real-time simulation is strongly depending on the simulated system and its composition.
 Therefore the ideal results can be achieved by analyzing the simulated system regarding the real-time requirements and processed events.
-An example of such a analysis and the modifications of an OMNeT++ simulation for timing improvements are shown in \cite{scussel_improvements_2015}.
+An example of such an analysis and the modifications of an OMNeT++ simulation for timing improvements are shown in \cite{scussel_improvements_2015}.
 
-The existing functionalities and properties of an simulation using the OMNeT++ framework is shown in the next section.
+The existing functionalities and properties of a simulation using the OMNeT++ framework is shown in the next section.
 
 \section{Simulation with OMNeT++}
 \label{sec:simulation_omnet}
@@ -85,7 +85,7 @@ Within OMNeT++ each event is represented by a message with a defined \emph{arriv
 Events are created by modules and then inserted in the so called future event structure (\emph{FES}).
 The simulation core executes all events within the \emph{FES} at the according simulation time.
 
-The scheduler is the main part of the simulation core for controlling the event handling the the execution order.
+The scheduler is the main part of the simulation core for controlling the event handling the execution order.
 The scheduler accesses the \emph{FES} and chooses the next event to be handled by the simulation.
 The class \emph{cScheduler} represents the interface which is required for an event scheduler usable in OMNeT++.
 By default the derived class \emph{cSequentialScheduler} is used.
@@ -112,7 +112,7 @@ If the simulation lags constantly behind the real world using the \emph{cRealTim
 
 The sample scheduler provided by \emph{cRealTimeScheduler} and \emph{SocketRTScheduler} can lead to the correct strategy of implementing an optimized scheduler.
 
-To validate an real-time simulation regarding the timing quality the performance ration can be used.
+To validate an real-time simulation regarding timing quality the performance ration can be used.
 This ratio represents the simulated seconds per real time seconds.
 A lagging simulation is defined by a performance ratio of less than one and simulation which simulates faster as the real time shows a ratio greater one.
 The goal of a real time simulation is a constant ratio of one.
@@ -124,9 +124,9 @@ The host machine for the simulation and its components affect the achieved simul
 The dependencies of the host system and the results of existing researches is shown in section \ref{sec:simulation_requirements}.
 
 Developing the simulation of a given system results in the situation of existing code.
-This code must be encapsulated in modules be executed depending on incoming messages and therefore creating new message for sending.
+This code must be encapsulated in different modules and be executed depending for incoming messages and thereby creating new message for sending.
 Given systems can be designed in various hierarchies in sight of number of modules and complexity of simple modules.
-The different designs and their effect on real time simulation is shown in the chapter \ref{cha:design}.
+The different designs and their effects on real time simulation is shown in the chapter \ref{cha:design}.
 
 \section{System requirements}
 \label{sec:simulation_requirements}
@@ -135,7 +135,7 @@ The limitations of achievable timings of a real-time simulations are defined by 
 Assuming the \emph{RAM} (random access memory) of the host systems is large enough to hold the complete simulation code and data, the limit is defined by the execution speed of the code.
 Which is affected by the \emph{CPU} (central processing unit) capabilities and the speed of connected memories.
 These memories include the \emph{RAM}, every cache and register which is used for holding simulation code and data.
-The evolution of simulations and real-time simulations is coming from analog simulations, over digital simulations running on supercomputers to currently common simulations running on commercial of the shelf (\emph{CTOS}) systems and field programmable gate arrays (\emph{FPGA}).
+The evolution of simulations and real-time simulations arises from analog simulations, to digital simulations running on supercomputers and currently common simulations running on commercial of the shelf (\emph{CTOS}) systems and field programmable gate arrays (\emph{FPGA}).
 This evolution provides more computing capabilities for lower costs. \cite[section IV]{belanger_what_2010}
 
 %TODO: find connection to next chapter
