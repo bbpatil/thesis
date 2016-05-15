@@ -46,54 +46,53 @@ if [ $1 = "sequential" ] || [ $1 = "all" ]; then
     OUTPUTFOLDER=output/realtimePolling RESULTFILE=rtPollingResults.txt OUTPUTPREFIX=polling_realtime srtp ./DesignTest -f simulations/realtime.ini -f simulations/intervalstudy-data-realtime-boundaries.ini
 
 elif [ $1 = "parallel" ] || [ $1 = "all" ]; then
-    ####################### parallel simulations with null message sync ###############################
-
-    ########### measurement evaluation #####################
-    OUTPUTFOLDER=output/simtimeParallel RESULTFILE=simtimeResultsParallel.txt OUTPUTPREFIX=mpi_nma_channeldelay_100ms truns 2 Modular Monolithic 0 -1 mpirun ./DesignTest -f simulations/parallel.ini -f simulations/intervalstudy-simtime.ini
-
-    OUTPUTFOLDER=output/cputimeParallel RESULTFILE=cputimeResultsParallel.txt OUTPUTPREFIX=mpi_nma_channeldelay_100ms truns 2 Modular Monolithic 0 -1 mpirun ./DesignTest -f simulations/parallel.ini -f simulations/intervalstudy-cputime.ini
-
-    OUTPUTFOLDER=output/realtimeParallel OUTPUTPREFIX=mpi_nma_channeldelay_100ms srts mpirun ./DesignTest -f simulations/realtime-parallel.ini -f simulations/intervalstudy-data-realtime-boundaries.ini
-
-    ######### load measurement for fixed sim time #############
-    OUTPUTFOLDER=output/eventManagersParallel RESULTFILE=simtimeEventManagerResultsParallel.txt OUTPUTPREFIX=mpi_nma_channeldelay_1000ms truns 2 Modular Monolithic 0 -1 mpirun ./DesignTest -f simulations/parallel.ini -f simulations/intervalstudy-eventmanagers.ini
-
-    OUTPUTFOLDER=output/pollingParallel RESULTFILE=simtimePollingResultsParallel.txt OUTPUTPREFIX=mpi_nma_channeldelay_1000ms truns 2 Modular Monolithic 0 -1 mpirun ./DesignTest -f simulations/parallel.ini -f simulations/intervalstudy-polling.ini
-
-    OUTPUTFOLDER=output/generationParallel RESULTFILE=simtimeGenerationResultsParallel.txt OUTPUTPREFIX=mpi_nma_channeldelay_1000ms truns 2 Modular Monolithic 0 -1 mpirun ./DesignTest -f simulations/parallel.ini -f simulations/intervalstudy-data.ini
-
-
-    ######### load measurements for real time testing ####################
-
-    OUTPUTFOLDER=output/rtEventManagersParallel RESULTFILE=rtEventManagerResultsParallel.txt OUTPUTPREFIX=mpi_nma_channeldelay_1000ms srte mpirun ./DesignTest -f simulations/realtime-parallel.ini -f simulations/intervalstudy-data-realtime-boundaries.ini
-
-    OUTPUTFOLDER=output/rtPollingParallel RESULTFILE=rtPollingResultsParallel.txt OUTPUTPREFIX=mpi_nma_channeldelay_1000ms srtp mpirun ./DesignTest -f simulations/realtime-parallel.ini -f simulations/intervalstudy-data-realtime-boundaries.ini
-
 
     ####################### parallel simulations with no sync ###############################
 
     ########### measurement evaluation #####################
-    OUTPUTFOLDER=output/simtimeParallel RESULTFILE=simtimeResultsParallel.txt OUTPUTPREFIX=mpi_no_sync_0_delay truns 2 Modular Monolithic 0 -1 mpirun ./DesignTest -f simulations/parallel-no-sync.ini -f simulations/intervalstudy-simtime.ini
+    OUTPUTFOLDER=output/noSync/simtimeParallel RESULTFILE=simtimeResultsParallel.txt OUTPUTPREFIX=mpi_no_sync_0_delay truns 2 Modular Monolithic 0 -1 mpirun ./DesignTest -f simulations/parallel-no-sync.ini -f simulations/intervalstudy-simtime.ini
 
-    OUTPUTFOLDER=output/cputimeParallel RESULTFILE=cputimeResultsParallel.txt OUTPUTPREFIX=mpi_no_sync_0_delay truns 2 Modular Monolithic 0 -1 mpirun ./DesignTest -f simulations/parallel-no-sync.ini -f simulations/intervalstudy-cputime.ini
+    OUTPUTFOLDER=output/noSync/cputimeParallel RESULTFILE=cputimeResultsParallel.txt OUTPUTPREFIX=mpi_no_sync_0_delay truns 2 Modular Monolithic 0 -1 mpirun ./DesignTest -f simulations/parallel-no-sync.ini -f simulations/intervalstudy-cputime.ini
 
-    OUTPUTFOLDER=output/realtimeParallel OUTPUTPREFIX=mpi_no_sync_0_delay srts mpirun ./DesignTest -f simulations/realtime-parallel-no-sync.ini -f simulations/intervalstudy-data-realtime-boundaries.ini
+    OUTPUTFOLDER=output/noSync/realtimeParallel OUTPUTPREFIX=mpi_no_sync_0_delay srts mpirun ./DesignTest -f simulations/realtime-parallel-no-sync.ini -f simulations/intervalstudy-data-realtime-boundaries.ini
 
     ######### load measurement for fixed sim time #############
-    OUTPUTFOLDER=output/eventManagersParallel RESULTFILE=simtimeEventManagerResultsParallel.txt OUTPUTPREFIX=mpi_no_sync_0_delay truns 2 Modular Monolithic 0 -1 mpirun ./DesignTest -f simulations/parallel-no-sync.ini -f simulations/intervalstudy-eventmanagers.ini
+    OUTPUTFOLDER=output/noSync/eventManagersParallel RESULTFILE=simtimeEventManagerResultsParallel.txt OUTPUTPREFIX=mpi_no_sync_0_delay truns 2 Modular Monolithic 0 -1 mpirun ./DesignTest -f simulations/parallel-no-sync.ini -f simulations/intervalstudy-eventmanagers.ini
 
-    OUTPUTFOLDER=output/pollingParallel RESULTFILE=simtimePollingResultsParallel.txt OUTPUTPREFIX=mpi_no_sync_0_delay truns 2 Modular Monolithic 0 -1 mpirun ./DesignTest -f simulations/parallel-no-sync.ini -f simulations/intervalstudy-polling.ini
+    OUTPUTFOLDER=output/noSync/pollingParallel RESULTFILE=simtimePollingResultsParallel.txt OUTPUTPREFIX=mpi_no_sync_0_delay truns 2 Modular Monolithic 0 -1 mpirun ./DesignTest -f simulations/parallel-no-sync.ini -f simulations/intervalstudy-polling.ini
 
-    OUTPUTFOLDER=output/generationParallel RESULTFILE=simtimeGenerationResultsParallel.txt OUTPUTPREFIX=mpi_no_sync_0_delay truns 2 Modular Monolithic 0 -1 mpirun ./DesignTest -f simulations/parallel-no-sync.ini -f simulations/intervalstudy-data.ini
+    OUTPUTFOLDER=output/noSync/generationParallel RESULTFILE=simtimeGenerationResultsParallel.txt OUTPUTPREFIX=mpi_no_sync_0_delay truns 2 Modular Monolithic 0 -1 mpirun ./DesignTest -f simulations/parallel-no-sync.ini -f simulations/intervalstudy-data.ini
 
 
     ######### load measurements for real time testing ####################
 
-    OUTPUTFOLDER=output/rtEventManagersParallel RESULTFILE=rtEventManagerResultsParallel.txt OUTPUTPREFIX=mpi_no_sync_0_delay srte mpirun ./DesignTest -f simulations/realtime-parallel-no-sync.ini -f simulations/intervalstudy-data-realtime-boundaries.ini
+    OUTPUTFOLDER=output/noSync/rtEventManagersParallel RESULTFILE=rtEventManagerResultsParallel.txt OUTPUTPREFIX=mpi_no_sync_0_delay srte mpirun ./DesignTest -f simulations/realtime-parallel-no-sync.ini -f simulations/intervalstudy-data-realtime-boundaries.ini
 
     OUTPUTFOLDER=output/rtPollingParallel RESULTFILE=rtPollingResultsParallel.txt OUTPUTPREFIX=mpi_no_sync_0_delay srtp mpirun ./DesignTest -f simulations/realtime-parallel-no-sync.ini -f simulations/intervalstudy-data-realtime-boundaries.ini
 
 
+    ####################### parallel simulations with null message sync ###############################
+
+    ########### measurement evaluation #####################
+    OUTPUTFOLDER=output/1000ms/simtimeParallel RESULTFILE=simtimeResultsParallel.txt OUTPUTPREFIX=mpi_nma_channeldelay_100ms truns 2 Modular Monolithic 0 -1 mpirun ./DesignTest -f simulations/parallel.ini -f simulations/intervalstudy-simtime.ini
+
+    OUTPUTFOLDER=output/1000ms/cputimeParallel RESULTFILE=cputimeResultsParallel.txt OUTPUTPREFIX=mpi_nma_channeldelay_100ms truns 2 Modular Monolithic 0 -1 mpirun ./DesignTest -f simulations/parallel.ini -f simulations/intervalstudy-cputime.ini
+
+    OUTPUTFOLDER=output/realtimeParallel OUTPUTPREFIX=mpi_nma_channeldelay_100ms srts mpirun ./DesignTest -f simulations/realtime-parallel.ini -f simulations/intervalstudy-data-realtime-boundaries.ini
+
+    ######### load measurement for fixed sim time #############
+    OUTPUTFOLDER=output/1000ms/eventManagersParallel RESULTFILE=simtimeEventManagerResultsParallel.txt OUTPUTPREFIX=mpi_nma_channeldelay_1000ms truns 2 Modular Monolithic 0 -1 mpirun ./DesignTest -f simulations/parallel.ini -f simulations/intervalstudy-eventmanagers.ini
+
+    OUTPUTFOLDER=output/1000ms/pollingParallel RESULTFILE=simtimePollingResultsParallel.txt OUTPUTPREFIX=mpi_nma_channeldelay_1000ms truns 2 Modular Monolithic 0 -1 mpirun ./DesignTest -f simulations/parallel.ini -f simulations/intervalstudy-polling.ini
+
+    OUTPUTFOLDER=output/1000ms/generationParallel RESULTFILE=simtimeGenerationResultsParallel.txt OUTPUTPREFIX=mpi_nma_channeldelay_1000ms truns 2 Modular Monolithic 0 -1 mpirun ./DesignTest -f simulations/parallel.ini -f simulations/intervalstudy-data.ini
+
+
+    ######### load measurements for real time testing ####################
+
+    OUTPUTFOLDER=output/1000ms/rtEventManagersParallel RESULTFILE=rtEventManagerResultsParallel.txt OUTPUTPREFIX=mpi_nma_channeldelay_1000ms srte mpirun ./DesignTest -f simulations/realtime-parallel.ini -f simulations/intervalstudy-data-realtime-boundaries.ini
+
+    OUTPUTFOLDER=output/1000ms/rtPollingParallel RESULTFILE=rtPollingResultsParallel.txt OUTPUTPREFIX=mpi_nma_channeldelay_1000ms srtp mpirun ./DesignTest -f simulations/realtime-parallel.ini -f simulations/intervalstudy-data-realtime-boundaries.ini
 
 else
     echo "ERROR: invalid set of tests"
