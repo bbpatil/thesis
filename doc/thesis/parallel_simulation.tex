@@ -1,7 +1,8 @@
 \chapter{Parallel simulation}
 \label{cha:parallel_sim}
-A sequential simulation is executed on a single processor, either logical, physical processor or machine within a cluster.
-Simulating complex models and a huge number of events can result in a long execution time with increasing complexity this leads to the demand for a improved execution method.
+A sequential simulation is executed on a single processing unit, either logical processor, physical processor or a single machine within a cluster of multiple systems.
+Simulating complex models and a huge number of events can result in a long execution time.
+Increasing complexity of different systems and their simulations leads to the demand for an improved execution method.
 The distributed discrete event simulation (\emph{DDES}) or parallel discrete event simulation (\emph{PDES}) allows the parallel execution on multiple processors.
 The goal of parallel execution is the improvement of simulation performance and reduction of required execution time.
 Within a parallel simulation events are processed by different logical processes (\emph{LP}).
@@ -11,41 +12,77 @@ This distributed processing of events require synchronization for guaranteeing t
 
 \section{Synchronization}
 \label{sec:parallel_synchronization}
-Running simulations in parallel requires a synchronization in between the \emph{LPs} for synchronizing the processed simulation time.
-This simulation time can diverge very strongly due to the different set of processed events.
-With varying event intervals (i.e. time in between two consecutive events) the steps within simulation time are differentiating.
-For the synchronization of parallel \emph{LPs} different algorithms are available, the choice of the used synchronization method affects the achievable performance of the \emph{PDES}. \cite[chapter 2]{bagrodia_performance_2000}
+Running simulations in parallel requires a synchronization between the \emph{LPs} for harmonize the processed simulation time.
+This simulation time can diverge strongly due to the different sets of processed events.
+With varying event intervals (i.e. the time in between two consecutive events) the steps within simulation time are differing.
+For the synchronization of parallel \emph{LPs} different algorithms are available which show contrasting characteristics and effects on the achieved performance of the \emph{PDES}. \cite[chapter 2]{bagrodia_performance_2000}
 
-Generally there are two types of synchronization algorithms:
+The two basic types of synchronization algorithms are explained in the following sections.
 
-\begin{enumerate}
-    \item Optimistic algorithms allows \emph{LPs} to process events without guaranteeing that no new events may be scheduled in a past point in simulation time.
-    In the case of an event which will be schedules in the past a \emph{roll back} mechanism is necessary.
-    \item Conservative algorithms strictly forbid the processing of events until the guarantee can be given that no new event will be scheduled before this events.
-\end{enumerate}
+\subsection{Optimistic algorithms}
+\label{sec:parallel_synchronization_optimistic}
+Optimistic algorithms allow \emph{LPs} to process events without guaranteeing that any new event may be scheduled at a previous point in simulation time.
+This behavior could lead to a violation of the causality constraint.
+In the case of such a violation an event is scheduled at a point in time within the past according to the local simulation time of a \emph{LP}.
+For solving this violation a \emph{roll back} mechanism is necessary to rewind the according procedures and allow the correct execution of all scheduled events.
+A simple version of such a \emph{roll back} mechanism is the periodical saving of the system state and restoring an old valid state in case of a causality violation \cite{bagrodia_parsec:_1998}
+    
+Regarding the fields of emulation and \emph{HiL} this is behavior is not applicable, because with a connection to a real world component no rewinding of the simulation time is possible.
+Therefore another type of synchronization is necessary.
+    
+\subsection{Conservative algorithms}
+\label{sec:parallel_synchronization_conservative}
+Conservative algorithms strictly forbid the processing of events until it is guaranteed that no new event will be scheduled before the local simulation time.
 
-An example for a conservative algorithm is the \emph{Null Message Algorithm} (\emph{NMA}). \cite[section 2.1]{bagrodia_performance_2000} \cite{Varga03apractical}.
-The synchronization method is exchanging information from one \emph{LP} to another.
-A communication method is required which allows this exchange of information.
+An example for a conservative algorithm is the \emph{Null Message Algorithm} (\emph{NMA}). \cite[section 2.1]{bagrodia_performance_2000}.
+The \emph{NMA} is transmitting so called \emph{Null messages} between all connected \emph{LPs}.
+These \emph{Null messages} contain information about the duration in which no event will be scheduled by the sending \emph{LP} for the receiving \emph{LP}.
+When no events are locally scheduled within this transmitted duration the receiving \emph{LP} can advance its simulation time until the next local event or to the end of the duration.
+Each \emph{LP} also has to determine this duration for each one of its connected neighbor \emph{LP}, which will be transmitted to the according \emph{LP} and provide the same information about a guaranteed duration with no scheduled events.\cite[section 3]{kumar_study_1993}
+
+This algorithm is subject of different performance analyze and improvement studies. \cite{kumar_study_1993} \cite{rizvi_reducing_2008} \cite{Varga03apractical}
+The determination of the duration for transmission and the frequency of this procedure is strongly affecting the achievable performance.
+A badly configured \emph{NMA} can lead to a high number of transmitted \emph{Null messages}, which can be either condensed or skipped completely and results in a weakly performing simulation.
+Optimizations of the \emph{NMA} can be realized by reducing the number of transmitted \emph{Null messages} and improving the generation algorithm. \cite{de_vries_reducing_1990}
+Such an optimization can benefit from knowledge about the simulated system and its temporal behavior.
+This leads to an individualized synchronization algorithm based on the \emph{NMA}.
+A corresponding optimized synchronization algorithm can lead to a greatly improved performance, but is only applicable for a specific system.
+\\
+
+Every synchronization algorithm, belonging to one of the discussed types, requires the transmission of synchronization data.
+This transmission demands a communication facility between \emph{LPs}.
+The following section describes existing communication functionalities and their properties.
 
 \section{Communication}
 \label{sec:parallel_communication}
-Depending on the used hardware and the type of distribution of the processing unit different communication methods can be used and allow an optimal performance.
-For this communication every inter-thread, inter-process or inter-machine communication method can be used.
+Depending on the used hardware and the type of distribution of the processing units different communication methods can be used.
+Such a communication belongs to the groups of inter-thread, inter-process or inter-machine communication.
+Most of the existing functionalities of this fields are applicable for synchronization communication.
 
-The synchronization requires the transmission of messages therefore the demanded communication represents a message passing interface \emph{MPI}.
-On different operating systems and depending on the specific simulation setup the \emph{MPI} can be based on various transport technologies.
-For the simulations running on a linux operating system the open source library openMPI provides a implementation for this usage. \cite{openmpi_hp}
+The choice of communication method depends on the used simulation technology, the type of parallelization and distribution and also the used synchronization algorithm.
+For each possibility of every dependency different communication methods are appropriate and result in better performance.
+
+A very common method for synchronization communication is a message based technology which can be applied to various underlying methods for data transmission.
+This method is called message passing interface (\emph{MPI}) and uses transmitted messages via various transport technologies.
+On different operating systems and depending on the specific simulation setup a \emph{MPI} can use various transport technologies.\cite{the_mpi_forum_mpi:_2015}
+\\
+
+A various number of technologies for  parallel simulation, synchronization and communication are available.
+The built in functionalities of OMNeT++ and further possibilities are analyzed in the following section.
 
 \section{Parallel simulation with OMNeT++}
 \label{sec:parallel_omnet}
-
+%TODO: completely rewrite
 OMNeT++ provides the functionality of running a simulation in parallel with no need for modifications of the simulated model, in terms of source code.
 This is achieved by the configuration files which include all \emph{PDES} relevant parameter and settings.
 Therefore the decision for a parallel simulation can be made during runtime and realized via different configurations. \cite[section III.A]{varga_parallel_2003}
 
 For a parallel simulation using OMNeT++ different implementations for communication and synchronization must be defined and specific requirements must be met.
 These factors are discussed in the following sections.
+
+\subsection{Synchronization}
+\label{sec:parallel_omnet_sync}
+%TODO: describe available sync algortihms and performance measurement (ideal)
 
 \subsection{Communication}
 \label{sec:parallel_omnet_comm}
@@ -54,19 +91,22 @@ OMNeT++ provides a defined interface for parallel simulation communication repre
 By subclassing \emph{cParsimCommunications} any implemented communication method can be used for parallel simulation.
 These built in implementations are available in OMNeT++: \cite{omnet_par_api}
 
+%TODO: enhance different methods
 \begin{description}
     \item[cFileCommunications] represents the communication via textfiles.
                                Due to the necessary file operations and the big dependency of the disk where this file is located this communication method is more recommended for debugging purposes.
     \item[cNamedPipeCommunications] is using named pipes for the transport of messages.
     \item[cMPICommunications] 
+    For the simulations running on a linux operating system the open source library openMPI provides a implementation for this usage. \cite{openmpi_hp}
 \end{description}
 
+%TODO: find connection to requriements (HINT: structure and gates for communication)
 
-\subsection{Sychronization}
-\label{sec:parallel_omnet_sync}
 
 \subsection{Requriements}
 \label{sec:parallel_omnet_requirements}
+
+%TODO: summarize requirements
 
 % imported from paper
 As described in \cite{varga_parallel_2003} OMNeT++ is capable of running a parallel simulation when specific requirements are met.
