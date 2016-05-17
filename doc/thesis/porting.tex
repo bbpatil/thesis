@@ -1,32 +1,22 @@
 \chapter{Simulation of openPOWERLINK}
 \label{cha:porting}
+The development of an OMNeT++ simulation including a POWERLINK network consisting of multiple nodes was achieved using the openPOWERLINK implementation.
 
-As described in section \ref{sec:oplk_platform} multiple modules contain platform specific functionalities.
-The openPOWERLINK stack can be built with various configurations, depending on the settings and the compositions configured individually more or less platform specific modules are used.
-These configurations are defined within the different projects in the \emph{proj} folder, as explained in section \ref{sec:oplk_structure_proj}.
-
-\section{Analyze of existing projects}
-\label{sec:porting_projects}
-
-\subsection{liboplkmn}
-\label{sec:porting_projects_liboplkmn}
-
-The \emph{liboplkmn} represents a \emph{MN} library consisting of a single library including the user and kernel space.
-Analyzing the \emph{liboplkmn} for linux results in following modules which must be ported:
-
-\begin{itemize}
-    \item Target
-    \item Timer
-    \item Edrv
-    \item \emph{SDO} via \emph{UDP}
-    \item Trace
-\end{itemize}
-
-The first step for the implementation of the \emph{MN} library for OMNeT++ is the integration in the configuration and build process within the openPOWERLINK stack.
-Therefore an according options file and toolchain file for integration in the \emph{CMAKE} process are created.
+For developing a simulation embedding an openPOWERLINK node, the openPOWERLINK stack must be ported within the OMNeT++ environment.
+Therefore the platform dependencies as discussed in section \ref{sec:oplk_platform} are analyzed and additional simulation specific implementations are introduced.
+These simulation specific implementations are described in the following section.
 
 \section{Simulation stub}
 \label{sec:porting_simstub}
+
+The intention is to separate the simulation specific implementations and changes within the openPOWERLINK stack and the OMNeT++ implementations providing the simulation environment.
+This was achieved by the introduction of a simulation stub in the openPOWERLINK stack.
+This stub should provide the same functions and signatures for the usage within the openPOWERLINK stack but allow the connection to an external simulation environment.
+
+
+Each platform dependent module was implemented for the simulation target.
+This specific implementations calls the according functions of the simulation stub.
+
 
 \subsection{sim folder}
 \label{sec:porting_simstub_sim}
@@ -34,8 +24,39 @@ Therefore an according options file and toolchain file for integration in the \e
 \section{Simulated stack}
 \label{sec:porting_stack}
 
+\subsection{Interface Implementation}
+\label{sec:porting_stack_interface}
+
+\subsection{Multiinstance}
+\label{sec:porting_stack_multiinstance}
+
 \section{Simulated nodes}
 \label{sec:porting_nodes}
 
 \section{Demo application}
 \label{sec:porting_demo}
+
+%As described in section \ref{sec:oplk_platform} multiple modules contain platform specific functionalities.
+%The openPOWERLINK stack can be built with various configurations, depending on the settings and the compositions configured individually more or less platform specific modules are used.
+%These configurations are defined within the different projects in the \emph{proj} folder, as explained in section \ref{sec:oplk_structure_proj}.
+%
+%\section{Analyze of existing projects}
+%\label{sec:porting_projects}
+%
+%\subsection{liboplkmn}
+%\label{sec:porting_projects_liboplkmn}
+%
+%The \emph{liboplkmn} represents a \emph{MN} library consisting of a single library including the user and kernel space.
+%Analyzing the \emph{liboplkmn} for linux results in following modules which must be ported:
+%
+%\begin{itemize}
+%    \item Target
+%    \item Timer
+%    \item Edrv
+%    \item \emph{SDO} via \emph{UDP}
+%    \item Trace
+%\end{itemize}
+%
+%The first step for the implementation of the \emph{MN} library for OMNeT++ is the integration in the configuration and build process within the openPOWERLINK stack.
+%Therefore an according options file and toolchain file for integration in the \emph{CMAKE} process are created.
+
