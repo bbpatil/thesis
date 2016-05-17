@@ -7,7 +7,7 @@ This project should allow manufacturers an easily integration of POWERLINK into 
 The Open Source implementation targets an improved integration and development of new features which may be inspired by request of manufacturers and other users.
 The stack is distributed under the \emph{BSD} license and is available at Github \cite{openpowerlink_github} and Sourceforge \cite{openpowerlink_sourceforge}.
 
-%TODO general description of openPOWERLINK
+This following chapter will discuss the properties, structure and functionalities of POWERLINK.
 
 \section{POWERLINK}
 \label{sec:oplk_powerlink}
@@ -370,7 +370,7 @@ The usage of such specific groups is done in project specific \emph{CMAKE} files
 Within the system specific options file all defined projects matching this system are included in the configuration.
 These projects are located in the \emph{proj} folder as described in the following section.
 
-\subsection{Library projects} %TODO rework
+\subsection{Library projects}
 \label{sec:oplk_structure_proj}
 Located in the \emph{proj} folder various projects for different systems are defined.
 These projects are grouped in the following systems.
@@ -390,34 +390,293 @@ Additional configurations made by preprocessor defines are set in the \emph{oplk
 \\
 
 Executing the \emph{CMAKE} build tool generates the according makefile.
-Using this makefile either all included or specific projects can be built and installed at a defined install directory.
+Using this makefile either all included or specific projects can be built and installed at a defined install directory. \cite[Building Stack Libraries]{openpowerlink_doc}
 
 \section{Platform dependency}
 \label{sec:oplk_platform}
-%TODO: rework and enhance
-As described in section \ref{sec:oplk_structure} the configuration and build process defines the according platform specific implementations and libraries.
 
-For platform specific functionalities the implementation of the openPOWERLINK stack uses common header files with specific implementations.
+The openPOWERLINK uses specific implementations implementing a common header file for supporting multiple platforms.
+As described in the sections \ref{sec:oplk_architecture_cal}, \ref{sec:oplk_architecture_hardware} and \ref{sec:oplk_architecture_ami} this strategy is used for the \emph{CAL}, hardware dependencies and \emph{AMI}.
 
-For defining which implementations are platform specific the \emph{CMAKE} file \emph{stackfile.cmake} is analyzed.
+These three categories of modules represent the platform dependency of the openPOWERLINK stack.
+The informations about these modules and their features are taken from the naming convention of platform specific implementations, i.e. an appended suffix with the abbreviation for the specific implementation type.
+The following sections will refer to those suffixes as the implementation types.
+Detailed information about the functionality of each module can be found at the header comment of each implementation file describing the designated usage and the used functions.
 
-The following modules are implemented platform dependent:
+In the following sections each one of the modules and their specific implementations are analyzed and the platform dependent functionalities are shown.
 
-\begin{description}
-    \item[oplkinc.h] provides macros for target specific functions which depends on the targeting platform or operating systems.
-    Defined are small standard functions regarding memory operations.
-    \item[Trace] module providing a function for tracing the execution.
-    \item[\emph{OBD} configuration] containing specific for functions for storing and restoring of the \emph{OD}.
-    The implementation is split in functions regarding file operations and a generic cyclic redundancy check (\emph{CRC}) calculation.
-    \item[\emph{SDO} via \emph{UDP}] this implementation contains the transmission of \emph{SDO}s via user datagram protocol (\emph{UDP}).
-    The specific implementations provide usage of operating system calls of linux and windows or the usage of a generic header \emph{socketwrapper.h} which allows the implementation for other targets.
-    \item[\emph{CAL}] includes different interfaces for the user and kernel space for each containing module (control, \emph{DLL}, \emph{PDO}, error handler, event).
-    \item[Timer] providing functions for setting timer.
-    \item[Circular buffer] providing the system specific functionalities used within the \emph{circular\_buffer} as creation, allocation, deallocation, locking, connecting and disconnecting.
-    \item[Memmap] providing an interface for the memory mapping library used for memory mapped communication in between kernel and user space.
-    \item[Target] providing an interface for target specific functions as sleep, interrupt control, tick and implementations of locks and mutexes.
-    \item[\emph{AMI}] providing an interface for architecture specific memory functions.
-    \item[Edrv] represents the Ethernet driver which is communicating with the used Ethernet media access control (\emph{MAC}) controller.
+\subsection{CAL}
+\label{sec:oplk_platform_cal}
+
+The \emph{CAL} includes multiple modules providing configurable implementations using different platform specific functionalities.
+The following listings show the different available implementations of the \emph{CAL} modules, which is followed by the description of the different implementations and their included functionalities.
+\\
+    
+\begin{description}[leftmargin=0cm]
+    \item[control module] \mbox{}
+    \begin{multicols}{3}
+        \begin{itemize}
+            \item direct
+            \item hostif
+            \item mem
+            \item noosdual
+            \item pcie
+            \item ioctl
+            \item winioctl
+        \end{itemize}
+    \end{multicols}
+    
+    \item[event handler] \mbox{}
+    \begin{multicols}{3}
+        \begin{itemize}
+            \item linux
+            \item linuxkernel
+            \item linuxioctl
+            \item linuxpcie
+            \item nooscircbuf
+            \item noosdual
+            \item nooshostif
+            \item win32
+            \item winkernel
+            \item winioctl
+            \item winpcie
+        \end{itemize}
+    \end{multicols}
+    
+    \item[error handler] \mbox{}
+    \begin{multicols}{3}
+        \begin{itemize}
+            \item hostif
+            \item ioctl
+            \item local
+            \item noosdual
+            \item posixshm
+            \item winioctl
+        \end{itemize}
+    \end{multicols}
+    
+    \item[DLL] \mbox{}
+    \begin{multicols}{3}
+        \begin{itemize}
+            \item circbuff
+            \item ioctl
+            \item winioctl
+        \end{itemize}
+    \end{multicols}
+    
+    \item[PDO] \mbox{}
+    \begin{multicols}{3}
+        \begin{itemize}
+            \item triplebufshm
+            \item hostif
+            \item linuxkernel
+            \item local
+            \item noosdual
+            \item posixshm
+            \item winkernel
+            \item linuxmmap
+            \item linuxpcie
+        \end{itemize}
+    \end{multicols}
+    
+    \item[time sync] \mbox{}
+    \begin{multicols}{3}
+        \begin{itemize}
+            \item bsdsem
+            \item hostif
+            \item ioctl
+            \item local
+            \item noosdual
+            \item winioctl
+            \item linuxkernel
+            \item winkernel
+        \end{itemize}
+    \end{multicols}
 \end{description}
 
-The porting ot the described platform dependencies to the OMNeT++ simulation environment and the according analyzes are described in the following chapter.
+The different implementations using specific functionalities are often used for multiple modules.
+The used functionalities of the different implementations are described in the following listing defined by the postfix of the implemented modules.
+
+\begin{description}
+    \item[direct] This implementations use direct calls between kernel and user layer.
+    This is supported in configurations when both layers are located in the same instance.
+    \item[hostif/nooshostif] This implementations use the host interface ip core instantiated on an FPGA.
+    \item[noosdual] This implementations target platforms without operating system but providing a dual processor and a shared memory between them.
+    This shared memory is used for various communications.
+    \item[nooscircbuf] This implementations use the circularbuffer library targeting platforms without underlying operating system.
+    \item[linux] This implementations use the circularbuffer library with both layer located in the Linux user space.
+    \item[linuxkernel] This implementations represent the interface of the Linux kernel space module which includes the kernel layer and can be accessed via ioctl.
+    \item[ioctl/linuxioctl] This implementations represent the counterpart for \emph{linuxkernel} and communicate with the kernel module via ioctl.
+    \item[pcie/linuxpcie] This implementations use ioctl for communication with the Linux PCIe driver and furthermore communicating with an external device connected via PCIe and running the kernel layer.
+    \item[linuxmmap] This implementations provide a memory interface with a memory mapping between kernel and user layer separated in user application and kernel module.
+    \item[win32] This implementations use the circularbuffer library with both layer located in the Windows user space.
+    \item[winkernel] This implementations represent the interface of the Windows kernel space module which includes the kernel layer and can be accessed via ioctl.
+    \item[winioctl] This implementations represent the counterpart for \emph{winkernel} and communicate with the kernel module via ioctl.
+    \item[winpcie] This implementations use ioctl for communication with the Windows PCIe driver and furthermore communicating with an external device connected via PCIe and running the kernel layer.
+    \item[local] This implementations use global variables for data storage and requires kernel and user layer running in the same domain for sharing global variables.
+    \item[posixshm] This implementations use posix shared memory for communication between kernel and use layer.
+    \item[triplebufshm] This implementations use a triple buffer implementation for synchronous reading and writing of a shared memory.
+    The shared memory can be configured due to the usage of a abstraction given by a common header file.
+    \item[bsdsem] This implementations use BSD semaphores for synchronization of kernel and user layer.
+\end{description}
+
+
+
+\subsection{Hardware abstraction}
+\label{sec:oplk_platform_hardware}
+
+As described in section \ref{sec:oplk_architecture_hardware} the hardware abstraction is done in a similar way as the \emph{CAL} by using specific implementations of common header files.
+The following listing includes all hardware dependent modules, their location within the stack directories, a summary of the provided functionalities and their available implementation types.
+
+\begin{description}[leftmargin=1cm]
+    \item[target] The \emph{target} module is located in the \emph{arch} folder and provides target specific functions controlling the defined IP address, default gateway, global interrupt, status/error leds and a sleep function.
+    This module is separated in different folder containing implementations for the following specific platforms and systems.
+    \begin{multicols}{3}
+        \begin{itemize}
+            \item altera-c5socarm
+            \item altera-nio2
+            \item linux
+            \item linuxkernel
+            \item windows
+            \item winkernel
+            \item xilinx-microblaze
+            \item xilinx-zynqarm
+        \end{itemize}
+    \end{multicols}
+    These folders can also include different implementations for specific functions.
+    The different types are similar to the listed specific implementations of the \emph{CAL} shown in \ref{sec:oplk_platform_cal}.\\
+    
+    \item[circularbuffer] The \emph{circularbuffer} module is located in the \emph{common} folder and provides an implementation for reading and writing variable sized data segments from and to a circular buffer.
+    This module contains different implementations regarding the location of the used memory and the handling of memory access.
+    These different implementations use system specific functionalities for locking and synchronizing memory access.
+    Those implementations are used by the generic \emph{circularbuffer} implementation using the \emph{circbuf-arch} interface.
+    The different implementation types of this interface are shown in the following listing.
+    \begin{multicols}{3}
+        \begin{itemize}
+            \item linuxkernel
+            \item noos
+            \item noosdual
+            \item nooshostif
+            \item posixshm
+            \item win32
+            \item winkernel
+        \end{itemize}
+    \end{multicols}
+    The used functionalities are similar to the described specific implementations of the \emph{CAL} shown in \ref{sec:oplk_platform_cal}.\\
+    
+    \item[memmap] The \emph{memmap} module is located in the \emph{common} folder and provides implementations for the handling of memory mapping used in various modules, e.g. \emph{CAL} modules.
+    This module contains different implementations regarding the location of the used memory and the handling of memory access.
+    These implementations use different functionalities providing a common interface for memory mapping.
+    The available implementation types are shown in the following listing.
+    \begin{multicols}{3}
+        \begin{itemize}
+            \item linuxpcie
+            \item noosdual
+            \item nooshostif
+            \item nooslocal
+            \item null
+            \item winioctl
+        \end{itemize}
+    \end{multicols}
+    The used functionalities are similar to the described specific implementations of the \emph{CAL} shown in \ref{sec:oplk_platform_cal}.\\
+    
+    \item[edrv] The \emph{edrv} module is located in the \emph{kernel} folder and provides implementations of various Ethernet drivers.
+    This driver provides functionalities for Ethernet communication and settings regarding the underlying Ethernet controller.
+    The following implementation types of Ethernet drivers supporting different types of Ethernet controller are available.
+    \begin{multicols}{3}
+        \begin{itemize}
+            \item Realtek 8111
+            \item Realtek 8139
+            \item Intel 8255x
+            \item Intel 82573
+            \item emacps
+            \item Intel i210
+            \item mux\_vxworks
+            \item ndisintermediate
+            \item openmac
+            \item pcap\_linux
+            \item pcap\_win
+        \end{itemize}
+    \end{multicols}
+    The implemented versions for the different Ethernet controller are implemented for the custom behavior and usage of different controllers and libraries.
+    \\
+    
+    \item[hrestimer] The \emph{hrestimer} module is located in the \emph{kernel} folder and provides implementations for various high resolution timer drivers.
+    These timers are necessary for timing the POWERLINK cycle and for the synchronizing to the POWERLINK network.
+    Depending on the implementation either a connection to a hardware or software component providing the required resolution is used.
+    The following list shows the different supported high resolution timers.
+    \begin{multicols}{3}
+        \begin{itemize}
+            \item Intel i120
+            \item linuxkernel
+            \item ndistimer
+            \item openmac
+            \item posix
+            \item posix-clocknanosleep
+            \item vxworks
+            \item windows
+            \item zynqttc
+        \end{itemize}
+    \end{multicols}
+    Those different implementations use different components as timers.
+    
+    \item[veth] The \emph{veth} module is located in the \emph{kernel} folder and provides implementations of different virtual Ethernet driver.
+    This driver provides the functionality of receiving a non POWERLINK Ethernet frame and passing this to the user layer.
+    The different implementations use different functionalities of underlying systems and platforms for synchronization and communication.
+    The available implementations are shown in the following list.
+    \begin{multicols}{3}
+        \begin{itemize}
+            \item generic
+            \item linuxkernel
+            \item linuxpcie
+            \item linuxuser
+            \item ndisintermediate
+        \end{itemize}
+    \end{multicols}
+    The used functionalities are similar to the described specific implementations of the \emph{CAL} shown in \ref{sec:oplk_platform_cal}.\\
+    
+    \item[sdo] The \emph{sdo} module is located in the \emph{user} folder and provides implementations for transmitting the \emph{SDOs} during the asynchronous phase.
+    This transmission can be done via a \emph{ASnd} message or an legacy Ethernet frame, as described in section \ref{sec:oplk_powerlink_data_transmission}.
+    Performing this transmission by using legacy Ethernet frames the User Datagram Protocol (\emph{UDP}) is used for data transmission based on the Internet Protocol (\emph{IP}).
+    The implementation of the \emph{UDP} and \emph{IP} creation can be done in various ways due to the available \emph{UDP} and \emph{IP} stacks on operating systems.
+    Therefore this module provides different implementations for different platforms providing the usage of Linux and Windows functionalities.
+    Additionally the open library \emph{socketwrapper} can be configured which allows the integration of an custom \emph{UDP} stack.
+    The following list shows the available implementations
+    \begin{multicols}{3}
+        \begin{itemize}
+            \item linux
+            \item windows
+            \item socketwrapper
+        \end{itemize}
+    \end{multicols}
+    The implementations for Linux and Windows are using the existing functionalities for creation and handling of \emph{UDP} sockets.\\
+    
+    
+    \item[timer] The \emph{timer} module is located in the \emph{user} folder and provides different implementations for timer functionalities used by the user layer.
+    These timer functions does not require the high resolution and accuracy of the \emph{hrestimer} module and can therefore be implemented simpler and use less resources.
+    The different implementations include a generic implementation using the global system tick and specific implementations using features of underlying operating systems.
+    These types of implementations are shown in the following list.
+    \begin{multicols}{3}
+        \begin{itemize}
+            \item generic
+            \item linuxkernel
+            \item linuxuser
+            \item vxworks
+        \end{itemize}
+    \end{multicols}
+    Does the target system not provide such a functionality or the requirement for a high precision user timer is not given the usage of the generic implementation is sufficient.\\
+        
+        
+\end{description}
+
+\subsection{AMI}
+\label{sec:oplk_platform_ami}
+
+The \emph{AMI} (described in section \ref{sec:oplk_architecture_ami}) represents also a platform dependent module and therefore provides different implementations for little- and big-endian processors.
+Additionally an optimized implementation for x86 processors is provided.
+
+None of these implementations use platform specific functionalities, but the implementation varies for achieving the correct result when handling with variable consisting of multiple bytes.
+\\
+
+The platform dependencies of the openPOWERLINK stack shown in this section represents those modules which must be customized for porting the openPOWERLINK stack to a new platform or in a new environment.
+The porting of the openPOWERLINK stack in an simulation environment using OMNeT++ and the development of the according simulation is shown in the following chapter.
