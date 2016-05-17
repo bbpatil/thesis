@@ -14,7 +14,7 @@ This distributed processing of events require synchronization for guaranteeing t
 \label{sec:parallel_synchronization}
 Running simulations in parallel requires a synchronization between the \emph{LPs} for harmonize the processed simulation time.
 This simulation time can diverge strongly due to the different sets of processed events.
-With varying event intervals (i.e. the time in between two consecutive events) the steps within simulation time are differing.
+With varying event intervals (i.e. the time between two consecutive events) the steps within simulation time are differing.
 For the synchronization of parallel \emph{LPs} different algorithms are available which show contrasting characteristics and effects on the achieved performance of the \emph{PDES}. \cite[chapter 2]{bagrodia_performance_2000}
 
 The two basic types of synchronization algorithms are explained in the following sections.
@@ -115,7 +115,7 @@ The built in \emph{NMA} implementation is considered for example usages of the d
 
 As mentioned above the hooks are represented by methods derived from different classes.
 The base class for all synchronization algorithms \emph{cParsimSynchronizer} is derived from \emph{cScheduler} and is used as scheduler while executing a \emph{PDES}.
-The class \emph{cParsimProtocolBase} is derived from \emph{cParsimSynchronizer} and provides convenience methods for eased development of synchronization algorithms.
+The class \emph{cParsimProtocolBase} is derived from \emph{cParsimSynchronizer} and provides convenient methods for eased development of synchronization algorithms.
 Therefore \emph{cParsimProtocolBase} is the recommended base class for custom implementations.
 
 OMNeT++ also provides some built in implementations of synchronization algorithms which are listed below. \cite[section 16.3.5]{omnet_manual}
@@ -143,7 +143,7 @@ The following built in communication methods are provided within OMNeT++ and can
 
 \begin{description}
     \item[cFileCommunications] represents the communication via textfiles.
-    Due to the necessary file operations and the big dependency of the disk where this file is located this communication method is more recommended for debugging purposes.
+    Due to the necessary file operations and the big dependency on the disk where this file is located this communication method is more recommended for debugging purposes.
     This communication method can be used between all partitions which have access to a commonly reachable file system.
     \item[cNamedPipeCommunications] is using named pipes for the transport of messages.
     The performance is depending on the underlying operating system providing the named pipe functionality.

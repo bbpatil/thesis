@@ -1,6 +1,6 @@
 \chapter{Design measurements}
 \label{cha:measurements}
-For measuring the effect of different designs on the simulations performance a example network was implemented using a monolithic and a modular design.
+For measuring the effect of different designs on the simulations performance an example network was implemented using a monolithic and a modular design.
 These implementations represent examples of the designs discussed in chapter \ref{cha:design}.
 
 
@@ -20,7 +20,7 @@ An overview of the simulated network is shown in Figure \ref{fig:design_test_net
 \end{figure}
 
 The \emph{Generator} generates cyclic data which are transmitted via messages to the sink module.
-The generated data includes a field of 64 Bytes and a enumeration describing the type of data.
+The generated data includes a field of 64 Bytes and an enumeration describing the type of data.
 
 These messages are transmitted to a sink, which is described via the interface module \emph{ISink}.
 The differently designed modules \emph{ModularSink} and \emph{MonolithicSink} extend the interface and represent the different tested designs.
@@ -102,6 +102,12 @@ The simulated network provides a configurable interval of data generation by \em
 Using a parameter study (described in section \ref{sec:omnet_running_config}) the interval for data generation by \emph{Generator} can be set to values form a range of intervals.
 With attention to the performance ratio of the different iterations the interval limit, which still allows real-time simulation, can be determined.
 
+Running an OMNeT++ simulation parallelized demands the definition of an synchronization class implementing the used synchronization algorithm as described in the section \ref{sec:parallel_omnet_sync}.
+A synchronization class used in OMNeT++ is derived from the base class \emph{cParsimSynchronizer}.
+This base class implements a \emph{cScheduler} and is during a parallel simulation also used as scheduler.
+Therefore for achieving a parallel real-time simulation a custom synchronization class enclosing the behavior of a real-time scheduler must be implemented.
+Due to the lack of such a built in synchronization class the measurement method for testing the real-time behavior was not used for testing the parallel simulation.
+
 \subsection{Result recording}
 The results of the different measurement methods are all extracted from the resulting command line output of the simulation.
 The automated test scripts are analyzing the outputs of the executed simulation after finishing the simulation.
@@ -135,7 +141,7 @@ In the following section the measurement result of the evaluation test (sweep of
 
 The runtime results of the sequential simulations using both designs and given different simulation time limits are displayed in figure \ref{fig:results_runtime_sim_time}.
 The double logarithmic axis shows two linear characteristics for modular and monolithic design.
-These nearly parallel linear characteristics show a constant factor in between the runtimes using the two different designs.
+These nearly parallel linear characteristics show a constant factor between the runtimes using the two different designs.
 The average ratio of runtime using the modular design over the runtime using the monolithic design is $3.393$.
 \\
 
@@ -170,7 +176,7 @@ Due to the fixed simulation time the number of created event stays the same.
 The only difference introduced by the increasing number of \emph{EventManagers} is the destination of the event typed data.
 The required time for transporting the messages and processing the data is untouched.
 The increasing number affects the memory usage of the simulation, which is not analyzed within this design test.
-The offset, visible in figure \ref{fig:results_runtime_eventmanager}, in between the different designs is representing the ratio of achieved performance regarding the runtime.
+The offset, visible in figure \ref{fig:results_runtime_eventmanager}, between the different designs is representing the ratio of achieved performance regarding the runtime.
 The average of this ratio is $3.342$.
 \\
 
@@ -203,7 +209,7 @@ The runtime using different designs with a varying polling interval by the \emph
 These results are again shown in a double logarithmic plot for easier recognition of both plots following a potential characteristic, which is visible as linear plots.
 As expected the required runtime is sinking with increasing polling interval.
 This behavior can be explained by the sinking frequency of polling operations and thus a decreasing communication.
-The offset in between the two plots shown in figure \ref{fig:results_runtime_polling} is, due to the double logarithmic display, representing the ratio in between the runtimes using different designs.
+The offset between the two plots is shown in figure \ref{fig:results_runtime_polling}, due to the double logarithmic display, representing the ratio between the runtimes using different designs.
 The average ratio of runtime using the modular design over the runtime using the monolithic design is $7.809$.
 \\
 %%% runtime over polling interval %%%
@@ -233,7 +239,7 @@ The average ratio of runtime using the modular design over the runtime using the
 
 The runtime using different designs with a varying generation interval by the \emph{Generator} is shown in figure \ref{fig:results_runtime_generation}.
 Similar to the previous figure these results are also shown in a double logarithmic plot showing the potential characteristic of sinking required runtime with increasing generation interval.
-Again the noticeable offset in between the plots is due to a ratio of resulting runtimes.
+Again the noticeable offset between the plots is due to a ratio of resulting runtimes.
 The average ratio of runtime using the modular design over the runtime using the monolithic design is $1.588$.
 \\
 
@@ -272,8 +278,8 @@ This ratio will be used as correction value for the next measurement method anal
 
 The results of testing the simulations and analyzing the number of created events within a given cpu time are displayed in figure \ref{fig:results_event_cpu_time}.
 Similar to the previous section a double logarithmic display was used for analyzing the characteristic of the plots.
-The courses show potential characteristics and are nearly linear and parallel this leads to the assumption of a constant ratio in between the used designs.
-The average ratio of number of created events using the modular design over the number of created event using the monolithic design is $0.284$. %TODO refresh
+The courses show potential characteristics and are nearly linear and parallel this leads to the assumption of a constant ratio between the used designs.
+The average ratio of number of created events using the modular design over the number of created events using the monolithic design is $0.284$. %TODO refresh
 For comparison to the previous and following test method the reciprocal value is calculated and equals $3.521$.
 \\
 
@@ -305,7 +311,7 @@ For comparison to the previous and following test method the reciprocal value is
 The number of created events using different designs and a varying number of \emph{EventManagers} is showed in figure \ref{fig:results_event_eventmanager}.
 As expected and similar to the results of the runtime with a varying number of \emph{EventManagers} there is no noticeable dependency of the created events to the number of \emph{EventManagers}.
 This presumption was done because by changing the number of instantiated \emph{EventManagers} only the destination of the transmitted events is affected but not the number of events.
-Using the double logarithmic visible as offset the ratio in between the different designs is showed in figure \ref{fig:results_event_eventmanager}.
+Using the double logarithmic scale the ratio between the different designs is visible as offset, which is showed in figure \ref{fig:results_event_eventmanager}.
 This ratio is defined by the number of created events using a modular design over the number of created events using a monolithic design.
 The average of this ratio is $0.273$.
 For comparison to the previous and following test method the reciprocal value is calculated which equals $3.663$.
@@ -337,11 +343,11 @@ For comparison to the previous and following test method the reciprocal value is
 \end{figure}
 
 The number of created events using different designs and a varying polling interval by the \emph{HistoryManager} is shown in figure \ref{fig:results_event_polling}.
-The expected behavior would be a sinking the number of created events with increased polling interval by the \emph{HistoryManager}.
+The expected behavior would be a sinking number of created events with increased polling interval by the \emph{HistoryManager}.
 This behavior should introduced by the increased frequency of polling messages or self messages for timer implementations and therefore an increased number of created messages.
 Analyzing the characteristics shown in \ref{fig:results_event_polling} displays this behavior only using the monolithic design.
-Due to this mismatch of both behavior no assumption about the dependency is made.
-The offset in between the plots using different designs is although indicating a ratio representing the performance difference of the used designs.
+Due to this mismatch of both behaviors no assumption about the dependency is made.
+The offset between the plots using different designs is nevertheless indicating a ratio representing the performance difference of the used designs.
 This ratio is defined by the number of created events using a modular design over the number of created events using a monolithic design.
 The average of this ratio results for this test in $0.170$.
 For comparison to the previous and following test method the reciprocal value is calculated and equals $5.882$.
@@ -375,7 +381,7 @@ For comparison to the previous and following test method the reciprocal value is
 The number of created events using different designs and a varying generation interval by the \emph{Generator} is shown in figure \ref{fig:results_event_generation}.
 Similar to the polling interval of \emph{HistoryManager} shown in \ref{fig:results_event_polling} number of created events should be sinking with increased generation interval.
 In this scenario only the usage of the modular design shows this characteristic and thus no assumption about the dependency is made.
-The offset is related to the ratio in between the designs and the average ratio is $0.414$.
+The offset is related to the ratio between the designs and the average ratio is $0.414$.
 For comparison to the previous and following test method the reciprocal value is calculated and equals $2.415$.
 \\
 
@@ -410,7 +416,7 @@ For comparison to the previous and following test method the reciprocal value is
 The real-time results of the sequential simulations using both designs and given different simulation time limits are displayed in figure \ref{fig:results_realtime_sim_time}.
 The simulation time limit defines the runtime of a real-time simulation, but does not affect the performance, i.e. the frequency and complexity of calculations.
 Therefore the result shows as expected no recognizable dependency of the achievable generation interval to the simulation time.
-Although an offset in between the different designs is visible.
+Although an offset between the different designs is visible.
 This offset represents the ratio of achievable generation interval using a modular design over the achievable generation interval using a monolithic design.
 The average of this ratio is $1.717$.\\
 
@@ -520,7 +526,7 @@ Analyzing the results displayed in section \ref{sec:measurements_sequential_runt
 
 \begin{itemize}
     \item Using a modular design results in an increased number of created events.
-    The average of number of created events using the modular design over the number of created events using the monolithic design is $0.285$.
+    The average of the number of created events using the modular design over the number of created events using the monolithic design is $0.285$.
     For comparison to the other ratios the reciprocal value is calculated $3.506$.
     \item The increased number of events and the included overhead results in an decreased performance noticeable in each of the three used measurement methods.
     \item The average performance ratio of required runtime using the modular design over the required runtime using the monolithic design is $4.033$.
@@ -672,97 +678,9 @@ The average ratio of the achievable generation interval using different designs 
     \label{fig:results_parallel_runtime_generation}
 \end{figure}
 
-\subsection{Real-time}
-\label{sec:measurements_parallel_realtime}
-
-%TODO: obsolete!!!!!!!!!!!!!!!!!!!!
-%Synchronization = Scheduler
-Executing the real-time measurements as described and shown in the sections \ref{sec:measurements_methods_realtime} and \ref{sec:measurements_sequential_realtime} for the parallel simulation does not lead to similar results.
-The analyzed performance index shows a strongly increased scatter, which leads to the scenario of only one partition meeting the real-time requirements.
-Therefore no usable results were achieved by the parallel simulation.
-This leads to the assumption of a big impact of the synchronization overhead.
-
-%
-%%%% parallel realtime over simulation time %%%
-%\begin{figure}
-%    \centering
-%    \pgfplotsset{
-%        every axis plot/.append style={very thick}
-%    }
-%    \begin{tikzpicture}
-%    \begin{axis}[
-%    xmode=log,
-%    ymode=log,
-%    ylabel={Achievable real time generation interval [ns]},
-%    xlabel={Simulation time [s]},
-%    grid=major,
-%    legend entries={Modular,Monolithic},
-%    legend style={at={(0.03,0.97)},anchor=north west}
-%    ]
-%    
-%    \addplot table {../results/lenovo/runtimeResults.Modular.txt};
-%    \addplot table {../results/lenovo/runtimeResults.Monolithic.txt};
-%    \end{axis}
-%    \end{tikzpicture}    
-%    \caption{Real-time results for different designs over a varying simulation time.}
-%    \label{fig:results_parallel_realtime_eval}
-%\end{figure}
-%
-%
-%%%% parallel realtime over event managers %%%
-%\begin{figure}
-%    \centering
-%    \pgfplotsset{
-%        every axis plot/.append style={very thick}
-%    }
-%    \begin{tikzpicture}
-%    \begin{axis}[
-%    xmode=log,
-%    ymode=log,
-%    ylabel={Achievable real time generation interval [ns]},
-%    xlabel={Number of \emph{EventManagers}},
-%    grid=major,
-%    legend entries={Modular,Monolithic},
-%    legend style={at={(0.03,0.97)},anchor=north west}
-%    ]
-%    
-%    \addplot table {../results/lenovo/runtimeResults.Modular.txt};
-%    \addplot table {../results/lenovo/runtimeResults.Monolithic.txt};
-%    \end{axis}
-%    \end{tikzpicture}    
-%    \caption{Real-time results for different designs over a varying number of \emph{EventManagers}.}
-%    \label{fig:results_parallel_realtime_eventmanagers}
-%\end{figure}
-%
-%%%% parallel realtime polling interval %%%
-%\begin{figure}
-%    \centering
-%    \pgfplotsset{
-%        every axis plot/.append style={very thick}
-%    }
-%    \begin{tikzpicture}
-%    \begin{axis}[
-%    xmode=log,
-%    ymode=log,
-%    ylabel={Achievable real time generation interval [ns]},
-%    xlabel={Polling interval by the \emph{HistoryManager} [ns]},
-%    grid=major,
-%    legend entries={Modular,Monolithic},
-%    legend style={at={(0.03,0.97)},anchor=north west}
-%    ]
-%    
-%    \addplot table {../results/lenovo/runtimeResults.Modular.txt};
-%    \addplot table {../results/lenovo/runtimeResults.Monolithic.txt};
-%    \end{axis}
-%    \end{tikzpicture}    
-%    \caption{Real-time results for different designs over a varying polling interval by the \emph{HistoryManager}.}
-%    \label{fig:results_parallel_realtime_polling}
-%\end{figure}
-
-
 \subsection{Conclusion of parallel tests}
 
-Considering the results shown in the sections \ref{sec:measurements_parallel_runtime} and \ref{sec:measurements_parallel_realtime} the following insights were made:
+Considering the results shown in the section \ref{sec:measurements_parallel_runtime} the following insights were made:
 
 \begin{itemize}
     \item The performance of a parallel simulation is depending strongly on the simulated model and its partitioning capabilities.
@@ -776,12 +694,15 @@ The analyzed parallel simulation still shows a performance advantage using the m
 The changed characteristics, ratios and availability compared to the sequential simulation shows a decrease of the simulation performance.
 This can be caused by the lacking opportunities for parallelization of the example network and its rather small simulation effort.
 
-The usage of parallel simulation must be analyzed for real simulation models individually, which can lead to a performance improvement.
+The usage of parallel simulation could be established by implementing a custom synchronization enclosing the behavior of a real-time scheduler, which can lead to a performance improvement.
+For such a development the simulated system must be analyzed carefully and thereby the necessary behavior of the custom synchronization determined.
 
 \section{Conclusion}
-Considering the results of section \ref{sec:measurements_sequential} and \ref{sec:measurements_parallel} the modular design is mostly resulting in a increased number of messages which causes an overhead and leads to a debased performance.
+Considering the results of section \ref{sec:measurements_sequential} and \ref{sec:measurements_parallel} the modular design is mostly resulting in an increased number of messages which causes an overhead and leads to a debased performance.
 Analyzing the simulation of the chosen example network the parallel simulation was not able to achieve an improved performance in comparison to the sequential simulation and showed limited results due to increased uncertainty.
 The capabilities of parallel simulation, especially for the usage in the fields of real-time simulation, emulation and \emph{HiL} must be analyzed individually for each simulated model.
 Based on the results simulating the defined example network the sequential simulation using a monolithic design is recommended for optimal performance and best usage for real-time simulation.
 
-This design decision will be used for the first implementation of the openPOWERLINK simulation described in the following chapters.
+This design decision will be used for the first implementation of the openPOWERLINK simulation described in chapter \ref{cha:porting}.
+For developing a simulation design the structure and composition of the simulated openPOWERLINK stack must be analyzed.
+Information about the functionality of openPOWERLINK, its structure and hardware dependency is shown in the following chapter.
