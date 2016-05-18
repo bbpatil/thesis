@@ -1,8 +1,9 @@
 \chapter{Introduction}
 \label{cha:introduction}
 This thesis is intended to analyze the simulation framework \emph{OMNeT++} \cite{omnet_manual} and the possibilities for real-time simulation and emulation of a real time communication network.
+A test simulation is analyzed for determining a optimized design regarding performance and real-time capabilities.
 Furthermore a simulation of the real-time communication protocol POWERLINK and its open source implementation \mbox{openPOWERLINK} \cite{openpowerlink} is implemented. 
-This simulation is also analyzed regarding real-time simulation and emulation capabilities.
+For developing this simulation the openPOWERLINK stack is analyzed and the platform dependencies are investigated.
 
 \section{Motivation}
 % needs and requirements for embedded systems
@@ -15,32 +16,39 @@ Therefore the need for simulation is gaining importance with increasing complexi
 % real world simulation
 Extended functionalities of simulation frameworks allows the usage as real-time simulation.
 By simulating a system in real time, i.e. the simulated time passes according to the real (world) time, these simulations can be used in the fields of emulation and hardware in the loop (\emph{HiL}).
-These fields allow testing scenarios built with a variable simulated environment
+Which allow variable testing scenarios built with a simulated environment
 These fields are necessary for testing embedded systems, due to the increased possibilities of testing scenarios and setups.
 
-% benefits for development
-The development benefits from the enhanced possibilities of testing the system under development.
-Improved testing increases the chance of detecting a mistake before introducing it in the system.
-
-%TODO extend
-
+Because of the raising importance of simulation and emulation the analyze of simulation frameworks and the development of simulations for real-time communication systems represents an important field.
 
 \section{Content}
-%TODO
 
 % first chapters fundamentals and basics of OMNeT++, simulation, emulation, simulated designs, parallel simulation
+The first chapters \ref{cha:omnet} to \ref{cha:parallel_sim} describe fundamentals regarding OMNeT++, general simulations, emulations and \emph{HiL}, simulation designs and parallel simulation.
+These chapters should provide a extensive introduction and preparation for the further analyzes.
 
 % development of a example network for design analyze and discussion of results
+The following chapter \ref{cha:measurements} is analyzing two different fundamental designs and their impact on the achieved performance.
+This performance is measured in multiple ways to analyze the simulation regarding runtime, processed events and real-time behavior.
 
 % fundamentals of openPOWERLINK with focus on platform dependency and porting possibilities
-
+Subsequently the Open Source stack openPOWERLINK is analyzed with special focus on the structure and the platform dependencies.
+Shown in chapter \ref{cha:oplk}, these dependencies are used for the following development of an OMNeT++ simulation embedding the openPOWERLINK stack.
 % approach to simulate openPOWERLINK in OMNeT++
+This simulation and the implementation strategies are shown in chapter \ref{cha:porting}.
 
 % resulting simulation and maybe performance
+Simulating the openPOWERLINK stack obtains functional results, which are displayed in chapter \ref{cha:results}.
 
 % conclusion
+Finally the experiences and knowledge gained during this research are concluded and listed in chapter \ref{cha:conclusion}.
 
 % appendix
+The appendix contains three chapters and comprises code snippets form the OMNeT++ framework (\ref{app:omnetpp_code}), additional design measurements (\ref{app:measurements}) and some implementation samples of the openPOWERLINK simulation and the integration of the openPOWERLINK stack (\ref{app:simulation}).
 
 \section{Purpose}
-%TODO
+The purpose of this thesis is to analyze of the OMNeT++ framework and its capabilities regarding real-time simulation.
+Furthermore conducting an analyze of the openPOWERLINK stack focusing on the platform dependencies.
+Which is leading to the development of a simulation embedding openPOWERLINK nodes within a simulation POWERLINK network.
+
+This thesis shows the capabilities and strategies of developing a simulation for an embedded real-time communication network.
