@@ -665,7 +665,25 @@ The following listing includes all hardware dependent modules, their location wi
         \end{itemize}
     \end{multicols}
     Does the target system not provide such a functionality or the requirement for a high precision user timer is not given the usage of the generic implementation is sufficient.\\
-        
+    
+    \item[targetdefs] The \emph{targetdefs} folder is located within the \emph{include/oplk} folder and contains different header files for specific targets.
+    The following list shows the different defined target systems.
+    \begin{multicols}{3}
+        \begin{itemize}
+            \item c5socarm
+            \item linux
+            \item microblaze
+            \item nios2
+            \item vxworks
+            \item wince
+            \item windows
+            \item winkernel
+            \item zynqarm
+        \end{itemize}
+    \end{multicols}
+    These header files define preprocessor macros defining common system specific attributes and small functions regarding atomic operations and synchronization functions.
+    The main header \emph{targetsystem.h} is located in the folder \emph{include/oplk} and includes according to the set preprocessor defines the correct target file. \\
+    
         
 \end{description}
 
