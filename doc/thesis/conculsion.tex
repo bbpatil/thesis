@@ -3,10 +3,15 @@
 
 \section{Future simulations}
 \label{sec:conclusion_futuresim}
-The developed simulation allowed the simulation of a simple POWERLINK network consisting of a openPOWERLINK \emph{MN} and \emph{CN}.
+The developed OMNeT++ modules allow the simulation of a simple POWERLINK network consisting of a openPOWERLINK \emph{MN} and multiple \emph{CNs}.
 This simulation was developed for optimal performance using a monolithic design.
 Alternative simulations can be implemented using the basic strategies and reusable functionalities represented by base classes, helper classes and interfaces.
 For more insight a more modular design could be implemented by connecting the \emph{CAL} modules with the simulation by implementing according target specific implementations redirecting the communicated calls and data into the simulation environment.
+
+The simulated network contains a direct connection of the different nodes.
+This represents an optimal behavior and results in an ideal performance.
+For simulating the behavior of openPOWERLINK nodes in a network including real devices this connection would have to be changed.
+Existing functionality from the INET library regarding Ethernet and UDP can be used.
 
 \section{Emulation}
 \label{sec:conclusion_emulation}
