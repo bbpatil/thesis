@@ -1,4 +1,4 @@
-\chapter{Design}
+\chapter{Design structures}
 \label{cha:design}
 Implementing any kind of simulation or emulation can be done in various structures and designs which can be tailored for specific requirements.
 Given an existing system different questions regarding the complexity of modules and the designed hierarchy are brought up.
@@ -43,10 +43,10 @@ Due to the necessary communication between parallel simulated modules a modular 
 Developing a simulation for a given system with an existing implementation results in restraints for the applicable design.
 The simulation of a system which shows a modular structure can also be designed modular by using the separations of the given system.
 For a modular designed simulation the connection of simulated system and according simulation modules must be possible.
-This connection can be achieved when the existing system is already using interfaces or function pointer for the connections of different components.
+This connection can be achieved when the existing system is already using interfaces or function pointers for the connections of different components.
 These communication parts can be used for redirecting calls to wrapper modules embedding the simulated system in the simulation environment.
 These modules handle all received messages, forward them to the enclosed component and create necessary outgoing messages.
-The enclosed component can be instanced within the wrapper module and therefore embedded in the simulation.
+The enclosed component can be instantiated within the wrapper module and therefore embedded in the simulation.
 
 \section{Monolithic design}
 \label{sec:design_monolithic}
@@ -54,7 +54,7 @@ The opposite approach to the modular design discussed in the previous section is
 A monolithic design implies a lower number of components, but an increased functionality within a single one.
 This decreased number of components lower the necessary communication and a potential overhead.
 The reduced modularity does not allow deep insight in the system but can result in improved performance.
-Is a simulated system used as a single functional unit and maybe even instanced multiple times within the simulation a monolithic design is favorable, especially when no detailed information about internal procedures is demanded.
+Is a simulated system used as a single functional unit and maybe even instantiated multiple times within the simulation a monolithic design is favorable, especially when no detailed information about internal procedures is demanded.
 
 Within OMNeT++ a monolithic design can be achieved by condensing a compound module to a simple module with more complex functions.
 The execution of the single modules include more normal C++ code using simple method calls and operations.
@@ -62,7 +62,7 @@ This can be done via enclosing multiple components of the given system within a 
 Such components can be connected directly to each other, such as the normal execution regardless of the simulation environment.
 The surrounding module must, similar to the implementation of modular wrapper modules, handle and forward incoming messages or create outgoing messages for the communication with the remaining simulation.
 
-The previous example network showing a modular design in figure \ref{fig:OMNeTModularDesign} can be condensed to a more monolithic design.
+The previous example network showing a modular design in figure \ref{fig:OMNeTModularDesign} can be transformed to a more monolithic design.
 In the example, shown in figure \ref{fig:OMNeTMonolithicDesign}, the compound modules 0 and 2 with all their submodules were replaced by two simple modules.
 The channels and the sent messages between the modules stay the same, but the calculation within the modules include the complete behavior of the previously included components.
 

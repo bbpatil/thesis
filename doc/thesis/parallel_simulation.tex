@@ -8,7 +8,7 @@ The goal of parallel execution is the improvement of simulation performance and 
 Within a parallel simulation events are processed by different logical processes (\emph{LP}).
 Each \emph{LP} can be executed by a different separate processing unit and therefore executed in parallel. \cite{bagrodia_parsec:_1998}
 
-This distributed processing of events require synchronization for guaranteeing the causality constraint, i.e. the processing of all events within a \emph{LP} is done with increasing timestamps.
+This distributed processing of events requires synchronization for guaranteeing the causality constraint, i.e. the processing of all events within a \emph{LP} is done with increasing timestamps.
 
 \section{Synchronization}
 \label{sec:parallel_synchronization}
@@ -37,7 +37,7 @@ Conservative algorithms strictly forbid the processing of events until it is gua
 An example for a conservative algorithm is the \emph{Null Message Algorithm} (\emph{NMA}). \cite[section 2.1]{bagrodia_performance_2000}.
 The \emph{NMA} is transmitting so called \emph{Null messages} between all connected \emph{LPs}.
 These \emph{Null messages} contain information about the duration in which no event will be scheduled by the sending \emph{LP} for the receiving \emph{LP}.
-When no events are locally scheduled within this transmitted duration the receiving \emph{LP} can advance its simulation time to the next local event or to the end of the duration.
+If no events are locally scheduled within this transmitted duration, the receiving \emph{LP} can advance its simulation time to the next local event or to the end of the duration.
 Each \emph{LP} also has to determine this duration for each one of its connected neighbor \emph{LPs}, which will be transmitted to the according \emph{LPs} and provide the same information about a guaranteed duration with no scheduled events.\cite[section 3]{kumar_study_1993}
 
 This algorithm is subject of different performance analyze and improvement studies. \cite{kumar_study_1993} \cite{rizvi_reducing_2008} \cite{Varga03apractical}
@@ -169,7 +169,7 @@ The execution of OMNeT++ models as \emph{PDES} is possible when specific require
 The following requirements are caused by the used strategy of replacing remote modules by placeholder modules with proxy gates. \cite[section III.B]{varga_parallel_2003}
 
 \begin{enumerate}
-    \item Communication among modules is only done via message transmission over channels i.e. no direct calls or member access is allowed.
+    \item Communication among modules is only done via message transmission over channels, i.e. no direct calls or member access is allowed.
     Direct sending can be used but limitations regarding the sending to submodules must be considered.
     \item No usage of global variables or public static member variables.
     \item Static topologies.

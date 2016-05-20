@@ -1,13 +1,13 @@
-\chapter{Design measurements}
+\chapter{Design evaluation}
 \label{cha:measurements}
-For measuring the effect of different designs on the simulations performance an example network was implemented using a monolithic and a modular design.
+For measuring the effect of different designs on the simulation's performance an example network was implemented using a monolithic and a modular design.
 These implementations represent examples of the designs discussed in chapter \ref{cha:design}.
 
 
 \section{Simulated example network}
 \label{sec:measurements_network}
 The example network simulates a message queue with dispatching of different types of transmitted data (configuration, event, historical).
-The different types of data are processed by different parts within the network.
+The different types of data is processed by different parts within the network.
 This network includes parts for data generation and data processing.
 Such an exemplary network was chosen, due to multiple similar practical applications.
 An overview of the simulated network is shown in Figure \ref{fig:design_test_network}.
@@ -19,16 +19,16 @@ An overview of the simulated network is shown in Figure \ref{fig:design_test_net
     \label{fig:design_test_network}
 \end{figure}
 
-The \emph{Generator} generates cyclic data which are transmitted via messages to the sink module.
+The \emph{Generator} generates cyclic data which is transmitted via messages to the sink module.
 The generated data includes a field of 64 Bytes and an enumeration describing the type of data.
 
 These messages are transmitted to a sink, which is described via the interface module \emph{ISink}.
 The differently designed modules \emph{ModularSink} and \emph{MonolithicSink} extend the interface and represent the different tested designs.
 
 The first part within the sink is the \emph{Dispatcher} which is accessing the type information of the data and then forwards the packed data to the according managers or the \emph{HistoricalQueue}.
-The simulated network provides a variable number of \emph{EventManagers}, all generated event data are dispatched to the \emph{EventManagers} sequentially.
+The simulated network provides a variable number of \emph{EventManagers}, all generated events are dispatched to the \emph{EventManagers} sequentially.
 The \emph{ConfigurationManager} and the \emph{EventManagers} are simple implementations which executes various calculations on the received data to simulate processing.
-Historical data are forwarded to the \emph{HistoricalQueue} which is internally implemented by a std::queue which holds all received data until they are accessed.
+Historical data are forwarded to the \emph{HistoricalQueue} which is internally implemented by a std::queue that holds all received data until they are accessed.
 The \emph{HistoryManager} accesses the \emph{HistoricalQueue} and processes available data similar to \emph{ConfigurationManager} and \emph{EventManager} by executing dummy calculations.
 This access is initiated by the \emph{HistoryManager} itself and provides a configurable polling interval.
 \\
@@ -55,7 +55,7 @@ Within the \emph{ModularSink} arrays of gates, connections and instances of \emp
     \label{fig:ModularSink}
 \end{figure}
 
-The simulated network consists of the \emph{Generator} instance and a instance specializing \emph{ISink} the underlying module and therefore the tested design is configured via a variable type.
+The simulated network consists of the \emph{Generator} instance and an instance specializing \emph{ISink} the underlying module and therefore the tested design is configured via a variable type.
 The resulting network for data generation is shown in figure \ref{fig:omnet_example_network}.
 
 \begin{figure}
@@ -67,9 +67,9 @@ The resulting network for data generation is shown in figure \ref{fig:omnet_exam
 
 \section{Measurement methods}
 \label{sec:measurements_methods}
-For measuring the performance of the different designs three measurement methods were implemented
-Three different methods were implemented for preventing false assumptions based on the result of a single test.
-These methods were implemented via different scripts for automated executing and designed dynamically allowing the analyze of various simulations and also either sequential or parallel simulation.
+For measuring the performance of the different designs three measurement methods were implemented.
+The implementation of different methods was done for preventing false assumptions based on the result of a single test.
+These methods were implemented via different scripts for automated execution and designed dynamically allowing the analysis of various simulations and also either sequential or parallel simulation.
 
 \subsection{Runtime measurement}
 \label{sec:measurements_methods_runtime}
@@ -104,7 +104,7 @@ With attention to the performance ratio of the different iterations the interval
 
 Running an OMNeT++ simulation parallelized demands the definition of a synchronization class implementing the used synchronization algorithm as described in the section \ref{sec:parallel_omnet_sync}.
 A synchronization class used in OMNeT++ is derived from the base class \emph{cParsimSynchronizer}.
-This base class implements a \emph{cScheduler} and is during a parallel simulation also used as scheduler.
+This base class implements a \emph{cScheduler} and is during a parallel simulation also used as a scheduler.
 Therefore for achieving a parallel real-time simulation a custom synchronization class enclosing the behavior of a real-time scheduler must be implemented.
 Due to the lack of such a built in synchronization class the measurement method for testing the real-time behavior was not used for testing the parallel simulation.
 
@@ -133,7 +133,7 @@ Simulating multiple scenarios three parameter studies (parameter sweeps) were ex
 \end{itemize}
 
 During the simulation with different values of a single parameter study the other values are set to the default values.
-For the testing scenarios the simulation time limit for the runtime and real-time method or the cpu time limit for the event method was set to one minute.
+For the testing scenarios the simulation time limit for the runtime and real-time method or the cpu time limit for the event method was set to one minute arbitrarily.
 In the following section the measurement result of the evaluation test (sweep of simulation or cpu time) and the results of the test scenarios are shown and analyzed.
 
 \subsection{Runtime}
@@ -173,7 +173,7 @@ The average ratio of runtime using the modular design over the runtime using the
 The runtime using different designs with a varying number of \emph{EventManagers} is shown in figure \ref{fig:results_runtime_eventmanager}.
 As expected there is no obvious dependency of the resulting runtime to the number of included \emph{EventManagers}.
 Due to the fixed simulation time the number of created event stays the same.
-The only difference introduced by the increasing number of \emph{EventManagers} is the destination of the event typed data.
+The only difference introduced by the increasing number of \emph{EventManagers} is the destination of the event type data.
 The required time for transporting the messages and processing the data is untouched.
 The increasing number affects the memory usage of the simulation, which is not analyzed within this design test.
 The offset, visible in figure \ref{fig:results_runtime_eventmanager}, between the different designs is representing the ratio of achieved performance regarding the runtime.
@@ -346,7 +346,7 @@ For comparison to the previous and following test method the reciprocal value is
 
 The number of created events using different designs and a varying polling interval by the \emph{HistoryManager} is shown in figure \ref{fig:results_event_polling}.
 The expected behavior would be a sinking number of created events with increased polling interval by the \emph{HistoryManager}.
-This behavior should introduced by the increased frequency of polling messages or self messages for timer implementations and therefore an increased number of created messages.
+This behavior should be introduced by the increased frequency of polling messages or self messages for timer implementations and therefore an increased number of created messages.
 Analyzing the characteristics shown in \ref{fig:results_event_polling} displays this behavior only using the monolithic design.
 Due to this mismatch of both behaviors no assumption about the dependency is made.
 The offset between the plots using different designs is nevertheless indicating a ratio representing the performance difference of the used designs.
@@ -537,7 +537,7 @@ Analyzing the results displayed in section \ref{sec:measurements_sequential_runt
 \end{itemize}
 
 The overall average ratio of $3.044$ represents the improved performance of the monolithic design over the modular design.
-Which can be applied to an decreased required runtime, decreased achieved real-time interval or an increased number of created events.
+Which can be applied to a decreased required runtime, decreased achieved real-time interval or an increased number of created events.
 
 Using the sequential simulation the resulting recommendation for achieving the best performance e.g. for real-time simulations is using a monolithic design.
 
@@ -552,7 +552,7 @@ The example network includes two autonomous modules which are scheduling their b
 This number of autonomous modules leads to the conclusion for two parallel partitions for parallel simulation.
 
 As described in chapter \ref{cha:parallel_sim} running a simulation distributed on parallel devices requires the mapping of the simulated modules to different parallel partitions.
-The used mapping  fo the design test must allow the application to both designs and assigns the \emph{Generator} to the partition zero and all modules within the \emph{Sink} to the partition one.
+The used mapping for the design test must allow the application to both designs and assigns the \emph{Generator} to the partition zero and all modules within the \emph{Sink} to the partition one.
 
 \subsection{Runtime}
 \label{sec:measurements_parallel_runtime}

@@ -12,6 +12,7 @@ This connection of simulated systems with real systems can be used for testing a
 An emulation system running on a host system and an enclosed system under test is shown in figure \ref{fig:emulation_overview}.
 The shown structure is typical for various types of emulations with different enclosed systems.
 
+%TODO: check figure
 \begin{figure}
 \centering
 \includegraphics[width=0.7\linewidth]{images/emulation_overview}
@@ -67,7 +68,7 @@ Recommended implementation strategies for each communication functionality and t
 \subsection{Receiving}
 \label{sec:emulation_communication_receiving}
 
-The receiving component can be implemented as simple module using the \emph{process style} strategy.
+The receiving component can be implemented as a simple module using the \emph{process style} strategy.
 This strategy allows an intuitive implementation observing the interface, then creating messages with the received data and sending them to the simulated system.
 Executing the simulation sequentially does not allow constant listening by such a receiver module, therefore this must be interrupted to allow the execution of the remaining simulation.
 Using parallel simulation described in chapter \ref{cha:parallel_sim} the receiving module can be implemented blocking.
