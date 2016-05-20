@@ -1,50 +1,50 @@
-\chapter{Parallel simulation}
+\chapter{Parallel Simulation}
 \label{cha:parallel_sim}
-A sequential simulation is executed on a single processing unit, either logical processor, physical processor or a single machine within a cluster of multiple systems.
+A sequential simulation is executed on a single processing unit, either on a logical processor, physical processor or a single machine within a cluster of multiple systems.
 Simulating complex models and a huge number of events can result in a long execution time.
 Increasing complexity of different systems and their simulations lead to the demand for an improved execution method.
-The distributed discrete event simulation (\emph{DDES}) or parallel discrete event simulation (\emph{PDES}) allows the parallel execution on multiple processors.
+The distributed discrete event simulation (\emph{DDES}) or parallel discrete event simulation (\emph{PDES}) allows for the parallel execution on multiple processors.
 The goal of parallel execution is the improvement of simulation performance and reduction of required execution time.
-Within a parallel simulation events are processed by different logical processes (\emph{LP}).
+Within a parallel simulation, events are processed by different logical processes (\emph{LP}).
 Each \emph{LP} can be executed by a different separate processing unit and therefore executed in parallel. \cite{bagrodia_parsec:_1998}
 
 This distributed processing of events requires synchronization for guaranteeing the causality constraint, i.e. the processing of all events within a \emph{LP} is done with increasing timestamps.
 
 \section{Synchronization}
 \label{sec:parallel_synchronization}
-Running simulations in parallel requires a synchronization between the \emph{LPs} for harmonize the processed simulation time.
+Running simulations in parallel requires a synchronization between the \emph{LPs} to harmonize the processed simulation time.
 This simulation time can diverge strongly due to the different sets of processed events.
-With varying event intervals (i.e. the time between two consecutive events) the steps within simulation time are differing.
+With varying event intervals (i.e. the time between two consecutive events) the steps within the simulation time are differing.
 For the synchronization of parallel \emph{LPs} different algorithms are available which show contrasting characteristics and effects on the achieved performance of the \emph{PDES}. \cite[chapter 2]{bagrodia_performance_2000}
 
 The two basic types of synchronization algorithms are explained in the following sections.
 
-\subsection{Optimistic algorithms}
+\subsection{Optimistic Algorithms}
 \label{sec:parallel_synchronization_optimistic}
 Optimistic algorithms allow \emph{LPs} to process events without guaranteeing that any new event may be scheduled at a previous point in simulation time.
 This behavior could lead to a violation of the causality constraint.
-In the case of such a violation an event is scheduled at a point in time within the past according to the local simulation time of a \emph{LP}.
-For solving this violation a \emph{roll back} mechanism is necessary to rewind the according procedures and allow the correct execution of all scheduled events.
+In the case of such a violation, an event is scheduled at a point in time within the past according to the local simulation time of a \emph{LP}.
+For solving this violation, a \emph{roll back} mechanism is necessary to rewind the according procedures and allow for the correct execution of all scheduled events.
 A simple version of such a \emph{roll back} mechanism is the periodical saving of the system state and restoring an old valid state in case of a causality violation \cite{bagrodia_parsec:_1998}
     
 Regarding the fields of emulation and \emph{HiL} this behavior is not applicable, because with a connection to a real world component no rewinding of the simulation time is possible.
 Therefore another type of synchronization is necessary.
     
-\subsection{Conservative algorithms}
+\subsection{Conservative Algorithms}
 \label{sec:parallel_synchronization_conservative}
 Conservative algorithms strictly forbid the processing of events until it is guaranteed that no new event will be scheduled before the local simulation time.
 
-An example for a conservative algorithm is the \emph{Null Message Algorithm} (\emph{NMA}). \cite[section 2.1]{bagrodia_performance_2000}.
-The \emph{NMA} is transmitting so called \emph{Null messages} between all connected \emph{LPs}.
+An example for a conservative algorithm is the \emph{Null Message Algorithm} (\emph{NMA}) \cite[section 2.1]{bagrodia_performance_2000}.
+The \emph{NMA} is transmitting so-called \emph{Null messages} between all connected \emph{LPs}.
 These \emph{Null messages} contain information about the duration in which no event will be scheduled by the sending \emph{LP} for the receiving \emph{LP}.
 If no events are locally scheduled within this transmitted duration, the receiving \emph{LP} can advance its simulation time to the next local event or to the end of the duration.
 Each \emph{LP} also has to determine this duration for each one of its connected neighbor \emph{LPs}, which will be transmitted to the according \emph{LPs} and provide the same information about a guaranteed duration with no scheduled events.\cite[section 3]{kumar_study_1993}
 
-This algorithm is subject of different performance analyze and improvement studies. \cite{kumar_study_1993} \cite{rizvi_reducing_2008} \cite{Varga03apractical}
-The determination of the duration for transmission and the frequency of this procedure is strongly affecting the achievable performance.
+This algorithm is subject to different performance analysis and improvement studies \cite{kumar_study_1993} \cite{rizvi_reducing_2008} \cite{Varga03apractical}. 
+The determination of the duration for transmission and the frequency of this procedure strongly affects the achievable performance.
 A badly configured \emph{NMA} can lead to a high number of transmitted \emph{Null messages}, which can be either condensed or skipped completely.
 This overhead of unnecessary transmissions results in a weakly performing simulation.
-Optimizations of the \emph{NMA} can be realized by reducing the number of transmitted \emph{Null messages} and improving the generation algorithm. \cite{de_vries_reducing_1990}
+Optimizations of the \emph{NMA} can be realized by reducing the number of transmitted \emph{Null messages} and improving the generation algorithm \cite{de_vries_reducing_1990}.
 Such an optimization can benefit from knowledge about the simulated system and its temporal behavior.
 This leads to an individualized synchronization algorithm based on the \emph{NMA}.
 A corresponding optimized synchronization algorithm can lead to a greatly improved performance, but is only applicable for a specific system.
@@ -56,12 +56,12 @@ The following section describes existing communication functionalities and their
 
 \section{Communication}
 \label{sec:parallel_communication}
-Depending on the used hardware and the type of distribution of the processing units different communication methods can be used.
+Depending on the used hardware and the type of distribution of the processing units, different communication methods can be used.
 Such a communication belongs to the groups of inter-thread, inter-process or inter-machine communication.
-Most of the existing functionalities of these fields are applicable for synchronization communication.
+Most of the existing functionalities of these fields are applicable to synchronization communication.
 
 The choice of the communication method depends on the used simulation technology, the type of parallelization, distribution of processing units and also the used synchronization algorithm.
-For each possibility of every dependency different communication methods are appropriate and result in varying performances.
+For each possibility of every dependency, different communication methods are appropriate and result in varying performances.
 
 A very common method for synchronization communication is a message based technology which can be applied to various underlying methods for data transmission.
 This method is called message passing interface (\emph{MPI}) and uses transmitted messages via various transport technologies.
@@ -69,19 +69,19 @@ On different operating systems and depending on the specific simulation setup a 
 \\
 
 A various number of technologies for  parallel simulation, synchronization and communication are available.
-The built in functionalities of OMNeT++ and their characteristics are analyzed in the following section.
+The built-in functionalities of OMNeT++ and their characteristics are analyzed in the following section.
 
-\section{Parallel simulation with OMNeT++}
+\section{Parallel Simulation with OMNeT++}
 \label{sec:parallel_omnet}
 OMNeT++ supports the execution of simulations parallelized using different synchronization and communication methods.
 OMNeT++ targets the independence of the simulated model to the execution method.
-Therefore the parallel execution of an existing OMNeT++ simulation should not require modifications of the implemented model.
-For achieving this independence OMNeT++ uses the built in transmission of messages between modules for the according communication between \emph{LPs}.
-The message based communication between modules allows the redirection of those messages over communication methods without changing the implementation.
+Therefore, the parallel execution of an existing OMNeT++ simulation should not require modifications of the implemented model.
+For achieving this independence, OMNeT++ uses the built-in transmission of messages between modules for the according communication between \emph{LPs}.
+The message based communication between modules allows for the redirection of those messages over communication methods without changing the implementation.
 
 This is done via the configuration files as described in section \ref{sec:omnet_running_config}.
 The configurations regarding parallel simulation include the used synchronization and communication methods and the assignment of the simulated modules to partitions.
-A partition represents a \emph{LP} and is running on a separate processing unit.
+A partition represents a \emph{LP} and runs on a separate processing unit.
 Multiple modules can be assigned to one partition and thereby simulated on the same processing unit. 
 Running a parallel simulation with OMNeT++ is done by starting multiple instances of the simulation executable with the partition to execute given by a parameter.
 
@@ -89,9 +89,9 @@ The configuration for a \emph{PDES} using an OMNeT++ model uses placeholder modu
 These components are introduced when using \emph{PDES} features.
 A placeholder module is inserted instead of a module which is simulated on a different partition.
 This inserted placeholder module represents the replaced module.
-Therefore the hierarchy and structure of the simulated module stays untouched for a \emph{PDES}.
+Therefore, the hierarchy and structure of the simulated module stay untouched for a \emph{PDES}.
 The placeholder module provides a proxy gate for each gate of the replaced module.
-These proxy gates forward the received messages to the correct \emph{LP} and also receive corresponding messages from the remotely simulated module and sends them to the local network.
+These proxy gates forward the received messages to the correct \emph{LP} and also receive corresponding messages from the remotely simulated module and send them to the local network.
 \cite[section III]{varga_parallel_2003} \cite[chapter 16]{omnet_manual}
 
 The introduction of placeholder modules and proxy gates and the assignment of modules to specific partitions is independent of the used synchronization and communication method.
@@ -101,32 +101,32 @@ The provided functionalities and possibilities for customization of synchronizat
 \label{sec:parallel_omnet_sync}
 OMNeT++ uses a configurable synchronization algorithm for the synchronization of multiple partitions.
 These algorithms are represented by C++ classes derived from \emph{cParsimSynchronizer} and can implement their algorithm using specific hook methods which are explained in the following listing.
-The built in \emph{NMA} implementation is considered for example usages of the different hook methods.
+The built-in \emph{NMA} implementation is considered for example usages of the different hook methods.
 
 \begin{description}
     \item[Event scheduling] The implementation of the \emph{getNextEvent} method derived from \emph{cScheduler} provides full access to the \emph{FES} and the next scheduled event.
-    Using this method the synchronization algorithm can block the simulation, remove and introduce specific messages and thereby control the executed messages.
+    Using this method, the synchronization algorithm can block the simulation, remove and introduce specific messages and thereby control the executed messages.
     The \emph{NMA} uses this hook for blocking the simulation during wait times and for introduction of \emph{Null messages}.
-    \item[Outgoing Messages] This hook is represented by the implementation of the derived \emph{processOutGoingMessage} and allows the modification of all messages which are sent to a different partition.
-    The \emph{NMA} uses this hook for including \emph{Null message} information in the transmitted messages and thereby reduce the number of necessary \emph{Null messages}.
-    \item[Incomming Messages] This hook is represented by the \emph{processReceivedMessage} and \emph{processReceivedBuffer} methods which are derived from \emph{cParsimProtocolBase}.
+    \item[Outgoing Messages] This hook is represented by the implementation of the derived \emph{processOutGoingMessage} and allows for the modification of all messages which are sent to a different partition.
+    The \emph{NMA} uses this hook for including \emph{Null message} information in the transmitted messages and thereby reduces the number of necessary \emph{Null messages}.
+    \item[Incoming Messages] This hook is represented by the \emph{processReceivedMessage} and \emph{processReceivedBuffer} methods which are derived from \emph{cParsimProtocolBase}.
     The \emph{NMA} uses this hook for handling received \emph{Null messages}.
 \end{description}
 
-As mentioned above the hooks are represented by methods derived from different classes.
+As mentioned above, the hooks are represented by methods derived from different classes.
 The base class for all synchronization algorithms \emph{cParsimSynchronizer} is derived from \emph{cScheduler} and is used as scheduler while executing a \emph{PDES}.
 The class \emph{cParsimProtocolBase} is derived from \emph{cParsimSynchronizer} and provides convenient methods for eased development of synchronization algorithms.
-Therefore \emph{cParsimProtocolBase} is the recommended base class for custom implementations.
+Therefore, \emph{cParsimProtocolBase} is the recommended base class for custom implementations.
 
-OMNeT++ also provides some built in implementations of synchronization algorithms which are listed below. \cite[section 16.3.5]{omnet_manual}
+OMNeT++ also provides some built-in implementations of synchronization algorithms which are listed below. \cite[section 16.3.5]{omnet_manual}
 
 \begin{description}
     \item[cNullMessageProtocol] implements the \emph{NMA} algorithm with an enclosed class for lookahead calculation.
-    \item[cIdealSimulationProtocol] implements an analyze and benchmark method for given synchronization algorithms.\cite[section 3]{bagrodia_performance_2000}.
+    \item[cIdealSimulationProtocol] implements an analysis and benchmark method for given synchronization algorithms.\cite[section 3]{bagrodia_performance_2000}.
     \item[cNoSynchronization] implements an empty synchronization, i.e. all events are executed as scheduled by the model and no synchronization is happening.
 \end{description}
 
-Either custom implemented synchronization methods or built in algorithms can be defined within a configuration file by the \emph{parsim-synchronization-class} configuration.
+Either custom implemented synchronization methods or built-in algorithms can be defined within a configuration file by the \emph{parsim-synchronization-class} configuration.
 Specific implementations can also provide further configuration possibilities. \cite[section 16.3.5]{omnet_manual}
 
 \subsection{Communication}
@@ -143,45 +143,45 @@ The implemented methods use a pointer to the class \emph{cCommBuffer} which prov
 For specific buffer functionalities according to a custom communication the class \emph{cCommBufferBase} is derived from \emph{cCommBuffer} and represents the recommended base class for custom buffer. \cite{omnet_par_api}
 
 \begin{sloppypar}
-The following built in communication methods are provided within OMNeT++ and can be used for \emph{PDES}. \cite[section 16.3.5]{omnet_manual} \cite{omnet_par_api}
+The following built-in communication methods are provided within OMNeT++ and can be used for \emph{PDES}. \cite[section 16.3.5]{omnet_manual} \cite{omnet_par_api}
 \end{sloppypar}
 
 \begin{description}
     \item[cFileCommunications] represents the communication via textfiles.
-    Due to the necessary file operations and the big dependency on the disk where this file is located this communication method is more recommended for debugging purposes.
+    Due to the necessary file operations and the big dependency on the disk where this file is located, this communication method is more recommended for debugging purposes.
     This communication method can be used between all partitions which have access to a commonly reachable file system.
     \item[cNamedPipeCommunications] is using named pipes for the transport of messages.
-    The performance is depending on the underlying operating system providing the named pipe functionality.
-    Using named pipes the communication can also be used between separate machines within a computing cluster.
+    The performance depends on the underlying operating system providing the named pipe functionality.
+    Using named pipes, the communication can also be used between separate machines within a computing cluster.
     \item[cMPICommunications] represents the communication using a \emph{MPI} system.
-    As described in section \ref{sec:parallel_communication} this communication can use various transport technologies.
+    As described in section \ref{sec:parallel_communication}, this communication can use various transport technologies.
     For usage of \emph{cMPICommunications} a \emph{MPI} implementation must be present at the hosting system.
-    For different operating systems various \emph{MPI} libraries such as Intel MPI \cite{intelmpi_hp}, MS-MPI \cite{msmpi_hp}, openMPI \cite{openmpi_hp} and many more can be used.
+    For different operating systems, various \emph{MPI} libraries such as Intel MPI \cite{intelmpi_hp}, MS-MPI \cite{msmpi_hp}, openMPI \cite{openmpi_hp} and many more can be used.
 \end{description}
 
 The communication between \emph{LPs} is based on the transmitted messages among modules.
 This defines that among modules no direct communication using simple method calls are permitted.
-This restraint and more requirements for running a \emph{PDES} using OMNeT++ are explained in the following section.
+This restraint and the need for more requirements to run a \emph{PDES} using OMNeT++ are explained in the following section.
 
-\subsection{Requriements}
+\subsection{Requirements}
 \label{sec:parallel_omnet_requirements}
 The execution of OMNeT++ models as \emph{PDES} is possible when specific requirements regarding the implementation and the communication among modules are met.
 The following requirements are caused by the used strategy of replacing remote modules by placeholder modules with proxy gates. \cite[section III.B]{varga_parallel_2003}
 
 \begin{enumerate}
     \item Communication among modules is only done via message transmission over channels, i.e. no direct calls or member access is allowed.
-    Direct sending can be used but limitations regarding the sending to submodules must be considered.
+    Direct sending can be used, but limitations regarding the sending to submodules must be considered.
     \item No usage of global variables or public static member variables.
     \item Static topologies.
 \end{enumerate}
 
 Requirement one and two only apply to modules which are assigned on different partitions, because the usage of global variables, direct sending or direct method calls would bypass the message transmission.
-Within a single partitions these functionalities can be used because no message transmission is required.
+Within a single partition these functionalities can be used because no message transmission is required.
 Following the OMNeT++ user guide, design and implementation recommendation these requirements are already met. \cite[section III.B]{varga_parallel_2003}
 
-Using the built in \emph{NMA} implementation an additional requirement for transmission among partitions is defined.
+Using the built-in \emph{NMA} implementation, an additional requirement for transmission among partitions is defined.
 The implementation of the lookahead calculation for the \emph{NMA} demands a non-zero delay between partitions, i.e. the channels among modules assigned to different partitions must provide a non-zero delay. \cite[section 16.3.1]{omnet_manual}
 \\
 
-The basic strategy of assigning separate modules to different partitions and therefore \emph{LPs} affects the possibilities for parallelism depending on the structure and the used design of the simulated model.
-The following chapter shows the analyze of an example network inspecting the achievable performance using different designs and different execution method.
+The basic strategy for assigning separate modules to different partitions and therefore \emph{LPs} affects the possibilities for parallelism depending on the structure and the used design of the simulated model.
+The following chapter shows the analysis of an example network inspecting the achievable performance using different designs and different execution method.

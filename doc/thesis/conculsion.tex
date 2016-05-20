@@ -1,42 +1,40 @@
 \chapter{Conclusion}
 \label{cha:conclusion}
 
-%TODO: evetually introduction
-
-\section{Future simulations}
+\section{Future Simulations}
 \label{sec:conclusion_futuresim}
 \begin{sloppypar}
 The developed OMNeT++ modules allow the simulation of a simple \mbox{POWERLINK} network consisting of an openPOWERLINK \emph{MN} and multiple \emph{CNs}.
 This simulation was developed for optimal performance using a monolithic design.
-Alternative simulations can be implemented using the basic strategies and reusable functionalities represented by the developed base classes, helper classes and interfaces.
-For more insight a modular design could be implemented by connecting the \emph{CAL} modules with the simulation.
-This could be done in a similar way than handling the platform dependency by implementing according simulation specific modules redirecting the communicated calls and data into the simulation environment.
+Alternative simulations can be implemented based on the basic strategies and reusable functionalities represented by the developed base classes, helper classes and interfaces.
+For a deeper insight, a modular design could be implemented by connecting the \emph{CAL} modules with the simulation.
+This could be done in a similar way as handling the platform dependency by implementing according simulation specific modules redirecting the communicated calls and data into the simulation environment.
 Within the simulation environment even both modules of a \emph{CAL} component could be modeled separately.
 This would lead to the encapsulation of the communicated data in messages.
-Such an implementation of \emph{CAL} components within OMNeT++ would allow deep insight in the openPOWERLINK stack and the communication between kernel and user layer.
+Such an implementation of \emph{CAL} components within OMNeT++ would allow for deeper insights into the openPOWERLINK stack and the communication between kernel and user layer.
 \end{sloppypar}
 
-The simulated network contains a direct connection of the different nodes.
+The simulated network contains a direct connection between the different nodes.
 This represents an optimal behavior and results in an ideal performance.
 For simulating the behavior of openPOWERLINK nodes in a network including real devices this connection would have to be changed.
 Existing functionality from the INET library regarding Ethernet and UDP could be used for converting the transmitted messages to real Ethernet frames.
 
 \section{Emulation}
 \label{sec:conclusion_emulation}
-The simulation mode of real-time simulation and the possibilities for emulation using OMNeT++ are showing a good starting point for the customized development of such applications.
-The built in functionality and its usage within the examples (\emph{sockets}) shows the basic strategies for developing an emulation.
-This functionality should be used as base for developing more optimized and customized functionalities.
+The simulation mode of real-time simulation and the possibilities for emulation using OMNeT++  show a good starting point for the customized development of such applications.
+The built-in functionality and its usage within the examples (\emph{sockets}) reflect the basic strategies for developing an emulation.
+This functionality should be used as a basis for developing more optimized and customized functionalities.
 
 \section{Experiences}
 \label{sec:conclusion_experiences}
-The built in functionalities and the corresponding possibilities of OMNeT++ are extensive.
+The built-in functionalities and the corresponding possibilities of OMNeT++ are extensive.
 This large number of configurations and components can cause a difficult approach to the developing of a simulation.
 But investing more time in exploring OMNeT++ pays off well, because of the flexibility and the various fields of possible applications.
 
 \section{Outlook}
 \label{sec:conclusion_outlook}
-The fields of simulation, emulation and \emph{HiL} are steadily gaining importance caused by the raising requirement for comprehensive testing.
+The fields of simulation, emulation and \emph{HiL} are steadily gaining importance owing to the growing requirement for comprehensive testing.
 OMNeT++ represents a dynamic framework for various applications and a high order of flexibility.
-This allows the development of simulations for various fields.
+This allows for the development of simulations for various fields.
 
-The connection of simulations using OMNeT++ with embedded systems portrays a promising topic in sight of testing and developing new systems.
+The connection between simulations using OMNeT++ with embedded systems portrays a promising avenue to pursue in terms of testing and developing new systems.

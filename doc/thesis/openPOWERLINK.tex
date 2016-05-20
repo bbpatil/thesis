@@ -3,11 +3,11 @@
 openPOWERLINK is an Open Source implementation of the POWERLINK protocol.
 The implementation contains the openPOWERLINK stack and different demo applications for various platforms.
 It is designed for a simple introduction into POWERLINK and a public available implementation.
-This project allows manufacturers an easy integration of POWERLINK into their products.
-The Open Source implementation targets an improved integration and development of new features which may be inspired by request of manufacturers and the community.
+This project allows manufacturers to easily integrate POWERLINK into their products.
+The Open Source implementation targets at an improved integration and development of new features which may be inspired by request of manufacturers and the community.
 The stack is distributed under the \emph{BSD} license and is available at Github \cite{openpowerlink_github} and Sourceforge \cite{openpowerlink_sourceforge}.
 
-This following chapter will discuss the properties, structure and functionalities of POWERLINK.
+The following section discusses the properties, structure and functionalities of POWERLINK.
 
 \section{POWERLINK}
 \label{sec:oplk_powerlink}
@@ -18,15 +18,15 @@ The \emph{EPSG} consists of different companies located in the fields of real ti
 One fundamental principle of POWERLINK is the usage of a common communication system for various applications.
 I.e POWERLINK supports the real-time transmission of data for time critical applications and a simultaneous transmission of less time critical asynchronous information.
 
-For granting a deterministic communication, which is essential for real-time communication, collisions within a POWERLINK network are prevented by the definition of the POWERLINK cycle.
-Therefore the features of collision detection and transmission retires of Ethernet Carrier Sense Multiple Access/Collision Detection (\emph{CSMA/CD}) are not necessary for a POWERLINK network. \cite[section 4.2]{ethernet_ieee_2016}
+To grant a deterministic communication, which is essential for real-time communication, collisions within a POWERLINK network are prevented by the definition of the POWERLINK cycle.
+Thus the features of collision detection and transmission retires of Ethernet Carrier Sense Multiple Access/Collision Detection (\emph{CSMA/CD}) are not necessary for a POWERLINK network. \cite[section 4.2]{ethernet_ieee_2016}
 This collision prevention is done via strict slot based transmission.
 Each node within a POWERLINK network is only allowed to send within its assigned slot and furthermore each controlled node (\emph{CN}) is only permitted to send a response to a request from the managing node (\emph{MN}). \cite[chapter 1]{epsg_epsg_2013}
 The communication sequence of a standard POWERLINK network is shown in section \ref{sec:oplk_powerlink_commcycle}.
 
 The structure and components of a POWERLINK network are described in the following section.
 
-\subsection{Network structure}
+\subsection{Network Structure}
 \label{sec:oplk_powerlink_network}
 A POWERLINK network consists of the following two different node types.
 
@@ -42,7 +42,7 @@ The address 240 is fixed for the \emph{MN}, each node assigned the Node ID 240 a
 When the execution of the \emph{MN} role is not possible the assignment of the Node ID 240 is not permitted.
 \cite{epsg_epsg_2013}
 
-A simple POWERLINK network consisting of an \emph{MN} directly connected to one \emph{CN} and two additional \emph{CNs} via an Ethernet HUB is shown in figure \ref{fig:powerlink_network}.
+A simple POWERLINK network consisting of an \emph{MN} directly connected to one \emph{CN} and two additional \emph{CNs} via an Ethernet HUB is shown in Figure \ref{fig:powerlink_network}.
 
 \begin{figure}
     \centering
@@ -53,7 +53,7 @@ A simple POWERLINK network consisting of an \emph{MN} directly connected to one 
 
 POWERLINK is based on the standard IEEE 802.3 MAC layer and therefore the usage of default Ethernet hardware is possible.
 The different nodes can be arranged in various topologies.
-Recommended is the integration of Ethernet HUBs into each node for allowing an easy setup of common used network structures, e.g. a star topology with lines of multiple nodes. \cite[chapter 3]{epsg_epsg_2013} %TODO check position on page
+The integration of Ethernet HUBs into each node is recommended to allow for an easy setup of commonly used network structures, e.g. a star topology with lines of multiple nodes. \cite[chapter 3]{epsg_epsg_2013} %TODO check position on page
 
 \subsection{Frame}
 \label{sec:oplk_powerlink_frame}
@@ -61,9 +61,9 @@ The POWERLINK frame is embedded in the payload of an Ethernet 2 frame and is def
 Therefore the POWERLINK frame is preceded by the Ethernet 2 Header containing destination \emph{MAC} Address, source \emph{MAC} Address and Ether type.
 The payload of an Ethernet 2 Frame can reach up to a length of 1500 bytes succeeding with 4 bytes checksum. \cite[section 3.2]{ethernet_ieee_2016} \cite[section 4.6.1]{epsg_epsg_2013}
 
-In figure \ref{fig:powerlink_frame} the structure of a POWERLINK frame is shown.
+In Figure \ref{fig:powerlink_frame}, the structure of a POWERLINK frame is depicted.
 The POWERLINK header shown to the left contains the destination and source Node Id preceded by the message type.
-The length of the payload and content is depending on the transmitted message and thereby defined by the message type. \cite[section 4.6.1.1]{epsg_epsg_2013}
+The length of the payload and content depends on the transmitted message and is thereby defined by the message type. \cite[section 4.6.1.1]{epsg_epsg_2013}
 
 \begin{figure}
     \centering
@@ -77,15 +77,15 @@ Detailed information about the different structures of transmitted payloads depe
 \subsection{Commands}
 \label{sec:oplk_powerlink_commands}
 
-As mentioned above different transmitted POWERLINK messages are defined via the message type.
+As mentioned above, differently transmitted POWERLINK messages are defined via the message type.
 The following commands are distinguished by the according message type.
 
 \begin{description}
     \item[SoC] Start of cycle is sent by the \emph{MN} as multicast and defines the start of the POWERLINK cycle and the isochronous phase.
     \item[PReq] Poll request is sent by the \emph{MN} to a specific \emph{CN}, as unicast, transmitting data and requesting the transmission data from the \emph{CN}.
     \item[PRes] Poll response is sent by the \emph{CN} as multicast as response to a \emph{PReq} and contains data from the \emph{CN}.
-    \item[SoA] Start of Asynchronous is sent by the \emph{MN} as multicast and defines the end of the isochronous phase and the begin of the asynchronous phase.
-    Additionally the \emph{SoA} message contains the information about the assignment of the following asynchronous slot.
+    \item[SoA] Start of Asynchronous is sent by the \emph{MN} as multicast and defines the end of the isochronous phase and the beginning of the asynchronous phase.
+    Additionally, the \emph{SoA} message contains the information about the assignment of the following asynchronous slot.
     \item[ASnd] Asynchronous send is sent either by the \emph{MN} or a \emph{CN} as multicast and contains asynchronous data.
 \end{description}
 
@@ -101,8 +101,8 @@ The transmission of an \emph{ASnd} message is happening in the asynchronous phas
     \item[Manufacturer specific] represents manufacturer specific services and usages.
 \end{description}
 
-This transmissions are invoked by the preceding \emph{SoA}, which includes a request service id.
-According to this request service id the scheduled node is responding with the according response.
+These transmissions are invoked by the preceding \emph{SoA}, which includes a request service id.
+According to this request service id the scheduled node responds with the according response.
 The possible requested service ids are shown in the following listing. \cite[section 4.6.1.1.5.1]{epsg_epsg_2013}
 
 \begin{description}
@@ -116,7 +116,7 @@ The possible requested service ids are shown in the following listing. \cite[sec
 
 The sequence of sent commands within a POWERLINK cycle is shown in the next section.
 
-\subsection{Communication cycle}
+\subsection{Communication Cycle}
 \label{sec:oplk_powerlink_commcycle}
 
 The POWERLINK communication cycle is separated in two different phases.
@@ -125,29 +125,29 @@ The isochronous phase is the first part of a POWERLINK cycle and is started by t
 Within this phase the \emph{MN} is polling each \emph{CN} with registered isochronous data.
 This polling is accomplished by sending a \emph{PReq} message to each \emph{CN}.
 This message includes information for the \emph{CN} and also isochronous data which should be sent from the \emph{MN} to the specific \emph{CN}.
-After the reception of the \emph{PReq} message the \emph{CN} is sending a \emph{PRes} message as multicast.
+After the reception of the \emph{PReq} message, the \emph{CN} sends a \emph{PRes} message as multicast.
 This message includes all isochronous data which is requested by the \emph{MN} or any other \emph{CN}.
-By multicasting this message each node which should receive a specific data set is immediately receiving the new values. \cite[section 4.2.4.1.1]{epsg_epsg_2013}
+By multicasting this message each node which should receive a specific data set immediately receives the new values. \cite[section 4.2.4.1.1]{epsg_epsg_2013}
 
-When the last isochronous \emph{CN} sent its \emph{PRes} message the isochronous phase is over.
+When the last isochronous \emph{CN} sent its \emph{PRes} message, the isochronous phase is over.
 The end of this phase and the start of the asynchronous phase is marked by the sent \emph{SoA} message by the \emph{MN}.
 This message contains information about the node which is assigned to the current asynchronous slot.
-In each cycle the \emph{MN} assigns the asynchronous slot to either itself or to a \emph{CN}.
-Additionally to the assigned node a request service id is transmitted requesting a specific service as described in section \ref{sec:oplk_powerlink_commands}.
-Demands a \emph{CN} the assignment to an asynchronous slot this must be communicated to the \emph{MN} either by the \emph{PRes}, \emph{IdentResponse} or \emph{StatusResponse} message.
+In each cycle, the \emph{MN} assigns the asynchronous slot to either itself or to a \emph{CN}.
+Additionally to the assigned node, a request service id is transmitted requesting a specific service as described in section \ref{sec:oplk_powerlink_commands}.
+Is a \emph{CN} demanding the assignment to an asynchronous slot this must be communicated to the \emph{MN} either by the \emph{PRes}, \emph{IdentResponse} or \emph{StatusResponse} message.
 The communicated number of pending asynchronous messages can additionally provide a priority for better scheduling.
 This scheduling is done by the \emph{MN} according to the defined priorities.
 The messages sent within the asynchronous phase can either be a legacy Ethernet frame or an ASnd POWERLINK frame. \cite[section 4.2.4.1.2]{epsg_epsg_2013}
 
-In figure \ref{fig:powerlink_cycle} a simple POWERLINK communication cycle is shown.
-Above the horizontal time axis all commands sent by the \emph{MN} are shown.
+In Figure \ref{fig:powerlink_cycle}, a simple POWERLINK communication cycle is shown.
+Above the horizontal time axis, all commands sent by the \emph{MN} are depicted.
 Commands sent by different \emph{CNs} are displayed below the axis.
 This communication cycle shows the isochronous phase marked by the dotted box to the left.
 This phase includes the starting command \emph{SoC} and the sequential polling of each \emph{CN}.
-This example matches the shown network in figure \ref{fig:powerlink_network} and contains three \emph{CNs}.
-The different \emph{CNs} are immediately responding to the polling request.
+This example matches the shown network in Figure \ref{fig:powerlink_network} and contains three \emph{CNs}.
+The different \emph{CNs} immediately respond to the polling request.
 
-At the right side in figure \ref{fig:powerlink_cycle} the asynchronous phase is marked by the dashed box.
+At the right side in Figure \ref{fig:powerlink_cycle} the asynchronous phase is marked by the dashed box.
 The asynchronous phase contains the \emph{SoA} command  and following asynchronous data transmission.
 
 \begin{figure}
@@ -159,17 +159,17 @@ The asynchronous phase contains the \emph{SoA} command  and following asynchrono
 
 The transmitted data within the isochronous and the asynchronous phase and the underlying object model are described in the following section.
 
-\subsection{Data transmission}
+\subsection{Data Transmission}
 \label{sec:oplk_powerlink_data_transmission}
 The transmitted data objects are separated in two different groups.
 
 \begin{sloppypar}
 The process data objects (\emph{PDO}) represent time critical data which is transmitted every cycle.
-This transmissions happens during the isochronous phase in the POWERLINK cycle and is enclosed in the \emph{PReq} and \emph{PRes} messages.
+These transmissions happen during the isochronous phase in the POWERLINK cycle and are enclosed in the \emph{PReq} and \emph{PRes} messages.
 \end{sloppypar}
 
 When the data of a \emph{PDO} is sent to other nodes it represents a transmit process data object (\emph{TPDO}).
-Similar when the received data is stored in a \emph{PDO} this represents a receive process data object (\emph{RPDO}).
+Similar to the storage of received data in a \emph{PDO}, this represents a receive process data object (\emph{RPDO}).
 
 The implemented application defines the number of supported \emph{TPDOs} and \emph{RPDOs}, but those are limited to 256 for each type. \cite[section 6.4]{epsg_epsg_2013}
 \\
@@ -178,7 +178,7 @@ The counterpart to the isochronous transmitted \emph{PDOs} are the service data 
 \emph{SDOs} provide access to an object within the object dictionary (\emph{OD}) of any node within the POWERLINK network.
 This access follows the client-server principle, i.e. the \emph{SDO} client requests the value of an object located inside of the  \emph{OD} of the server.
 After receiving the request, the \emph{SDO} server replies with the according data set.
-The transmission of these data and the according commands are located within in the asynchronous phase of the POWERLINK cycle.
+The transmission of these data and the according commands are located within the asynchronous phase of the POWERLINK cycle.
 This transmission can take place using an \emph{ASnd} message or an User Datagram Protocol (\emph{UDP}) connection.
 The granting of sending an asynchronous command is done by the \emph{MN}.
 
@@ -191,9 +191,9 @@ The mentioned \emph{OD} contains the definitions of all accessible objects withi
 \subsection{Object Dictionary}
 \label{sec:oplk_powerlink_object_dictionary}
 The \emph{OD} represents a collection of all defined objects which are transmitted via \emph{PDO} or \emph{SDO}, their types and additional communication objects.
-Within the \emph{OD} every object is structured in the same way and can represent either a variable, an array or a record of multiple variables.
+Within the \emph{OD}, every object is structured in the same way and can represent either a variable, an array or a record of multiple variables.
 An object of type array or record contains multiple sub objects which must be of type variable.
-Within the \emph{OD} different regions contains definitions for different types and various profiles. \cite[section 2.2.2]{epsg_epsg_2013}
+Within the \emph{OD}, different regions contain definitions for different types and various profiles. \cite[section 2.2.2]{epsg_epsg_2013}
 
 Each object defined in the \emph{OD} consists of the following associated values.
 
@@ -209,7 +209,7 @@ Each object defined in the \emph{OD} consists of the following associated values
     \item[Actual value] represents the current value of the object.
 \end{description}
 
-More information about the different associated values and further information to the definitions of the \emph{Access} and \emph{PDO mapping} field can be found in \cite{openpowerlink_od_object}.
+More information about the different associated values and further information on the definitions of the \emph{Access} and \emph{PDO mapping} field can be found in \cite{openpowerlink_od_object}.
 
 This structure of the \emph{OD} matches the structure of \emph{CANopen} \cite{openpowerlink_canopen}, that allows the usage of \emph{CANopen} as application layer.
 \\
@@ -219,16 +219,16 @@ Different demo applications, drivers and the stack implementations are contained
 An introduction in the structure of the stack is given in the following section.
 
 
-\section{Structure of the openPOWERLINK stack}
+\section{Structure of the openPOWERLINK Stack}
 \label{sec:oplk_structure}
-The openPOWERLINK stack distribution package is structured in different main directories containing demo applications, documentation, driver implementation, stack sources and many more.
+The openPOWERLINK stack distribution package is structured in different main directories, containing demo applications, documentation, driver implementation, stack sources and many more.
 
-For this thesis the most important parts are the stack sources and demo applications.
-Furthermore an additional simulation directory will be added which content will be discussed in section \ref{sec:porting_simstub_siminterface}.
+For this thesis, the most important parts are the stack sources and demo applications.
+Furthermore, an additional simulation directory will be added and its content will be discussed in section \ref{sec:porting_simstub_siminterface}.
 
 The \emph{apps} folder contains different demo application for embedded targets, Linux and windows operating systems.
 These demo applications contain exemplary implementations of \emph{MNs} and \emph{CNs}.
-These application are analyzed for the development of demo applications within OMNeT++, as described in the section \ref{sec:porting_nodes}.
+These application are analyzed for the development of demo applications within OMNeT++, as described in section \ref{sec:porting_nodes}.
 
 The stack folder contains the following structure. \cite[Directory Structure]{openpowerlink_doc}
 \begin{description}
@@ -253,11 +253,11 @@ This structure represents the architecture of the openPOWERLINK stack, which is 
 \label{sec:oplk_architecture}
 \begin{sloppypar}
 The openPOWERLINK stack is generally separated in kernel and user layer.
-This separation was introduced with the version 2.X of the openPOWERLINK stack and is detaching the higher level user functionalities from the lower level kernel functions including time critical behavior and hardware drivers.
-This separation of high level functionalities and time critical procedures allows a real-time communication independent of the running application and the executed user functions.
+This separation was introduced with the version 2.X of the openPOWERLINK stack and detaches the higher level user functionalities from the lower level kernel functions including time critical behavior and hardware drivers.
+This separation of high level functionalities and time critical procedures allows a real-time communication independent from the running application and the executed user functions.
 \end{sloppypar}
 
-The separation of kernel and user layer using the communication abstraction layer (\emph{CAL}) is shown in figure \ref{fig:openpowerlink_arch}.
+The separation of kernel and user layer using the communication abstraction layer (\emph{CAL}) is shown in Figure \ref{fig:openpowerlink_arch}.
 
 \begin{figure}
 \centering
@@ -267,7 +267,7 @@ The separation of kernel and user layer using the communication abstraction laye
 \end{figure}
 
 
-\subsection{Kernel layer}
+\subsection{Kernel Layer}
 \label{sec:oplk_architecture_kernel}
 
 The kernel layer of the openPOWERLINK stack contains the following modules. \cite[openPOWERLINK Kernel Layer]{openpowerlink_doc}
@@ -291,9 +291,9 @@ The kernel layer of the openPOWERLINK stack contains the following modules. \cit
 
 Running on an operating system, e.g. Linux, the kernel layer can be built and executed separately as a kernel module of the operating system.
 Such a communication mode is defined via the configurations of the different stack projects (proj folder).
-The configurations are affecting the communication abstraction layer \emph{CAL} described in section \ref{sec:oplk_architecture_cal}.
+The configurations affect the communication abstraction layer \emph{CAL} described in section \ref{sec:oplk_architecture_cal}.
 
-\subsection{User layer}
+\subsection{User Layer}
 \label{sec:oplk_architecture_user}
 \begin{sloppypar}
 The user layer includes higher level functions and provides the application programming interface (\emph{API}) for an application using the openPOWERLINK stack.
@@ -316,12 +316,12 @@ The following modules are located within the user layer. \cite[openPOWERLINK Use
     \item[Time synchronization module] provides a configurable notification at a specific synchronization point for the application.
 \end{description}
 
-\subsection{Communication abstraction Layer}
+\subsection{Communication Abstraction Layer}
 \label{sec:oplk_architecture_cal}
 
 The user and kernel layer are separated by the communication abstraction layer (\emph{CAL}).
 This layer is separated in different modules, each module within the kernel and user the layer is communicating with the according opposite module.
-The separation of the \emph{CAL} and placement between the kernel and user layer is shown in figure \ref{fig:openpowerlink_arch}.
+The separation of the \emph{CAL} and placement between the kernel and user layer is shown in Figure \ref{fig:openpowerlink_arch}.
 The gray dotted box shows the \emph{CAL} and all embedded modules using a \emph{CAL} related implementation.
 
 The following modules use \emph{CAL} modules for communication between kernel and user layer. 
@@ -335,11 +335,11 @@ The following modules use \emph{CAL} modules for communication between kernel an
     \item time sync
 \end{itemize}
 
-For the listed modules two \emph{CAL} modules are necessary within user and kernel layer.
+For the listed modules, two \emph{CAL} modules are necessary within a user and kernel layer.
 A specific \emph{CAL} implementation must be configured in both layers if used.
-Different implementations of the \emph{CAL} modules allow various configurations and compositions of the openPOWERLINK stack using different communication methods between kernel and user layer. \cite[CAL]{openpowerlink_doc}
+Different implementations of the \emph{CAL} modules allow for various configurations and compositions of the openPOWERLINK stack using different communication methods between kernel and user layer. \cite[CAL]{openpowerlink_doc}
 
-\subsection{Hardware abstraction}
+\subsection{Hardware Abstraction}
 \label{sec:oplk_architecture_hardware}
 The openPOWERLINK stack implements the support of different operating systems and hardware platforms by the definition of the module functions in a common header.
 The compiled implementation represents the specification for each platform.
@@ -348,39 +348,39 @@ The platform dependency of the openPOWERLINK stack and the platform dependent mo
 
 The dependency of the platform regarding byte endianess is handled by the abstract memory interface described in the next section.
 
-\subsection{Abstract memory interface}
+\subsection{Abstract Memory Interface}
 \label{sec:oplk_architecture_ami}
 
 The abstract memory interface (\emph{AMI}) provides multiple simple functions for the correct handling of data fields affected by the byte endianess.
-Similar to the \emph{CAL} and hardware abstraction the implementations for different platforms are defined by compiling the according implementation. \cite[AMI]{openpowerlink_doc}
+Similar to the \emph{CAL} and hardware abstraction, the implementations for different platforms are defined by compiling the according implementation. \cite[AMI]{openpowerlink_doc}
 \\
 
 The openPOWERLINK stack provides multiple configurable implementation and communication variants.
 These are managed within the used tool chain described in the next section.
 
-\section{Configuration and build}
+\section{Configuration and Build}
 \label{sec:oplk_build}
 For configuration and building of the openPOWERLINK stack the built tool \emph{CMake} is used.
 The main \emph{CMake} file \emph{CMakeLists.txt} checks the current \emph{CMAKE\_SYSTEM\_NAME} variable and uses the configuration matching the targeted platform.
 
 \begin{sloppypar}
 The global \emph{CMake} file loads according to the \emph{CMAKE\_SYSTEM\_NAME} and \emph{CMAKE\_SYSTEM\_PROCESSOR} variable the correct system specific options file.
-This options file includes configuration for enabling and disabling parts of the openPOWERLINK stack.
-For example the generation of the \emph{CN} or \emph{MN} library can be en- or disabled.
-Further options are platform specific and provide configuration possibilities for various features available in different implementations and on different platforms.
+These options file include configuration for enabling and disabling parts of the openPOWERLINK stack.
+For example, the generation of the \emph{CN} or \emph{MN} library can be en- or disabled.
+Further options are platform-specific and provide configuration possibilities for various features available for different implementations and on different platforms.
 \end{sloppypar}
 
-If the targeted platform requires a custom tool chain, this must defined by a specific tool chain file.
+If the targeted platform requires a custom tool chain, this must be defined by a specific tool chain file.
 
-The \emph{CAL}, hardware abstraction and \emph{AMI} are using specific implementations of common header files.
+The \emph{CAL}, hardware abstraction and \emph{AMI} use specific implementations of common header files.
 These sets of specific sources are defined within the common \emph{CMake} file \emph{stackfiles.cmake}.
 This file includes groups defining source files for each module and each implementation specialization.
 The usage of such specific groups is done in project specific \emph{CMake} files composing various stack variants for specific platforms. \cite[Building openPOWERLINK]{openpowerlink_doc}
 
-Within the system specific options file all defined projects matching this system are included in the configuration.
+Within the system, specific options file all defined projects matching this system are included in the configuration.
 These projects are located in the \emph{proj} folder as described in the following section.
 
-\subsection{Library projects}
+\subsection{Library Projects}
 \label{sec:oplk_structure_proj}
 Located in the \emph{proj} folder various projects for different systems are defined.
 These projects are grouped in the following systems.
@@ -391,7 +391,7 @@ These projects are grouped in the following systems.
     \item[windows] contains projects for Windows operating systems.
 \end{description}
 \begin{sloppypar}
-Within each system specific folder different projects are located.
+Within each system-specific folder different projects are located.
 These different projects use different features and configurations of the openPOWERLINK stack.
 Within the different project directories the \emph{CMakeLists.txt} file defines the used implementations and sources.
 The groups defined in the \emph{stackfiles.cmake} file are used and combined within the project specific \emph{CMake} file.
@@ -407,14 +407,14 @@ Using this makefile either all included or specific projects can be built and in
 \label{sec:oplk_platform}
 
 The openPOWERLINK uses specific implementations which realize a common header file for supporting multiple platforms.
-As described in the sections \ref{sec:oplk_architecture_cal}, \ref{sec:oplk_architecture_hardware} and \ref{sec:oplk_architecture_ami} this strategy is used for the \emph{CAL}, hardware dependencies and \emph{AMI}.
+As described in the sections \ref{sec:oplk_architecture_cal}, \ref{sec:oplk_architecture_hardware} and \ref{sec:oplk_architecture_ami}, this strategy is used for the \emph{CAL}, hardware dependencies and \emph{AMI}.
 
 These three categories of modules represent the platform dependency of the openPOWERLINK stack.
-The informations about these modules and their features are taken from the naming convention of platform specific implementations, i.e. an appended suffix with the abbreviation for the specific implementation type.
-The following sections will refer to those suffixes as the implementation types.
+The information about these modules and their features are taken from the naming convention of platform-specific implementations, i.e. an appended suffix with the abbreviation for the specific implementation type.
+The following sections refer to those suffixes as implementation types.
 Detailed information about the functionality of each module can be found at the header comment of each implementation file describing the designated usage and the used functions.
 
-In the following sections each one of the modules and their specific implementations are analyzed and the platform dependent functionalities are shown.
+In the following sections, each one of the modules and their specific implementations are analyzed and the platform dependent functionalities are discussed.
 
 \subsection{CAL}
 \label{sec:oplk_platform_cal}
@@ -505,12 +505,12 @@ The following listings show the different available implementations of the \emph
     \end{multicols}
 \end{description}
 
-The different implementations using specific functionalities are often used for multiple modules.
-The used functionalities of the different implementations are described in the following listing defined by the postfix of the implemented modules.
+The different implementations with specific functionalities are often used for multiple modules.
+These functionalities of the different implementations are described in the following listing defined by the postfix of the implemented modules.
 
 \begin{description}
     \item[direct] These implementations use direct calls between kernel and user layer.
-    This is supported in configurations when both layers are located in the same instance.
+    This is supported in configurations when both layers are located at the same instance.
     \item[hostif/nooshostif] This implementations use the host interface ip core instantiated on a FPGA.
     \item[noosdual] These implementations target platforms without operating system but providing a dual processor and a shared memory between them.
     This shared memory is used for various communications.
@@ -518,12 +518,12 @@ The used functionalities of the different implementations are described in the f
     \item[linux] These implementations use the circularbuffer library with both layer located in the Linux user space.
     \item[linuxkernel] These implementations represent the interface of the Linux kernel space module which includes the kernel layer and can be accessed via ioctl.
     \item[ioctl/linuxioctl] These implementations represent the counterpart for \emph{linuxkernel} and communicate with the kernel module via ioctl.
-    \item[pcie/linuxpcie] These implementations use ioctl for communication with the Linux Peripheral Component Interconnect express (\emph{PCIe}) driver and furthermore communicating with an external device connected via \emph{PCIe} and running the kernel layer.
+    \item[pcie/linuxpcie] These implementations use ioctl for communication with the Linux Peripheral Component Interconnect express (\emph{PCIe}) driver and furthermore for communication with an external device connected via \emph{PCIe} and running the kernel layer.
     \item[linuxmmap] These implementations provide a memory interface with a memory mapping between kernel and user layer separated in user application and kernel module.
     \item[win32] These implementations use the circularbuffer library with both layer located in the Windows user space.
     \item[winkernel] These implementations represent the interface of the Windows kernel space module which includes the kernel layer and can be accessed via ioctl.
     \item[winioctl] These implementations represent the counterpart for \emph{winkernel} and communicate with the kernel module via ioctl.
-    \item[winpcie] These implementations use ioctl for communication with the Windows \emph{PCIe} driver and furthermore communicating with an external device connected via \emph{PCIe} and running the kernel layer.
+    \item[winpcie] These implementations use ioctl for communication with the Windows \emph{PCIe} driver and furthermore for communication with an external device connected via \emph{PCIe} and running the kernel layer.
     \item[local] These implementations use global variables for data storage and requires kernel and user layer running in the same domain for sharing global variables.
     \item[posixshm] These implementations use posix shared memory for communication between kernel and user layer.
     \item[triplebufshm] These implementations use a triple buffer implementation for synchronous reading and writing of a shared memory.
@@ -533,10 +533,10 @@ The used functionalities of the different implementations are described in the f
 
 
 
-\subsection{Hardware abstraction}
+\subsection{Hardware Abstraction}
 \label{sec:oplk_platform_hardware}
 
-As described in section \ref{sec:oplk_architecture_hardware} the hardware abstraction is done in a similar way as the \emph{CAL} by using specific implementations of common header files.
+As described in section \ref{sec:oplk_architecture_hardware}, the hardware abstraction is done in a similar way as the \emph{CAL} by using specific implementations of common header files.
 The following listing includes all hardware dependent modules, their location within the stack directory, a summary of the provided functionalities and their available implementation types.
 
 \begin{description}[leftmargin=1cm]
@@ -609,13 +609,13 @@ The following listing includes all hardware dependent modules, their location wi
             \item pcap Windows
         \end{itemize}
     \end{multicols}
-    The implemented versions for the different Ethernet controller are implemented for the custom behavior and usage of different controllers and libraries.
+    The provided versions for the different Ethernet controller are implemented for the custom behavior and usage of different controllers and libraries.
     \\
     
     \item[hrestimer] The \emph{hrestimer} module is located in the \emph{kernel} folder and provides implementations for various high resolution timer drivers.
     These timers are necessary for timing the POWERLINK cycle and for the synchronizing to the POWERLINK network.
     Depending on the implementation either a connection to a hardware or software component providing the required resolution is used.
-    The following list shows the different supported high resolution timers.
+    The following list shows the differently supported high resolution timers.
     \begin{multicols}{3}
         \begin{itemize}
             \item Intel i120
@@ -648,10 +648,10 @@ The following listing includes all hardware dependent modules, their location wi
     
     \item[sdo] The \emph{sdo} module is located in the \emph{user} folder and provides implementations for transmitting the \emph{SDOs} during the asynchronous phase.
     This transmission can be done via an \emph{ASnd} message or a legacy Ethernet frame, as described in section \ref{sec:oplk_powerlink_data_transmission}.
-    Performing this transmission by using legacy Ethernet frames the \emph{UDP} is used for data transmission based on the Internet Protocol (\emph{IP}).
+    Performing this transmission by using legacy Ethernet frames, the \emph{UDP} is used for data transmission based on the Internet Protocol (\emph{IP}).
     The implementation of the \emph{UDP} and \emph{IP} creation can be done in various ways due to the available \emph{UDP} and \emph{IP} stacks on operating systems.
-    Therefore this module provides different implementations for different platforms providing the usage of Linux and Windows functionalities.
-    Additionally the open library \emph{socketwrapper} can be configured which allows the integration of a custom \emph{UDP} stack.
+    Therefore, this module offers different implementations for different platforms providing the usage of Linux and Windows functionalities.
+    Additionally, the open library \emph{socketwrapper} can be configured which allows the integration of a custom \emph{UDP} stack.
     The following list shows the available implementations
     \begin{multicols}{3}
         \begin{itemize}
@@ -660,11 +660,11 @@ The following listing includes all hardware dependent modules, their location wi
             \item socketwrapper
         \end{itemize}
     \end{multicols}
-    The implementations for Linux and Windows are using the existing functionalities for creation and handling of \emph{UDP} sockets.\\
+    The implementations for Linux and Windows use the existing functionalities for creation and handling of \emph{UDP} sockets.\\
     
     
     \item[timer] The \emph{timer} module is located in the \emph{user} folder and provides different implementations for timer functionalities used by the user layer.
-    These timer functions does not require the high resolution and accuracy of the \emph{hrestimer} module and can therefore be implemented simpler and resource-efficient.
+    These timer functions do not require the high resolution and accuracy of the \emph{hrestimer} module and can therefore be implemented in a simpler and more resource-efficient way.
     The different implementations include a generic implementation using the global system tick and specific implementations using features of underlying operating systems.
     These types of implementations are shown in the following list.
     \begin{multicols}{3}
@@ -675,10 +675,10 @@ The following listing includes all hardware dependent modules, their location wi
             \item vxworks
         \end{itemize}
     \end{multicols}
-    If the target system is not providing such a functionality or the requirement for a high precision user timer is not given the usage of the generic implementation is sufficient.\\
+    If the target system does not provide such a functionality or the requirement for a high precision user timer is not given, the usage of the generic implementation is sufficient.\\
     
     \item[targetdefs] The \emph{targetdefs} folder is located within the \emph{include/oplk} folder and contains different header files for specific targets.
-    The following list shows the different defined target systems.
+    The following list shows the differently defined target systems.
     \begin{multicols}{3}
         \begin{itemize}
             \item c5socarm
@@ -692,8 +692,8 @@ The following listing includes all hardware dependent modules, their location wi
             \item zynqarm
         \end{itemize}
     \end{multicols}
-    These header files define preprocessor macros defining common system specific attributes and small functions regarding atomic operations and synchronization functions.
-    The main header \emph{targetsystem.h} is located in the folder \emph{include/oplk} and includes according to the set preprocessor defines the correct target file. \\
+    These header files define preprocessor macros for common system specific attributes and small functions regarding atomic operations and synchronization functions.
+    The main header \emph{targetsystem.h} is located in the folder \emph{include/oplk} and includes the correct target file. \\
     
         
 \end{description}
@@ -702,7 +702,7 @@ The following listing includes all hardware dependent modules, their location wi
 \label{sec:oplk_platform_ami}
 
 The \emph{AMI} (described in section \ref{sec:oplk_architecture_ami}) represents also a platform dependent module and therefore provides different implementations for little- and big-endian processors.
-Additionally an optimized implementation for x86 processors is provided.
+Additionally, an optimized implementation for x86 processors is provided.
 
 None of these implementations use platform specific functionalities, but the implementation varies for achieving the correct result when handling with variable consisting of multiple bytes.
 \\

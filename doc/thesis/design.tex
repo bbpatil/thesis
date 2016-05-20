@@ -1,29 +1,29 @@
 \chapter{Design structures}
 \label{cha:design}
 Implementing any kind of simulation or emulation can be done in various structures and designs which can be tailored for specific requirements.
-Given an existing system different questions regarding the complexity of modules and the designed hierarchy are brought up.
+Given an existing system, different questions regarding the complexity of modules and the designed hierarchy arise.
 Such a given system can be an existing application or other given functionalities, which must be embedded within the simulation without changing the original system.
-The following sections will discuss two fundamental design strategies and their impact on development and achievable results.
-Furthermore the according functionalities and strategies within OMNeT++ are explained.
+The following sections discuss two fundamental design strategies and their impact on development and achievable results.
+Furthermore, the according functionalities and strategies within OMNeT++ are explained.
 An according example simulation and the resulting performances are shown and discussed in chapter \ref{cha:measurements}.
 
-\section{Modular design}
+\section{Modular Design}
 \label{sec:design_modular}
 A modular design implies a bigger number of different components communicating with each other.
 Different functional units from the original system are represented by the composition of multiple components and their interactions.
 This approach can lead to a more dynamic simulation and increase the reusability of different components and modules.
 Developing a complex systems can also be eased by using a modular design and therefore an increased separation in smaller functional units.
 
-A modular design can also provide more insight in a given system and its executed procedures.
-This increased insight can be used for educational and exemplary usages showing detailed informations about the internal procedures of a functional unit.
-During development of the simulation or the simulated system a modular design can also provide more insight and therefore improved analyzing and debugging possibilities.
+In addition modular design can provide more insight into a given system and its executed procedures.
+This deeper insight can be used for educational and exemplary usages showing detailed information about the internal procedures of a functional unit.
+During development of the simulation or the simulated system, a modular design can also provide a clearer picture that leads to improved analyzing and debugging possibilities.
 The increased number of simulated components and the separation of functionality compared to a monolithic design results in increased communication between components.
 
 Designing a modular system in OMNeT++ is done by implementing a bigger number of modules connected with channels and grouped in compound modules.
 A simulated network consisting of multiple modules and therefore implementing a modular design results in increased communication, i.e. message allocation, transmission and deallocation.
-These additional procedures can strongly influence the achievable performance and must be analyzed carefully.
+These additional procedures can strongly influence the achievable performance and must be analyzed with care.
 
-An example of a modular design using OMNeT++ components is shown in figure \ref{fig:OMNeTModularDesign}.
+An example of a modular design using OMNeT++ components is shown in Figure \ref{fig:OMNeTModularDesign}.
 This example contains multiple compound modules consisting of enclosed simple and compound modules.
 The multiple connections between the modules show the required communication.
 
@@ -34,36 +34,36 @@ The multiple connections between the modules show the required communication.
     \label{fig:OMNeTModularDesign}
 \end{figure}
 
-Approaching the fields of emulation and \emph{HiL} using real-time simulation these design decisions are important for the achievable timings.
+Approaching the fields of emulation and \emph{HiL} using real-time simulation, these design decisions are important for the achievable timings.
 
-As described in section \ref{sec:parallel_omnet} OMNeT++ provides functionalities for running a parallelized simulation and therefore and increase in the performance by parallelism.
-This type of execution is strongly depending on the simulated system and the applied design.
-Due to the necessary communication between parallel simulated modules a modular design provides more possibilities for parallelism than a monolithic design.
+As described in section \ref{sec:parallel_omnet}, OMNeT++ provides functionalities for running a parallelized simulation and therefore adds to an increase in the performance by parallelism.
+This type of execution strongly depends on the simulated system and the applied design.
+Due to the necessary communication between parallel simulated modules, a modular design provides more possibilities for parallelism than a monolithic design.
 
 Developing a simulation for a given system with an existing implementation results in restraints for the applicable design.
-The simulation of a system which shows a modular structure can also be designed modular by using the separations of the given system.
-For a modular designed simulation the connection of simulated system and according simulation modules must be possible.
-This connection can be achieved when the existing system is already using interfaces or function pointers for the connections of different components.
+The simulation of a system which shows a modular structure can also be designed modularly by using the separations of the given system.
+For a modularly designed simulation, the connection of simulated system and according simulation modules must be possible.
+This connection can be achieved when the existing system already uses interfaces or function pointers for the connections of different components.
 These communication parts can be used for redirecting calls to wrapper modules embedding the simulated system in the simulation environment.
 These modules handle all received messages, forward them to the enclosed component and create necessary outgoing messages.
-The enclosed component can be instantiated within the wrapper module and therefore embedded in the simulation.
+The enclosed component can be instantiated within the wrapper module and thence embedded in the simulation.
 
-\section{Monolithic design}
+\section{Monolithic Design}
 \label{sec:design_monolithic}
 The opposite approach to the modular design discussed in the previous section is the monolithic design.
-A monolithic design implies a lower number of components, but an increased functionality within a single one.
-This decreased number of components lower the necessary communication and a potential overhead.
-The reduced modularity does not allow deep insight in the system but can result in improved performance.
-Is a simulated system used as a single functional unit and maybe even instantiated multiple times within the simulation a monolithic design is favorable, especially when no detailed information about internal procedures is demanded.
+Which implies a lower number of components, but an increased functionality within a single one.
+This decreased number of components reduces the necessary communication and a potential overhead.
+The reduced modularity does not allow deep insight into the system but can result in improved performance.
+If a simulated system is used as a single functional unit and maybe even instantiated multiple times within the simulation, a monolithic design appears favorable, especially when no detailed information about internal procedures is demanded.
 
-Within OMNeT++ a monolithic design can be achieved by condensing a compound module to a simple module with more complex functions.
+Within OMNeT++, a monolithic design can be achieved by condensing a compound module to a simple module with more complex functions.
 The execution of the single modules include more normal C++ code using simple method calls and operations.
 This can be done via enclosing multiple components of the given system within a single simple module.
 Such components can be connected directly to each other, such as the normal execution regardless of the simulation environment.
 The surrounding module must, similar to the implementation of modular wrapper modules, handle and forward incoming messages or create outgoing messages for the communication with the remaining simulation.
 
-The previous example network showing a modular design in figure \ref{fig:OMNeTModularDesign} can be transformed to a more monolithic design.
-In the example, shown in figure \ref{fig:OMNeTMonolithicDesign}, the compound modules 0 and 2 with all their submodules were replaced by two simple modules.
+The previous example network showing a modular design in Figure \ref{fig:OMNeTModularDesign} can be transformed to a more monolithic design.
+In the example, shown in Figure \ref{fig:OMNeTMonolithicDesign}, the compound modules 0 and 2 with all their submodules were replaced by two simple modules.
 The channels and the sent messages between the modules stay the same, but the calculation within the modules include the complete behavior of the previously included components.
 
 %TODO check/fix position
@@ -74,5 +74,5 @@ The channels and the sent messages between the modules stay the same, but the ca
     \label{fig:OMNeTMonolithicDesign}
 \end{figure}
 
-As mentioned in this and the previous chapter a parallelized simulation can provide improved behavior and benefit from specific designs.
+As mentioned in this and the previous chapter, a parallelized simulation can provide improved behavior and benefit from specific designs.
 The properties of a parallel simulation and the provided functionalities of OMNeT++ are analyzed in the next chapter.
