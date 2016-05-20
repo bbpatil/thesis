@@ -43,6 +43,9 @@ When the execution of the \emph{MN} role is not possible the assignment of the N
 \cite{epsg_epsg_2013}
 
 A simple POWERLINK network consisting of an \emph{MN} directly connected to one \emph{CN} and two additional \emph{CNs} via an Ethernet HUB is shown in Figure \ref{fig:powerlink_network}.
+POWERLINK is based on the standard IEEE 802.3 MAC layer and therefore the usage of default Ethernet hardware is possible.
+The different nodes can be arranged in various topologies.
+The integration of Ethernet HUBs into each node is recommended to allow for an easy setup of commonly used network structures, e.g. a star topology with lines of multiple nodes. \cite[chapter 3]{epsg_epsg_2013}
 
 \begin{figure}
     \centering
@@ -50,10 +53,6 @@ A simple POWERLINK network consisting of an \emph{MN} directly connected to one 
     \caption{POWERLINK network consisting of an \emph{MN} connected to one \emph{CN} and an Ethernet HUB which is connected to two more \emph{CNs}.}
     \label{fig:powerlink_network}
 \end{figure}
-
-POWERLINK is based on the standard IEEE 802.3 MAC layer and therefore the usage of default Ethernet hardware is possible.
-The different nodes can be arranged in various topologies.
-The integration of Ethernet HUBs into each node is recommended to allow for an easy setup of commonly used network structures, e.g. a star topology with lines of multiple nodes. \cite[chapter 3]{epsg_epsg_2013} %TODO check position on page
 
 \subsection{Frame}
 \label{sec:oplk_powerlink_frame}
@@ -109,7 +108,9 @@ The possible requested service ids are shown in the following listing. \cite[sec
     \item[NoService] indicates that the following asynchronous slot is unassigned.
     \item[IdentRequest] represents an identification query and is used for checking the activity and accessibility of nodes within the POWERLINK network.
     \item[StatusRequest] represents a query of information about a node and its status.
-    \item[NMTRequestInvite] represents the assignment message for a pending \emph{NMTCommand} or \emph{NMTRequest}.
+    \begin{sloppypar}
+    \item[NMTRequestInvite] represents the assignment message for a pending \mbox{\emph{NMTCommand}} or \emph{NMTRequest}.
+    \end{sloppypar}
     \item[Manufacturer specific] represents manufacturer specific services and usages.
     \item[UnspecifiedInvite] represents the assignment of an asynchronous slot for sending any kind of POWERLINK \emph{ASnd} or legacy Ethernet frame.
 \end{description}

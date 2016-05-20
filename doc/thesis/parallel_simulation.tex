@@ -109,8 +109,12 @@ The built-in \emph{NMA} implementation is considered for example usages of the d
     The \emph{NMA} uses this hook for blocking the simulation during wait times and for introduction of \emph{Null messages}.
     \item[Outgoing Messages] This hook is represented by the implementation of the derived \emph{processOutGoingMessage} and allows for the modification of all messages which are sent to a different partition.
     The \emph{NMA} uses this hook for including \emph{Null message} information in the transmitted messages and thereby reduces the number of necessary \emph{Null messages}.
+    \newpage
+    
+    \begin{sloppypar}
     \item[Incoming Messages] This hook is represented by the \emph{processReceivedMessage} and \emph{processReceivedBuffer} methods which are derived from \emph{cParsimProtocolBase}.
     The \emph{NMA} uses this hook for handling received \emph{Null messages}.
+    \end{sloppypar}
 \end{description}
 
 As mentioned above, the hooks are represented by methods derived from different classes.
@@ -126,8 +130,10 @@ OMNeT++ also provides some built-in implementations of synchronization algorithm
     \item[cNoSynchronization] implements an empty synchronization, i.e. all events are executed as scheduled by the model and no synchronization is happening.
 \end{description}
 
-Either custom implemented synchronization methods or built-in algorithms can be defined within a configuration file by the \emph{parsim-synchronization-class} configuration.
+\begin{sloppypar}
+Either custom implemented synchronization methods or built-in algorithms can be defined within a configuration file by the \mbox{\emph{parsim-synchronization-class}} configuration.
 Specific implementations can also provide further configuration possibilities. \cite[section 16.3.5]{omnet_manual}
+\end{sloppypar}
 
 \subsection{Communication}
 \label{sec:parallel_omnet_comm}

@@ -294,9 +294,11 @@ Values which are directly set within the \emph{NED} files can not be overwritten
 Therefore a more flexible simulation model provides the majority of parameters via configurations.
 Parameters of modules can either be set individually by the full path within the simulated hierarchy or commonly set via wildcards. \cite[section 9.3]{omnet_manual}
 
+\begin{sloppypar}
 The configuration of module parameters also allow the definition of value ranges for so-called \emph{parameter studies}.
 These \emph{parameter studies} result in multiple simulation runs iterating over all specified parameters.
-Simulating a specific iteration, can be achieved via setting the run number passed by command line interface (\emph{-r}) or defined in the configuration (\emph{cmdenv-runs-to-execute}. \cite[section 9.4]{omnet_manual}
+Simulating a specific iteration, can be achieved via setting the run number passed by command line interface (\emph{-r}) or defined in the configuration (\mbox{\emph{cmdenv-runs-to-execute}}). \cite[section 9.4]{omnet_manual}
+\end{sloppypar}
 
 Defined via the command line parameter or via the \emph{user-interface} option, different user interfaces can be used to start and visualize the simulation.
 
@@ -322,10 +324,12 @@ The \emph{Cmdenv} environment represents a command line user interface.
 Using this environment, no graphical user interface is shown, or will be updated.
 This simulation method is recommended for batch simulations or running simulations with increased complexity and no need for graphical representation due to the improved performance.
 
+\begin{sloppypar}
 During a running simulation within \emph{Cmdenv} the output printed to the command line depends on the configuration.
 For debugging purposes, the \emph{normal mode} can be used and detailed event information will be printed to the command line.
 When running simulations over a longer period of time, the \emph{express mode} is recommended and only periodically status updates will be printed.
-The frequency of the updates and the printed details can be configured via the \emph{cmdenv-status-frequency} and the \emph{cmdenv-performance-display} options. \cite[section 10.2.3]{omnet_manual}
+The frequency of the updates and the printed details can be configured via the \emph{cmdenv-status-frequency} and the \mbox{\emph{cmdenv-performance-display}} options. \cite[section 10.2.3]{omnet_manual}
+\end{sloppypar}
 
 Simulations defining one or more parameter studies result in multiple runs which can be defined via a command line parameter or in the configuration.
 For executing multiple runs, OMNeT++ provides the \emph{opp\_runall} tool which starts each run in a separate operating system process.

@@ -112,7 +112,9 @@ If the simulation is lagging behind the real-time, the scheduler must try to spe
 This is very difficult for complex simulations with tight timings.
 If the simulation lags constantly behind the real world using the \emph{cRealTimeScheduler}, it becomes a discrete event based simulation and no real-time simulation is possible.
 
-The sample scheduler provided by \emph{cRealTimeScheduler} and \emph{SocketRTScheduler} can lead to the correct strategy of implementing an optimized scheduler.
+\begin{sloppypar}
+The sample scheduler provided by \emph{cRealTimeScheduler} and \mbox{\emph{SocketRTScheduler}} can lead to the correct strategy of implementing an optimized scheduler.
+\end{sloppypar}
 
 To validate a real-time simulation regarding timing quality, the performance ration can be used.
 This ratio represents the simulated seconds per real time seconds.
@@ -122,8 +124,10 @@ The process of catching up of a lagging simulation to achieve a performance rati
 Therefore the variation of delays (jitter) increases when the simulation lags temporarily.
 For emulations or the fields of \emph{HiL} an increased jitter for a signal can be very critical and must be analyzed carefully.
 
+\begin{sloppypar}
 The host machine for the simulation and its components affect the achieved simulation times.
 The dependencies of the host system and the results of existing research is shown in section \ref{sec:simulation_requirements}.
+\end{sloppypar}
 
 Developing the simulation of a given system results in the situation of existing code.
 This code must be encapsulated in different modules and executed depending on incoming messages and thereby creating new messages for sending.

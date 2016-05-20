@@ -31,7 +31,7 @@ The simulation stub should provide the same functions and signatures for the usa
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.9\linewidth]{simulation_stub}
+    \includegraphics[width=0.8\linewidth]{simulation_stub}
     \caption{Example hierarchy of the simulation stub (dashed, left) and the included target-specific implementation (dash-dottet, right) and simulation interface (dashed, right).}
     \label{fig:simulation_stub}
 \end{figure}
@@ -178,13 +178,12 @@ The solution for this problem is loading of the same shared library multiple tim
 Linux supports loading of a single shared library multiple times into the memory and therefore creating multiple instances.
 On a negative node, Windows does not provide such a functionality.
 OMNeT++ supports Windows and Linux in the same way and for achieving a simulation which is usable in the identical way on either Linux or Windows another strategy has to be found.
-
 When the binary file of a shared library is copied and named differently, both files can be loaded into the memory as different libraries.
 This strategy does not require any special functionality and can be implemented for Windows and Linux in the same way.
 This handling of multiple shared libraries and the copying of the binary file on demand is implemented by the \emph{SharedLibraryHelper}.
 Starting with the manually created instance, any further instances can be accessed by the method \emph{getNextLibrary} which copies the shared library if necessary and creates a new instance with the copied library file.
 If a new instance is requested but the maximum number of allowed instances is exceeded, an exception is thrown.
-If the exception is not caught, the simulation is shut down and according information is presented. %TODO: check position
+If the exception is not caught, the simulation is shut down and according information is presented.
 
 
 \subsection{Instance Association}
@@ -324,16 +323,16 @@ These classes implement the according functions of the base classes described in
 This folder and the contained implementations can be used as a base project for further implementations using a simulated \emph{MN}.
 
 Similar to the \emph{MN} implementation, the \emph{CN} implementation is located in the \emph{CN} folder containing the according module definitions and implementations.
-
 The differently implemented classes could either be replaced by alternative implementations of the moduleinterfaces or derived classes from the base classes.
 Another option would be that the classes are used as base classes and any further functionality is embedded.
 This extension is easily possible due to the virtual definition of all used methods.
 \\
 
-The results of running the openPOWERLINK simulation consisting of an \emph{MN} connected to a single \emph{CN} are provided in the next section.
+The results of the developed simulation and the achieved state are described in the next section.
 
 \section{Results}
 \label{sec:porting_results}
+The following sections show the achieved results in form of implemented components and designed networks.
 
 \subsection{Simulated Network}
 \label{sec:porting_results_network}
@@ -342,7 +341,22 @@ This network is shown in Figure \ref{fig:simulation_network}.
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.3\linewidth]{simulation_network}
-    \caption{Simulated network consisting of a \emph{MN} module directly connected to a \emph{MN} module.}
+    \includegraphics[width=0.26\linewidth,clip=true,trim=0 40 0 50]{simulation_network}
+    \caption{Simulated network consisting of a \emph{MN} module directly connected to a \emph{CN} module.}
     \label{fig:simulation_network}
 \end{figure}
+
+\subsection{Achieved Results}
+\label{sec:porting_results_achieved}
+
+For the previously described simulation the following components are completely implemented and verified by tests.
+
+\begin{itemize}
+    \item The connection between the openPOWERLINK stack and the OMNeT++ simulation environment.
+    \item The handling and instantiating of multiple instances.
+    \item The definition and implementations of the necessary components for the configuration described in section \ref{sec:porting_stack}.
+    \item The composition of the \emph{Stack} module.
+    \item The implementation of the test network consisting of an \emph{MN} and a \emph{CN} as shown in section \ref{sec:porting_results_network}.
+\end{itemize}
+
+The future usage and continuing development of this simulation is described in the next chapter.
