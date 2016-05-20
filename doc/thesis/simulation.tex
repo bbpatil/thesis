@@ -27,7 +27,7 @@ During the processing of events the simulation time does not advance and the req
 The simulation time is advancing with multiple processed events and their defined point in simulation time.
 Between two consecutive events neither any processing is done nor changes of the system state are occurring. \cite[chapter 1]{matloff_introduction_2008}
 
-The assumption is that none, for the simulation relevant, events are happening in between two consecutive events.
+The assumption is that none, for the simulation relevant, events are happening between two consecutive events.
 This exclusion is done by the implementation of the simulated model and must be concluded with care to the intention of simulation.
 Simulating a real world system therefore requires the filtering of occasions for focusing on the simulation goal. \cite[section 4.1.1]{omnet_manual}
 
@@ -40,10 +40,12 @@ Using OMNeT++ the \emph{Event-Oriented Paradigm} and the \emph{Process-Oriented 
     \item The \emph{Process-Oriented Paradigm} can be realized by using the \emph{activity} method and represents the \emph{process style} strategy.
 \end{itemize}
 
+\begin{sloppypar}
 The \emph{Activity-Oriented Paradigm} could also be implemented within OMNeT++ by using either the \emph{activity} or the \emph{handleMessage} method.
 This paradigm would require the implementation of a custom polling module which checks regularly for new events or monitors the activity of other modules.
 This implementation would replace and bypass the handling and scheduling of messages in OMNeT++ and is not recommended. \cite[chapter 2.1]{matloff_introduction_2008}
 \\
+\end{sloppypar}
 
 The above discussed types of simulations belong to the group of \emph{offline simulations} i.e. the simulation time is not connected to the processing time.
 Approaching the fields of emulation and \emph{HiL} such a connection is necessary and the behavior of \emph{offline simulations} is unusable.
@@ -66,7 +68,7 @@ The achieved execution speeds are strongly depending on the following factors:
 \end{description}
 
 If the execution of the model behavior for reacting to an event takes more processing time than the simulated duration (timespan to next event), the simulation lags behind the real world behavior.
-Such a erroneous behavior must be corrected by the simulation core by speeding up the simulation, for example by decreasing idle times between events.
+Such an erroneous behavior must be corrected by the simulation core by speeding up the simulation, for example by decreasing idle times between events.
 The correction of such behavior results in an increased jitter (variance of event execution time).
 \cite[section III.B]{belanger_what_2010}
 
@@ -112,7 +114,7 @@ If the simulation lags constantly behind the real world using the \emph{cRealTim
 
 The sample scheduler provided by \emph{cRealTimeScheduler} and \emph{SocketRTScheduler} can lead to the correct strategy of implementing an optimized scheduler.
 
-To validate an real-time simulation regarding timing quality the performance ration can be used.
+To validate a real-time simulation regarding timing quality the performance ration can be used.
 This ratio represents the simulated seconds per real time seconds.
 A lagging simulation is defined by a performance ratio of less than one and simulation which simulates faster as the real time shows a ratio greater one.
 The goal of a real time simulation is a constant ratio of one.
@@ -137,5 +139,3 @@ Which is affected by the \emph{CPU} (central processing unit) capabilities and t
 These memories include the \emph{RAM}, every cache and register which is used for holding simulation code and data.
 The evolution of simulations and real-time simulations arises from analog simulations, to digital simulations running on supercomputers and currently common simulations running on commercial of the shelf (\emph{CTOS}) systems and field programmable gate arrays (\emph{FPGA}).
 This evolution provides more computing capabilities for lower costs. \cite[section IV]{belanger_what_2010}
-
-%TODO: find connection to next chapter

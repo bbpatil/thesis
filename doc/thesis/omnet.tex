@@ -180,7 +180,7 @@ All recorded scalars are written in a line based textfile (\emph{.sca}). \cite[s
 
 The recording and the format of single vectors or single scalars can be defined in a configuration file as described in section \ref{sec:omnet_results_config}.
 
-This method leads to a increased dependency of result recording and the simulated system due to the hard-coded implementation.
+This method leads to an increased dependency of result recording and the simulated system due to the hard-coded implementation.
 Since OMNeT++ 4.1 the newer strategies using \emph{signals} and \emph{statistics} are available and provide alternative methods for results recording.
 
 \subsection{Signals and statistics}
@@ -211,7 +211,7 @@ The \emph{record} option defines what data shall be recorded by defining a recor
 Recorders are the final elements of the recording chain, beginning at the source signal.
 Between the source signal and the recorder a variable number of filters can be set.
 A single statistic can define multiple recorders resulting in multiple recorded data.
-For distinguishing the importance of recorders a optional question mark behind the recorder name can mark it as optional.
+For distinguishing the importance of recorders an optional question mark behind the recorder name can mark it as optional.
 Optional recorders can be skipped by default, as described in section \ref{sec:omnet_results_config}.
 The built in recorders like \emph{last}, \emph{min}, \emph{max}, etc. result in an output scalar.
 The recorder \emph{vector} results in an output vector.

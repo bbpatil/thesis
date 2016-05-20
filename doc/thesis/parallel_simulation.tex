@@ -85,7 +85,7 @@ A partition represents a \emph{LP} and is running on a separate processing unit.
 Multiple modules can be assigned to one partition and thereby simulated on the same processing unit. 
 Running a parallel simulation with OMNeT++ is done by starting multiple instances of the simulation executable with the partition to execute given by a parameter.
 
-The configuration for a \emph{PDES} using a OMNeT++ model uses placeholder modules and proxy gates.
+The configuration for a \emph{PDES} using an OMNeT++ model uses placeholder modules and proxy gates.
 These components are introduced when using \emph{PDES} features.
 A placeholder module is inserted instead of a module which is simulated on a different partition.
 This inserted placeholder module represents the replaced module.
@@ -131,15 +131,20 @@ Specific implementations can also provide further configuration possibilities. \
 
 \subsection{Communication}
 \label{sec:parallel_omnet_comm}
+
+\begin{sloppypar}
 The used communication method within a \emph{PDES} using OMNeT++ is also configurable and customizable like the synchronization algorithm.
 The communication layer within OMNeT++ provides basic message transmission functionalities like send, blocking or nonblocking receive and broadcast.
 These methods are defined in the base class \emph{cParsimCommunications} which must be derived for implementation of usable communication implementations. 
 The used communication class is defined via the \emph{parsim-communications-class} configuration. \cite[section 16.3.5]{omnet_manual}
+\end{sloppypar}
 
 The implemented methods use a pointer to the class \emph{cCommBuffer} which provides packing and unpacking functions.
 For specific buffer functionalities according to a custom communication the class \emph{cCommBufferBase} is derived from \emph{cCommBuffer} and represents the recommended base class for custom buffer. \cite{omnet_par_api}
 
+\begin{sloppypar}
 The following built in communication methods are provided within OMNeT++ and can be used for \emph{PDES}. \cite[section 16.3.5]{omnet_manual} \cite{omnet_par_api}
+\end{sloppypar}
 
 \begin{description}
     \item[cFileCommunications] represents the communication via textfiles.
