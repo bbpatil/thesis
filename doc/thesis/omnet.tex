@@ -1,6 +1,5 @@
 \chapter{OMNeT++}
 \label{cha:omnet}
-
 OMNeT++ represents an open source simulation framework written in C++.
 It provides an object oriented modular discrete event network simulation framework.
 The platform independent simulation library includes an integrated development environment (IDE), which is based on the Eclipse platform.
@@ -36,7 +35,7 @@ The possible connections of modules are represented by gates which can be connec
 
 Multiple modules can be connected and combined to a compound module.
 Such compound modules are used in the same way as simple modules, but represent bigger functional groups.
-Compound modules are defined in the same way as networks, the instantiated submodules and the connections between them \cite[section 3.4]{omnet_manual}.
+Compound modules are defined in the same way as networks, including the instantiated submodules and the connections between them \cite[section 3.4]{omnet_manual}.
 For OMNeT++ a network and a compound module is the same component which differentiate by the value for the built-in \emph{NED} property \emph{@isNetwork}.
 
 An example network including simple modules connected to a compound module is shown in Figure \ref{fig:OMNeTComponents}.
@@ -45,7 +44,7 @@ Each module displayed in Figure \ref{fig:OMNeTComponents} defines two gates whic
 \begin{figure}
     \centering
     \includegraphics[width=0.9\columnwidth]{OMNeTComponents.eps}
-    \caption{OMNeT++ components in an example network}
+    \caption{OMNeT++ components in an example network.}
     \label{fig:OMNeTComponents}
 \end{figure}
 
@@ -64,7 +63,7 @@ A simple module is implemented by overriding specific methods following one of t
     Drawing on this strategy, the module is only active when a message is received.
     The methods \emph{send}, \emph{scheduleAt} and \emph{cancelEvent} can be used within \emph{handleMessage} for sending messages, scheduling self-messages and canceling of scheduled self-messages. \cite[section 4.4.1]{omnet_manual}
     
-    \item The second strategy uses the method \emph{activity} and is also called \emph{process style} strategy.
+    \item The second strategy uses the method \emph{activity} and is called \emph{process style} strategy.
     The method \emph{activity} is called by the simulation runtime as co-routine and can be implemented in the same way as a normal thread or process on an operating system.
     Returning from the \emph{activity} methods equals the finishing of the modules simulation.
     Beside the available methods of the first strategy, additional methods can be used within \emph{activity}.

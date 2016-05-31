@@ -10,6 +10,7 @@
 \usepackage{color}
 \usepackage{enumitem}
 \usepackage{multicol}
+\usepackage[all]{nowidow}
 
 % root folder of OMNeT++ installation
 \newcommand{\omnetpproot}{/opt/omnetpp-4.6}
@@ -50,10 +51,10 @@
 \bibliography{literature}  	% name of the BibTeX (.bib) file
 
 % disable colored borders for hyperlinks
-%\hypersetup{
-%    colorlinks=false,
-%    pdfborder={0 0 0},
-%}
+\hypersetup{
+    colorlinks=false,
+    pdfborder={0 0 0},
+}
 
 %%%----------------------------------------------------------
 \begin{document}
@@ -64,7 +65,7 @@
 \author{Franz Profelt}
 \studiengang{Embedded Systems Design}
 \studienort{Hagenberg}
-\abgabedatum{2016}{05}{20}	% {YYYY}{MM}{DD}
+\abgabedatum{2016}{06}{20}	% {YYYY}{MM}{DD}
 
 %%% zusätzlich für eine Bachelorarbeit: ---------------------
 \nummer{XXXXXXXXXX-A}   % XX...X = Stud-ID, z.B. 0310238045-A  
