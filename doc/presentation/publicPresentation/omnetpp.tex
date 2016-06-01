@@ -3,15 +3,38 @@
 \begin{frame}{OMNeT++ Framework}
     \begin{itemize}
         \item Object oriented modular discrete event network simulation
-        \item Simulation framework written in C++
+        \item Open Source simulation framework written in C++
+        \item Discrete event simulation (\emph{DES})
     \end{itemize}
+    
+    \begin{block}{Components}
+        \begin{itemize}
+            \item Network
+            \item simple module, compound module
+            \item channels
+            \item messages, packets
+        \end{itemize}
+    \end{block}
 \end{frame}
 
-\begin{frame}{Components}
-\end{frame}
-
-\begin{frame}{Messages, Events}
-\end{frame}
-
-\begin{frame}{Parallel Simulation}
+\begin{frame}{Simulation core}
+    \begin{itemize}
+        \item Discrete event simulation
+    \end{itemize}
+    
+    \begin{block}{Scheduler}
+        \begin{description}[cRealtimeScheduler]
+            \item[cScheduler] standard offline \emph{DES}, baseclass
+            \item[cRealtimeScheduler] real-time simulation
+            \item[SocketRTScheduler] real-time simulation, emulation with external HTTP client (\emph{sockets} sample)
+        \end{description}
+    \end{block}
+    
+    \begin{block}{Parallel simulation}
+        \begin{itemize}
+            \item Distribution on multiple logical processes (\emph{LP})
+            \item Synchronization via specific scheduler
+            \item Communication methods
+        \end{itemize}
+    \end{block}
 \end{frame}

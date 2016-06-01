@@ -3,6 +3,7 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage{multicol}
 
 \author{Franz Profelt}
 \title{Simulation and emulation of real-time communication networks}
@@ -12,18 +13,18 @@
 \date{20.06.2016}
 %\subject{}
 %\setbeamercovered{transparent}
-%\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{navigation symbols}{} % disable nav symbols
+
+% left aligned description
+\defbeamertemplate{description item}{align left}{\insertdescriptionitem\hfill}
 
 \begin{document}
+    \setbeamertemplate{description item}[align left]
+    
     \maketitle
     \input{general}
-    
     \input{omnetpp}
-        
     \input{design}
-    
     \input{openPOWERLINK}
-    
     \input{simulation}
-    
 \end{document}
