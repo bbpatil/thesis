@@ -18,10 +18,6 @@
 \end{frame}
 
 \begin{frame}{Simulation core}
-    \begin{itemize}
-        \item Discrete event simulation
-    \end{itemize}
-    
     \begin{block}{Scheduler}
         \begin{description}[cRealtimeScheduler]
             \item[cScheduler] standard offline \emph{DES}, baseclass
@@ -34,7 +30,7 @@
         \begin{itemize}
             \item Distribution on multiple logical processes (\emph{LP})
             \item Synchronization via specific scheduler
-            \item Communication methods
+            \item Communication methods (MPI, named pipe, file, ...)
         \end{itemize}
     \end{block}
 \end{frame}
