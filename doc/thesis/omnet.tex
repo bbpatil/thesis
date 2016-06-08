@@ -269,7 +269,7 @@ With this tool, a simulation model which is built as shared library can be start
 With \emph{opp\_run} or any other simulation executable all available command line options and their description are acessable via \emph{-h}.
 
 Further configuration options of the configuration file can also be set via the command line interface by preceding the option with \emph{-{}-}.
-If a double configuration occurs, the via command line parameter passed value will be preferred. \cite[section 10.1.1, section 10.1.2]{omnet_manual}
+If a double configuration occurs, the values passed via command line parameter will be preferred. \cite[section 10.1.1, section 10.1.2]{omnet_manual}
 
 \subsection{Configuration}
 \label{sec:omnet_running_config}
@@ -294,7 +294,7 @@ Therefore a more flexible simulation model provides the majority of parameters v
 Parameters of modules can either be set individually by the full path within the simulated hierarchy or commonly set via wildcards. \cite[section 9.3]{omnet_manual}
 
 \begin{sloppypar}
-The configuration of module parameters also allow the definition of value ranges for so-called \emph{parameter studies}.
+The configuration of module parameters also allows the definition of value ranges for so-called \emph{parameter studies}.
 These \emph{parameter studies} result in multiple simulation runs iterating over all specified parameters.
 Simulating a specific iteration, can be achieved via setting the run number passed by command line interface (\emph{-r}) or defined in the configuration (\mbox{\emph{cmdenv-runs-to-execute}}). \cite[section 9.4]{omnet_manual}
 \end{sloppypar}
