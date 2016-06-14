@@ -25,7 +25,7 @@ Optimistic algorithms allow \emph{LPs} to process events without guaranteeing th
 This behavior could lead to a violation of the causality constraint.
 In the case of such a violation, an event is scheduled at a point in time within the past according to the local simulation time of a \emph{LP}.
 For solving this violation, a \emph{roll back} mechanism is necessary to rewind the according procedures and allow for the correct execution of all scheduled events.
-A simple version of such a \emph{roll back} mechanism is the periodical saving of the system state and restoring an old valid state in case of a causality violation \cite{bagrodia_parsec:_1998}
+A simple version of such a \emph{roll back} mechanism is the periodical saving of the system state and restoring an old valid state in case of a causality violation. \cite{bagrodia_parsec:_1998}
     
 Regarding the fields of emulation and \emph{HiL} this behavior is not applicable, because with a connection to a real world component no rewinding of the simulation time is possible.
 Therefore another type of synchronization is necessary.
@@ -38,7 +38,7 @@ An example for a conservative algorithm is the \emph{Null Message Algorithm} (\e
 The \emph{NMA} is transmitting so-called \emph{Null messages} between all connected \emph{LPs}.
 These \emph{Null messages} contain information about the duration in which no event will be scheduled by the sending \emph{LP} for the receiving \emph{LP}.
 If no events are locally scheduled within this transmitted duration, the receiving \emph{LP} can advance its simulation time to the next local event or to the end of the duration.
-Each \emph{LP} also has to determine this duration for each one of its connected neighbor \emph{LPs}, which will be transmitted to the according \emph{LPs} and provide the same information about a guaranteed duration with no scheduled events.\cite[section 3]{kumar_study_1993}
+Each \emph{LP} also has to determine this duration for each one of its connected neighbor \emph{LPs}, which will be transmitted to the according \emph{LPs} and provide the same information about a guaranteed duration with no scheduled events. \cite[section 3]{kumar_study_1993}
 
 This algorithm is subject to different performance analysis and improvement studies \cite{kumar_study_1993} \cite{rizvi_reducing_2008} \cite{Varga03apractical}. 
 The determination of the duration for transmission and the frequency of this procedure strongly affects the achievable performance.
@@ -65,7 +65,7 @@ For each possibility of every dependency, different communication methods are ap
 
 A very common method for synchronization communication is a message based technology which can be applied to various underlying methods for data transmission.
 This method is called message passing interface (\emph{MPI}) and uses transmitted messages via various transport technologies.
-On different operating systems and depending on the specific simulation setup a \emph{MPI} can use various transport technologies.\cite{the_mpi_forum_mpi:_2015}
+On different operating systems and depending on the specific simulation setup a \emph{MPI} can use various transport technologies. \cite{the_mpi_forum_mpi:_2015}
 \\
 
 A various number of technologies for  parallel simulation, synchronization and communication are available.
@@ -107,7 +107,7 @@ The built-in \emph{NMA} implementation is considered for example usages of the d
     \item[Event scheduling] The implementation of the \emph{getNextEvent} method derived from \emph{cScheduler} provides full access to the \emph{FES} and the next scheduled event.
     Using this method, the synchronization algorithm can block the simulation, remove and introduce specific messages and thereby control the executed messages.
     The \emph{NMA} uses this hook for blocking the simulation during wait times and for introduction of \emph{Null messages}.
-    \item[Outgoing Messages] This hook is represented by the implementation of the derived \emph{processOutGoingMessage} and allows for the modification of all messages which are sent to a different partition.
+    \item[Outgoing Messages] This hook is represented by the implementation of the derived \emph{processOutGoingMessage} method and allows for the modification of all messages which are sent to a different partition.
     The \emph{NMA} uses this hook for including \emph{Null message} information in the transmitted messages and thereby reduces the number of necessary \emph{Null messages}.
     \newpage
     
@@ -141,7 +141,7 @@ Specific implementations can also provide further configuration possibilities. \
 \begin{sloppypar}
 The used communication method within a \emph{PDES} using OMNeT++ is also configurable and customizable like the synchronization algorithm.
 The communication layer within OMNeT++ provides basic message transmission functionalities like send, blocking or nonblocking receive and broadcast.
-These methods are defined in the base class \emph{cParsimCommunications} which must be derived for implementation of usable communication implementations. 
+These methods are defined in the base class \emph{cParsimCommunications} which must be derived for implementing an usable communication method. 
 The used communication class is defined via the \emph{parsim-communications-class} configuration. \cite[section 16.3.5]{omnet_manual}
 \end{sloppypar}
 
@@ -190,4 +190,4 @@ The implementation of the lookahead calculation for the \emph{NMA} demands a non
 \\
 
 The basic strategy for assigning separate modules to different partitions and therefore \emph{LPs} affects the possibilities for parallelism depending on the structure and the used design of the simulated model.
-The following chapter shows the analysis of an example network inspecting the achievable performance using different designs and different execution method.
+The following chapter shows the analysis of an example network inspecting the achievable performance using different designs and different execution methods.
