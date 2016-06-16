@@ -346,7 +346,7 @@ In comparison between the previous and following test method the reciprocal valu
 
 The number of created events using different designs and a varying polling interval by the \emph{HistoryManager} is shown in Figure \ref{fig:results_event_polling}.
 The expected behavior would be a sinking number of created events with increased polling interval by the \emph{HistoryManager}.
-This behavior should be introduced by the increased frequency of polling messages or self messages for timer implementations and therefore an increased number of created messages.
+This behavior should be introduced by the decreased frequency of polling messages or self messages for timer implementations and therefore an increased number of created messages.
 Analyzing the characteristics shown in \ref{fig:results_event_polling} displays this behavior only using the monolithic design.
 Due to this mismatch of both behaviors, no assumption about the dependency is made.
 The offset between the plots using different designs is nevertheless indicating a ratio representing the performance difference of the used designs.
@@ -529,7 +529,7 @@ Analyzing the results displayed in section \ref{sec:measurements_sequential_runt
 \begin{itemize}
     \item Using a modular design results in an increased number of created events.
     The average of the number of created events using the modular design in contrast to the monolithic design is $0.285$.
-    In comparison to the other ratios, the reciprocal value is calculated $3.506$.
+    In comparison to the other ratios, the reciprocal value is calculated and equals $3.506$.
     \item The increased number of events and the included overhead result in a decreased performance noticeable in each of the three used measurement methods.
     \item The average performance ratio of the required runtime using the modular design in contrast to the monolithic design is $4.033$.
     \item The average performance ratio of achieved real-time generation interval using the modular design in contrast to the monolithic design is $1.592$.
@@ -542,7 +542,7 @@ By using the sequential simulation, the resulting recommendation for achieving t
 
 \section{Parallel Simulation}
 \label{sec:measurements_parallel}
-For communication and synchronization, as described in section \ref{sec:parallel_omnet_sync}, the \emph{MPI} system openMPI and the \emph{Null Message Algorithm} were used.
+For communication and synchronization, as described in section \ref{sec:parallel_omnet_sync} and \ref{sec:parallel_omnet_comm}, the \emph{MPI} system openMPI and the \emph{Null Message Algorithm} were used.
 
 An explicit synchronization of the different partitions is necessary due to multiple modules which use \emph{self-messages} as timers.
 The host machine used for developing and executing the simulation provides a 4th Gen Intel® Core™ i7-4500U (1.8 GHz 200 MHz 4MB).
