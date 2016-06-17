@@ -27,7 +27,7 @@ This is achieved by the introduction of a simulation stub in the openPOWERLINK s
 \section{Simulation Stub}
 \label{sec:porting_simstub}
 
-The simulation stub should provide the same functions and signatures for the usage within the openPOWERLINK stack but in addition should forward according function calls to the external simulation environment.
+The simulation stub should provide the same functions and signatures for the usage within the openPOWERLINK stack as the existing target specific implementations, but in addition should forward according function calls to the external simulation environment.
 
 \begin{figure}
     \centering
@@ -36,7 +36,7 @@ The simulation stub should provide the same functions and signatures for the usa
     \label{fig:simulation_stub}
 \end{figure}
 
-For minimizing the necessary changes in the openPOWERLINK stack the simulation stub is separated into two components the specific implementations for the \emph{sim} target and the simulation interface.
+For minimizing the necessary changes in the openPOWERLINK stack the simulation stub is separated into two components, the specific implementations for the \emph{sim} target and the simulation interface.
 An example hierarchy of the simulation stub is shown in Figure \ref{fig:simulation_stub}.
 The enclosed target specific implementations and the simulation interface are explained in the following sections.
 
@@ -59,39 +59,41 @@ The content of this folder and the targeted purpose are outlined in the next sec
 \label{sec:porting_simstub_siminterface}
 The \emph{sim} folder contains two main folders, separating the source and include files.
 Each module within the openPOWERLINK stack, which should be connected to the simulation environment, has its specific simulation module within the simulation interface.
-The naming of the different simulation interface modules show the common prefix \emph{sim} separated with a hyphen from the implemented module name.
+The naming of the different simulation interface modules shows the common prefix \emph{sim} separated with a hyphen from the implemented module name.
 The connection between the target specific implementation and the simulation interface is sketched in Figure \ref{fig:simulation_stub}. 
 
 \begin{sloppypar}
 The simulation interface contains all functions which are required by the ported stack module.
-Additionally, each simulation interface provides a set<\emph{ModuleName}>Functions function.
-For all functions which should be connected to the simulation, an according function pointer is defined as typedef and all functions are grouped in a structure named t<\emph{ModuleName}>Functions.
+Additionally, each simulation interface provides a \emph{set<ModuleName>Functions} function.
+For all functions which should be connected to the simulation, an according function pointer is defined as typedef and all functions are grouped in a structure named \emph{t<ModuleName>Functions}.
 For a common include file containing all types required for the simulation interface the typedefs for each function pointer and the structures are defined within the header file \emph{sim.h}.
-This structure is passed to the set<\emph{ModuleName}>Functions function and its content is checked for validity.
+This structure is passed to the \emph{set<ModuleName>Functions} function and its content is checked for validity.
 Only when all of them are valid, the structure is saved in the static instance and a flag is set for valid initialization.
 \end{sloppypar}
 
 When a function of the simulation interface is called by the stack the stored static instance is checked and the according function is called.
 Therefore the external functions are called and the connection from the stack to the simulation environment is established.
 
-For configuring the simulation interface from the simulation environment, the accessible function set<\emph{ModuleName}>Functions is declared as an exported function for shared libraries.
+For configuring the simulation interface from the simulation environment, the accessible function \emph{set<ModuleName>Functions} is declared as an exported function for shared libraries.
 This is done via the preprocessor macro \emph{OPLKDLLEXPORT} defined by the openPOWERLINK stack.
 This macro is defined within the target-specific header files located in \emph{stack/include/oplk/targetdefs} as described in section \ref{sec:oplk_platform_hardware} and marks the exported functions for the shared library.
 
-Appendix section \ref{app:simulation_edrv} shows the definition and implementation of the simulation interface module \emph{edrv-sim} regarding the initialization and the sendTxBuffer function as example.
+Appendix section \ref{app:simulation_edrv} shows the definition and implementation of the simulation interface module \emph{edrv-sim} regarding the initialization and the \emph{sendTxBuffer} function as example.
 As shown in the appendix, an additional parameter was added to each function.
 This is necessary for supporting the simulation of multiple openPOWERLINK stack instances within a single simulation.
 The used strategy is described in section \ref{sec:porting_stack_multiinstance}.
 
-For the opposite direction of calling a stack function from the simulation environment two cases are distinguished.
+For the opposite direction of calling a stack function from the simulation environment three cases are distinguished.
 
 \begin{enumerate}
-    \item Is the desired function already an exported function, e.g. a part of the public \emph{API}, it is resolved and called directly from the simulation environment.
-    \item Is the desired function not exported, an according function in the simulation interface module must be provided.
+    \item The desired function is already an exported function, e.g. a part of the public \emph{API}, it is resolved and called directly from the simulation environment.
+    \item The desired function is not exported, an according function in the simulation interface module must be provided.
     Within the implementation of such a function, the according stack function can be called directly.
+    \item The desired function is already an exported function, but specific changes to the passed parameter, e.g. function pointer, is necessary.
+    In this case the function is defined additionally within the simulation interface providing a wrapper functionality.
 \end{enumerate}
 
-In both cases, no target-specific implementation is required, because no implementation is replaced by the simulation, only additional functions are made accessible.
+In all cases, no target-specific implementation is required, because no implementation is replaced by the simulation, only additional functions are made accessible.
 
 The connection of the openPOWERLINK stack to the simulation environment is designed independently from OMNeT++ and does not require any OMNeT++ functionalities.
 This independence was established for supporting various simulation environments and systems.
@@ -140,7 +142,7 @@ The class diagram with \emph{OplkBase}, \emph{SharedLibraryHelper} and as exampl
 \begin{sloppypar}
 Second, the class \emph{SharedLibraryHelper} is implemented independently from the OMNeT++ framework and provides methods for the handling of a shared library.
 The internal implementations are defined by preprocessor macros and result in according implementations for Linux and Windows.
-Basically, the \emph{SharedLibraryHelper} makes the loading of a defined shared library object and resolving of defined functions.
+Basically, the \emph{SharedLibraryHelper} handles the loading of a defined shared library object and resolving of defined functions.
 The shared library is opened during creation of a \emph{SharedLibraryHelper} and is closed during destruction.
 Thereby, this class follows the design principle of Resource Acquisition Is Initialization (RAII) \cite{cpp_raii}.
 This ensures the correct closing of all opened shared libraries during shutdown and prevent possible resource leaks.
@@ -174,7 +176,7 @@ These variables exist once in the compiled application or library.
 Therefore, the simulation of multiple instances within a single application by simply linking to a shared or static library is not possible.
 \end{sloppypar}
 
-The solution for this problem is loading of the same shared library multiple times in a manner that the loaded library exists multiple times within the memory.
+The solution for this problem is loading the same shared library multiple times in a manner that the loaded library exists multiple times within the memory.
 Linux supports loading of a single shared library multiple times into the memory and therefore creating multiple instances.
 On a negative node, Windows does not provide such a functionality.
 OMNeT++ supports Windows and Linux in the same way and for achieving a simulation which is usable in the identical way on either Linux or Windows another strategy has to be found.
@@ -183,13 +185,13 @@ This strategy does not require any special functionality and can be implemented 
 This handling of multiple shared libraries and the copying of the binary file on demand is implemented by the \emph{SharedLibraryHelper}.
 Starting with the manually created instance, any further instances can be accessed by the method \emph{getNextLibrary} which copies the shared library if necessary and creates a new instance with the copied library file.
 If a new instance is requested but the maximum number of allowed instances is exceeded, an exception is thrown.
-If the exception is not caught, the simulation is shut down and according information is presented.
+If the exception is not caught, the simulation is shut down and according informations are presented.
 
 
 \subsection{Instance Association}
 \label{sec:porting_stack_instance_assoc}
 As mentioned in section \ref{sec:porting_simstub_siminterface} and shown in appendix section \ref{app:simulation_edrv}, the simulation interface includes an instance handle parameter.
-This handle is passed when the set<\emph{ModuleName}>Functions function of an interface module is called and stored in the static instance information within the simulation interface module.
+This handle is passed when the \emph{set<ModuleName>Functions} function of an interface module is called and stored in the static instance information within the simulation interface module.
 If a function call from the openPOWERLINK stack is forwarded to the simulation interface, the stored handle is passed to the called function pointer.
 The counterpart within the stack interface can then assign the function call to a specific instance.
 This assignment is done within the derived classes of \emph{OplkBase}.
@@ -197,6 +199,13 @@ The derived classes must be implemented as singleton and therefore support only 
 This instance holds the container of modules (given via the method \emph{initModule}) and assigned \emph{SharedLibraryHelper} instances.
 The passed instance handle represents the index within this internal container and is created after inserting the instances within the \emph{initModule} method of \emph{OplkBase}.
 This structure and the quantity of the different modules is shown in Figure \ref{fig:simulation_instances}.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\linewidth]{simulation_instances}
+    \caption{Hierarchical overview of the simulation environment, embedded modules the stack interface and simulation interface.}
+    \label{fig:simulation_instances}
+\end{figure}
 
 The pure virtual method \emph{setFunctions} of \emph{OplkBase} must be implemented by a derived class and gets the \emph{SharedLibraryHelper} instance and the associated instance handle as shown in  Figure \ref{fig:simulation_stack_interface_classes}.
 Within this method, each derived class must initialize the demanded functions and connections to the simulation interface.
@@ -212,28 +221,21 @@ When calling one of those stored functions, the correct shared library instance 
 
 An overview of this hierarchy and the connections of different instances is shown by an exemplary composition in Figure \ref{fig:simulation_instances}.
 The shown example includes the OMNeT++ environment at the bottom containing two instantiated nodes.
-The \emph{MN} and the \emph{CN} represent separate simulated nodes within a POWERLINK network.
+\emph{node 0} and \emph{node 1} represent separate simulated nodes within a POWERLINK network.
 Each node contains an \emph{edrv} instance which is registered as a module within in the \emph{oplkEdrv} instance.
 Above the OMNeT++ environment two openPOWERLINK stacks are shown, which exist independently from each other.
 Each openPOWERLINK stack contains the simulation interface module \emph{sim-edrv} and the target specific implementation \emph{edrv-sim}.
 The two stacks connected to the two nodes demonstrate the two directions of function calls.
 
-The left side including the \emph{MN} is called by the openPOWERLINK stack forwarding the function call from the \emph{edrv-sim} to the simulation interface \emph{sim-edrv}.
+The left side including \emph{node 0} shows a call by the openPOWERLINK stack forwarding the function call from the \emph{edrv-sim} to the simulation interface \emph{sim-edrv}.
 This adds the internally stored handle to the parameters and calls the saved static method of \emph{oplkEdrv}.
 Using the passed handle, the according module instance \emph{edrv 0} is accessed and the according function is called.
 The shown dashed arrows mark the path of the according return values.
 
-The right side including the \emph{CN} requests the function object for a specific function of \emph{sim-edrv} within stack 1.
+The right side including \emph{node 1} requests the function object for a specific function of \emph{sim-edrv} within stack 1.
 The \emph{SharedLibraryHelper} instance saved in \emph{oplkEdrv} returns the correct function object.
 This is called by \emph{edrv 1} and therefore the function of \emph{sim-edrv} is directly invoked.
 This call is then forwarded to the openPOWERLINK stack directly within \emph{sim-edrv}.
-
-\begin{figure}
-    \centering
-    \includegraphics[width=0.7\linewidth]{simulation_instances}
-    \caption{Hierarchical overview of the simulation environment, embedded modules the stack interface and simulation interface.}
-    \label{fig:simulation_instances}
-\end{figure}
 
 The implementation of \emph{OplkBase}, \emph{SharedLibraryHelper} and \emph{OplkEdrv} are shown in appendix section \ref{app:simulation_stackif}.
 In appendix section \ref{app:simulation_sim_edrv} the implementation of \emph{Edrv} is provided.
@@ -243,15 +245,18 @@ The further implementation and structure of the according OMNeT++ modules is des
 \subsection{Stack Module}
 \label{sec:porting_stack_stackmodule}
 
+\begin{sloppypar}
 The previous mentioned OMNeT++ modules representing components within the openPOWERLINK stack are located in the \emph{stack} folder.
 Additionally to the platform-dependent modules, the \emph{Api} module was implemented providing all functions exported by the openPOWERLINK \emph{API}.
-These modules provide the functions which implement the required functionalities for the openPOWERLINK stack.
+The separate modules \emph{ApiEvent} and \emph{ProcessSync} handle callbacks of the openPOWERLINK stack.
+All of these modules provide the functions which implement the required functionalities for the openPOWERLINK stack.
 The combination of these modules illustrate a single openPOWERLINK stack module and represent a single openPOWERLINK stack instance shown in Figure \ref{fig:simulation_stack_module}.
+\end{sloppypar}
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.35\linewidth]{simulation_stack_module}
-    \caption{Composition of compound module representing the openPOWERLINK stack.}
+    \includegraphics[width=0.65\linewidth]{simulation_stack_module}
+    \caption{Compound module representing the openPOWERLINK stack.}
     \label{fig:simulation_stack_module}
 \end{figure}
 
@@ -300,7 +305,7 @@ The composition of the \emph{GenericNode} connecting the embedded \emph{Stack} m
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.35\linewidth]{simulation_genericnode}
+    \includegraphics[width=0.42\linewidth]{simulation_genericnode}
     \caption{Composition of compound module representing the a generic openPOWERLINK node.}
     \label{fig:simulation_genericnode}
 \end{figure}
@@ -309,6 +314,8 @@ For a convenient display of the current state of the node the additional module 
 This module does not support any communication via messages, but it subscribes to a signal of its parent module.
 The name of the signal can be configured via a parameter, which is set to the default value \emph{nmtState} (defined signal of \emph{EventBase}).
 If an notification for this signal is available, the received unsigned long value is casted to a NmtState and the according string is displayed.
+
+Similar to the \emph{NmtState} two instances of \emph{Led} modules were added to visualize the status Leds provided by a POWERLINK node.
 
 The \emph{GenericNode} is designed for deriving and extending its functionality for specific nodes and applications.
 The functionality of an \emph{MN} and \emph{CN} must be implemented separately as shown in the next sections.
