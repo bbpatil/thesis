@@ -6,34 +6,34 @@
 
 \subsection{Implementation of simulation specific module}
 \label{app:simulation_edrv_target}
-\lstinputlisting[caption=edrv-sim.c,firstnumber=137,firstline=137,lastline=153]{../../src/simulations/openPOWERLINK_omnetpp/openPOWERLINK_V2/stack/src/kernel/edrv/edrv-sim.c}
+\lstinputlisting[caption=edrv-sim.c,firstnumber=114,firstline=114,lastline=130]{../../src/simulations/openPOWERLINK_omnetpp/openPOWERLINK_V2/stack/src/kernel/edrv/edrv-sim.c}
 
-\subsection{Definitions of Types regarding the simulation interface}
+\subsection{Definitions of simulation interface types}
 \label{app:simulation_edrv_functions}
-\lstinputlisting[caption=sim.h,firstnumber=107,firstline=107,lastline=213]{../../src/simulations/openPOWERLINK_omnetpp/openPOWERLINK_V2/sim/include/sim.h}
+\lstinputlisting[caption=sim.h,firstnumber=84,firstline=84,lastline=189]{../../src/simulations/openPOWERLINK_omnetpp/openPOWERLINK_V2/sim/include/sim.h}
 
 \subsection{Instance information}
 \label{app:simulation_edrv_interface_instance}
-\lstinputlisting[caption=sim-edrv.c,firstnumber=71,firstline=71,lastline=87]{../../src/simulations/openPOWERLINK_omnetpp/openPOWERLINK_V2/sim/src/sim-edrv.c}
+\lstinputlisting[caption=sim-edrv.c,firstnumber=48,firstline=48,lastline=64]{../../src/simulations/openPOWERLINK_omnetpp/openPOWERLINK_V2/sim/src/sim-edrv.c}
 
 
 \subsection{Definition and Implementation of setEdrvFunctions}
 \label{app:simulation_edrv_interface_setfunc}
-\lstinputlisting[caption=sim-edrv.h,firstnumber=62,firstline=62,lastline=63]{../../src/simulations/openPOWERLINK_omnetpp/openPOWERLINK_V2/sim/include/sim-edrv.h}
-\lstinputlisting[caption=sim-edrv.c,firstnumber=97,firstline=97,lastline=133]{../../src/simulations/openPOWERLINK_omnetpp/openPOWERLINK_V2/sim/src/sim-edrv.c}
+\lstinputlisting[caption=sim-edrv.h,firstnumber=39,firstline=39,lastline=40]{../../src/simulations/openPOWERLINK_omnetpp/openPOWERLINK_V2/sim/include/sim-edrv.h}
+\lstinputlisting[caption=sim-edrv.c,firstnumber=74,firstline=74,lastline=110]{../../src/simulations/openPOWERLINK_omnetpp/openPOWERLINK_V2/sim/src/sim-edrv.c}
 
 
 \subsection{Definition and Implementation of sendTxBuffer}
 \label{app:simulation_edrv_interface_sendtx}
-\lstinputlisting[caption=sim-edrv.h,firstnumber=62,firstline=62,lastline=63]{../../src/simulations/openPOWERLINK_omnetpp/openPOWERLINK_V2/sim/include/sim-edrv.h}
-\lstinputlisting[caption=sim-edrv.c,firstnumber=174,firstline=174,lastline=193]{../../src/simulations/openPOWERLINK_omnetpp/openPOWERLINK_V2/sim/src/sim-edrv.c}
+\lstinputlisting[caption=sim-edrv.h,firstnumber=46,firstline=46,lastline=46]{../../src/simulations/openPOWERLINK_omnetpp/openPOWERLINK_V2/sim/include/sim-edrv.h}
+\lstinputlisting[caption=sim-edrv.c,firstnumber=151,firstline=151,lastline=170]{../../src/simulations/openPOWERLINK_omnetpp/openPOWERLINK_V2/sim/src/sim-edrv.c}
 
 \section{Stack interface for Ethernet driver module}
 \label{app:simulation_stackif}
 
 \subsection{SharedLibraryHelper}
 \label{app:simulation_stackif_libhelper}
-\lstinputlisting{../../src/simulations/openPOWERLINK_omnetpp/openPOWERLINK/src/util/SharedLibraryHelper.h}
+\lstinputlisting[caption=SharedLibraryHelper.h]{../../src/simulations/openPOWERLINK_omnetpp/openPOWERLINK/src/util/SharedLibraryHelper.h}
 \lstinputlisting[caption=SharedLibraryHelper.cc]{../../src/simulations/openPOWERLINK_omnetpp/openPOWERLINK/src/util/SharedLibraryHelper.cc}
 
 \subsection{OplkBase class}
@@ -48,7 +48,7 @@
 \section{OMNeT++ modules}
 \label{app:simulation_sim}
 
-\subsection{Edrv}
+\subsection{DirectEdrv}
 \label{app:simulation_sim_edrv}
 \lstinputlisting[caption=DirectEdrv.h]{../../src/simulations/openPOWERLINK_omnetpp/openPOWERLINK/src/generic/stack/DirectEdrv.h}
 \lstinputlisting[caption=DirectEdrv.cc]{../../src/simulations/openPOWERLINK_omnetpp/openPOWERLINK/src/generic/stack/DirectEdrv.cc}
