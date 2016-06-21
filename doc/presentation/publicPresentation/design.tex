@@ -1,54 +1,37 @@
 \section{Design}
-\begin{frame}{Fundamental Designs}
-    \begin{block}{Monolithic}
-        \begin{itemize}
-            \item Small number of modules
-            \item Complex functionality within a single module
-            \item Avoiding compound modules
-        \end{itemize}
-    \end{block}
-    \begin{block}{Modular}
-        \begin{itemize}
-            \item High number of modules
-            \item Small functionality within a single module
-            \item Combination of multiple modules to compound modules
-        \end{itemize}
-    \end{block}
-\end{frame}
-
-\begin{frame}{Performance Measurement}
-    \begin{block}{Measurement Methods}
-        \begin{description}[created events]
-            \item[runtime] Measurement of the runtime required to simulate a given amount of simulation time
-            \item[created events] Measurement Measurement of the number of created events withing a fixed runtime
-            \item[real-time] Observation of the real-time simulation indicator (performance ratio) during a parameter sweep for the data generation interval
+\begin{frame}{Design Evaluation}
+    Different design for a simulation of an existing application without changing the existing structure and functionality.
+    
+    \begin{block}{Fundamental Designs}
+        \begin{description}
+            \item[Monolithic] Small number of modules representing complex functional units 
+            \item[Modular] High number of modules representing simpler functional unit
         \end{description}
+    \end{block}
+    
+    \begin{block}{Performance Measurement}
+        \begin{itemize}
+            \item runtime
+            \item created events
+            \item real-time behavior
+        \end{itemize}
     \end{block}
 \end{frame}
 
 \begin{frame}{Results}
-    The average ratio of performance values using a modular design over a monolithic design.
-    \begin{columns}
-        \begin{column}{0.48\textwidth}
-            \begin{block}{Sequential\strut}
-                \begin{description}[created events]
-                    \item[runtime] $4.033$
-                    \item[created events] $3.506$
-                    \item[real-time] $1.592$
-                \end{description}
-            \end{block}
-        \end{column}
-        \begin{column}{0.48\textwidth}
-            \begin{block}{Parallel\strut}
-                \begin{description}[created events]
-                    \item[runtime] $2.067$
-                \end{description}
-            \end{block}
-        \end{column}
-    \end{columns}
     
-    \begin{block}{Conclusion}
-        Using a monolithic design as sequential simulation is used for the openPOWERLINK simulation.
+    
+    \begin{block}{Sequential}
+        \begin{itemize}
+            \item Improved performance of monolithic design over a modular design, in average $3.044$
+        \end{itemize}
     \end{block}
     
+    \begin{block}{Parallel}
+        \begin{itemize}
+            \item Only runtime measurement applicable
+            \item Improved performance of monolithic design over a modular design, in average $2.067$
+            \item Overhead by necessary communication between logical partitions
+        \end{itemize}
+    \end{block}    
 \end{frame}

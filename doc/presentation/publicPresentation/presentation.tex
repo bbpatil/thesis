@@ -1,16 +1,26 @@
 \documentclass[11pt]{beamer}
-\usetheme{Berlin}
+\usetheme{Dresden}
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{multicol}
+\usepackage{tikz}
+
+\tikzset{
+    every overlay node/.style={
+        anchor=north west,
+    },
+}
+\def\tikzoverlay{%
+    \tikz[baseline,overlay]\node[every overlay node]
+}%
 
 \author{Franz Profelt}
-\title{Simulation and emulation of real-time communication networks}
+\title{Simulation and emulation of realtime communication networks}
 \subtitle{Master Thesis}
 %\logo{}
 %\institute{}
-\date{20.06.2016}
+\date{22.06.2016}
 %\subject{}
 %\setbeamercovered{transparent}
 \setbeamertemplate{navigation symbols}{} % disable nav symbols
@@ -27,4 +37,11 @@
     \input{design}
     \input{openPOWERLINK}
     \input{simulation}
+    
+    % end frame
+    \bgroup
+    \setbeamercolor{background canvas}{bg=black}
+    \begin{frame}[plain]{}
+    \end{frame}
+    \egroup
 \end{document}

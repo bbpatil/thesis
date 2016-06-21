@@ -1,53 +1,42 @@
 \section{openPOWERLINK Simulation}
-\begin{frame}{openPOWERLINK Simulation}
-    \begin{itemize}
-        \item Separation of connection to openPOWERLINK stack from simulation modules.
-        \item Reusability for different used stack configurations.
-        \item Modularity for developing different Demo applications.
-    \end{itemize}
-
-    \begin{block}{Multiple Instances}
-        \begin{itemize}
-            \item Data and states stored in static variables
-            \item Usage of openPOWERLINK library as shared library
-            \item Multiple instances of shared library within memory
-            \item Manual resolving and handling of different copies of shared library
-        \end{itemize}
-    \end{block}
-\end{frame}
 
 \begin{frame}{Simulation Hierarchy}
     \begin{columns}
-        \begin{column}{0.43\textwidth}
-            \begin{block}{Simulation interface}
-                {\scriptsize
-                     \begin{itemize}
+        \begin{column}{0.6\textwidth}
+            \begin{block}{Stack interface}
+                \begin{itemize}
                     \item Connection to stack
                     \item Handling of multiple stack instances
-                    \item Static functions for function pointer
-                \end{itemize}}
+                    \item Static methods for function pointer
+                \end{itemize}
             \end{block}
-            \begin{block}{Simulation modules}
-                {\scriptsize
-                \begin{itemize}
-                    \item Representation of stack structure
-                    \item Implementation of required functionalities
-                \end{itemize}}
+            \begin{block}{Multiple instances}
+                 \begin{itemize}
+                     \item Usage of static variables
+                     \item openPOWERLINK stack as shared library
+                     \item Multiple instances of shared library
+                     \item Different copies of shared library
+                \end{itemize}
             \end{block}
         \end{column}
-        \begin{column}{0.57\textwidth}
+        \begin{column}{0.5\textwidth}
+            \hspace{-1.7cm}
             \includegraphics[height=0.85\textheight]{../../thesis/images/simulation_instances.eps}
         \end{column}
     \end{columns}
 \end{frame}
 
-\begin{frame}{Generic node, MN, CN}
-    %TODO explain composition of compound stack module
+\begin{frame}{Simulation modules}
     \begin{columns}
         \begin{column}{0.5\textwidth}
             \begin{block}{Stack module}
                 \begin{itemize}
                     \item Structure of simulated openPOWERLINK stack
+                \end{itemize}
+            \end{block}
+            
+            \begin{block}{Generic node}
+                \begin{itemize}
                     \item Basic functionalities for each node (MN, CN)
                     \item Message handling in between modules
                     \item Base classes for specific implementations
@@ -55,7 +44,14 @@
             \end{block}
         \end{column}
         \begin{column}{0.5\textwidth}
-                \includegraphics[width=0.9\textwidth]{../../thesis/images/simulation_genericnode.eps}
+            \begin{figure}
+                \vspace{-1cm}
+                \includegraphics[width=0.9\textwidth]{../../thesis/images/simulation_stack_module.eps}
+            \end{figure}
+            \begin{figure}
+                \vspace{-0.5cm}
+                \includegraphics[width=0.8\textwidth]{../../thesis/images/simulation_genericnode.eps}
+            \end{figure}
         \end{column}
     \end{columns}
 \end{frame}
@@ -63,9 +59,9 @@
 \begin{frame}{Further Development}
     \begin{block}{Enhancements}
         \begin{itemize}
-            \item Usage of INET functionalities
             \item Implementation of different modularities
             \item Implementation of multiple demo networks/applications
+            \item Integration of standardized network interfaces (INET library)
         \end{itemize}
     \end{block}
     \begin{block}{Publication}
